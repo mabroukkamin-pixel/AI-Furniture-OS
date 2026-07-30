@@ -1,0 +1,18 @@
+{
+    "emotion": {
+        "emotion": "premium furniture",
+        "feeling": "high quality",
+        "buyer_trigger": "trust"
+    },
+    "scene": {
+        "location": "modern_entrance"
+    },
+    "camera": [
+        "45_degree"
+    ],
+    "lighting": [
+        "golden_hour",
+        "warm_daylight"
+    ],
+    "style": "modern"
+}

@@ -1,0 +1,14 @@
+generator:
+
+  default: nano_banana
+
+  available:
+
+    nano_banana:
+      enabled: true
+
+    flux:
+      enabled: false
+
+    midjourney:
+      enabled: false

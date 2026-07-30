@@ -1,0 +1,42 @@
+behavior:
+
+  preserve:
+    - dimensions
+    - proportions
+    - wood_texture
+    - black_metal_frame
+    - color_tone
+    - original_design
+
+  emphasize:
+    - natural_wood
+    - premium_material
+    - modern_design
+    - elegance
+    - craftsmanship
+
+  avoid:
+    - redesign
+    - changing_shape
+    - extra_objects
+    - plastic_look
+    - fake_material
+    - glossy_finish
+
+preferred_backgrounds:
+  - luxury_villa
+  - modern_entrance
+  - warm_home
+
+preferred_lighting:
+  - warm
+  - soft_daylight
+  - golden_hour
+
+preferred_camera:
+  - furniture_standard
+  - lifestyle_shot
+
+output:
+  feeling: premium
+  realism: maximum

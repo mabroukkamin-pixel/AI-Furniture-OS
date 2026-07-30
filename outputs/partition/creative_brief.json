@@ -1,0 +1,49 @@
+{
+    "product": "partition",
+    "concept": "Natural Warm Luxury Home",
+    "style": "natural",
+    "creative_direction": {
+        "primary_style": "natural",
+        "supporting_styles": [
+            [
+                "natural",
+                5
+            ],
+            [
+                "boho",
+                5
+            ],
+            [
+                "gulf_home",
+                5
+            ],
+            [
+                "warm_luxury",
+                5
+            ]
+        ],
+        "emotion": [
+            "luxury",
+            "comfort",
+            "elegance"
+        ],
+        "market": null
+    },
+    "scene": [
+        "luxury_villa",
+        "beige_stone_wall",
+        "warm_wood_floor",
+        "modern_living_room"
+    ],
+    "camera": [
+        "front_view",
+        "45_degree",
+        "lifestyle_shot"
+    ],
+    "lighting": [
+        "warm_sunlight",
+        "soft_shadow",
+        "golden_hour"
+    ],
+    "avoid": []
+}

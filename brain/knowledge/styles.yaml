@@ -1,0 +1,44 @@
+natural:
+
+  colors:
+
+    - beige
+    - cream
+    - oak
+
+  materials:
+
+    - wood
+    - rattan
+
+  lighting:
+
+    - warm
+
+  mood:
+
+    - peaceful
+
+luxury:
+
+  colors:
+
+    - gold
+
+    - white
+
+    - marble
+
+modern:
+
+  colors:
+
+    - black
+
+    - gray
+
+minimal:
+
+  colors:
+
+    - white

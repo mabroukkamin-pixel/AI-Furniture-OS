@@ -1,0 +1,28 @@
+{
+    "id": "RATTAN-001",
+
+    "name": "Rattan Partition",
+
+    "arabic_name": "بارتيشن قش",
+
+    "category": "partition",
+
+    "material": "rattan",
+
+    "color": [
+        "beige",
+        "brown"
+    ],
+
+    "dimensions": {
+        "width": "200 cm",
+        "height": "180 cm"
+    },
+
+    "price": "15 KD",
+
+    "target_market": "Kuwait",
+
+    "description":
+    "Natural rattan partition for luxury home decoration"
+}

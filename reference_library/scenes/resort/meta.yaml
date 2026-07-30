@@ -1,0 +1,15 @@
+scene_type: resort
+
+wall: white_plaster
+
+floor: polished_concrete
+
+lighting:
+  - bright_sunlight
+  - natural_daylight
+
+camera:
+  - wide_angle
+  - open_space
+
+luxury_level: 9

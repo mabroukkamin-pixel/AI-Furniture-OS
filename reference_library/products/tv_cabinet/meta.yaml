@@ -1,0 +1,34 @@
+product_type: tv_cabinet
+
+material: wood
+
+style:
+  - warm_home
+  - premium
+
+scene:
+  - luxury_villa
+  - japandi
+
+camera:
+  preferred:
+    - eye_level
+    - frontal_wide
+
+lighting:
+  preferred:
+    - warm_ambient
+    - led_backlight
+
+background:
+  recommended:
+    - fluted_wood_slat_wall
+    - marble_panel
+
+composition:
+  hero: true
+  product_ratio: 0.80
+
+avoid:
+  - dark_room
+  - messy_cables

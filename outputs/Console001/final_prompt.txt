@@ -1,0 +1,154 @@
+
+Create an ultra realistic luxury furniture advertisement.
+
+================================
+PRODUCT PRESERVATION RULE
+================================
+
+The uploaded product image is the ONLY reference.
+
+Preserve the product 100%.
+
+DO NOT change:
+- shape
+- dimensions
+- proportions
+- materials
+- colors
+- texture
+- structure
+- decorations
+- details
+
+The product must remain identical.
+
+
+================================
+PRODUCT INFORMATION
+================================
+
+Product Name:
+None
+
+Category:
+None
+
+Material:
+None
+
+Color:
+None
+
+Dimensions:
+None × None
+
+
+================================
+BRAND IDENTITY
+================================
+
+Brand:
+Chinese Market
+
+Market:
+Kuwait
+
+Brand Style:
+premium, luxury, modern
+
+Brand Colors:
+royal_blue, gold, white
+
+
+================================
+MARKETING DIRECTION
+================================
+
+Target Audience:
+
+
+Emotion:
+
+
+Selling Points:
+
+
+
+================================
+CREATIVE DIRECTION
+================================
+
+Concept:
+
+Supporting Styles:
+
+
+Scene:
+
+
+
+Camera:
+
+
+
+Lighting:
+
+
+
+
+================================
+COMPOSITION RULE
+================================
+
+The product is the hero object.
+
+Product occupies 70-75% of the image.
+
+Luxury interior background only.
+
+No objects blocking the product.
+
+
+
+================================
+REFERENCE INTELLIGENCE
+================================
+Use the selected creative decision:
+Primary Style:
+
+Supporting Styles:
+
+
+The scene, lighting and camera
+must follow the AI decision system.
+
+
+================================
+QUALITY
+================================
+
+Ultra photorealistic.
+8K resolution.
+HDR cinematic lighting.
+Premium commercial furniture photography.
+Realistic shadows.
+Natural reflections.
+
+
+
+================================
+NEGATIVE RULES
+================================
+
+Never:
+- redesign product
+- modify product
+- add missing parts
+- remove parts
+- change colors
+- change materials
+- change proportions
+- add text
+- add logo on product
+
+

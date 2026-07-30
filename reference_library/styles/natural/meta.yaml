@@ -1,0 +1,14 @@
+style_name: natural
+
+colors:
+  - beige
+  - warm_white
+  - wood_tones
+
+lighting:
+  - soft_daylight
+  - natural_sun
+
+mood:
+  - calm
+  - organic

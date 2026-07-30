@@ -1,0 +1,99 @@
+references:
+
+
+  Console001:
+
+    images:
+
+      - console_front.jpg
+      - console_angle.jpg
+      - console_detail.jpg
+
+
+    tags:
+
+      category:
+        - console
+
+      material:
+        - natural_wood
+        - black_metal
+
+      style:
+        - modern
+        - natural
+        - premium
+
+      scene:
+        - luxury_villa
+        - modern_entrance
+        - japandi
+
+
+    preferences:
+
+      preferred_scene:
+        - modern_entrance
+        - luxury_villa
+
+      preferred_style:
+        - modern
+        - natural
+
+      preferred_camera:
+        - 45_degree
+
+      preferred_light:
+        - golden_hour
+        - warm_daylight
+
+
+
+  Partition001:
+
+
+    images:
+
+      - partition_front.jpg
+      - partition_angle.jpg
+      - partition_detail.jpg
+
+
+    tags:
+
+      category:
+        - partition
+
+      material:
+        - rattan
+
+      style:
+        - natural
+        - luxury
+
+
+      scene:
+        - villa
+        - resort
+
+
+    preferences:
+
+      preferred_scene:
+
+        - villa
+
+
+      preferred_style:
+
+        - natural
+
+
+      preferred_camera:
+
+        - 45_degree
+
+
+      preferred_light:
+
+        - golden_hour

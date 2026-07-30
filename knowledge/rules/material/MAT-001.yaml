@@ -1,0 +1,36 @@
+id: RULE-MAT-001
+
+name: Rattan Primary Scene
+
+enabled: true
+
+priority: 100
+
+when:
+  material: rattan
+
+then:
+
+  lighting:
+    primary: warm
+    secondary: soft_daylight
+
+  environment:
+    primary: luxury_villa
+
+  photography:
+    primary: hero
+
+reason:
+
+  - preserve_texture
+
+  - luxury_feeling
+
+  - natural_material
+
+metadata:
+
+  version: 1.0
+
+  author: AI-Furniture-OS

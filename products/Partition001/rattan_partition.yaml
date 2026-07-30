@@ -1,0 +1,45 @@
+id:
+  CM-RATTAN-001
+
+name:
+  Rattan Partition
+
+category:
+  partition
+
+dimensions:
+  width: 200 cm
+  height: 180 cm
+
+price:
+  15 KD
+
+material:
+  name:
+    Rattan
+
+  colors:
+    - beige
+    - brown
+
+
+style:
+  - bohemian
+  - luxury
+
+
+usage:
+  - privacy
+  - room divider
+
+
+premium:
+  true
+
+
+advertising:
+  angle:
+    Elegant home separation
+
+  customer:
+    Home lovers

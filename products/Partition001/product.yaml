@@ -1,0 +1,26 @@
+product:
+
+  id:
+    Partition001
+
+  name_ar:
+    بارتيشن قش
+
+  category:
+    room_divider
+
+  material:
+    rattan
+
+  color:
+    beige_brown
+
+  dimensions:
+    width: 200 cm
+    height: 180 cm
+
+  price:
+    15 KD
+
+  brand:
+    Chinese Market

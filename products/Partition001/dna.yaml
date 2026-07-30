@@ -1,0 +1,30 @@
+product:
+
+  identity:
+    type: room_divider
+    quality: premium
+
+
+  visual:
+
+    preserve:
+      - rattan_weave
+      - wooden_frame
+      - folding_structure
+      - beige_color
+
+
+  emotional:
+
+    feelings:
+      - warmth
+      - handmade
+      - natural
+
+
+  commercial:
+
+    selling_points:
+      - space_division
+      - decoration
+      - natural_material

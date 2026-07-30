@@ -1,0 +1,15 @@
+scene_type: japandi
+
+wall: neutral_off_white
+
+floor: light_ash_wood
+
+lighting:
+  - diffused_daylight
+  - soft_shadows
+
+camera:
+  - minimalist_clean
+  - eye_level
+
+luxury_level: 8

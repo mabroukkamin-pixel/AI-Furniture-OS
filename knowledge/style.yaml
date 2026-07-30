@@ -1,0 +1,22 @@
+styles:
+
+  luxury_gulf:
+    description:
+      Modern Gulf luxury interior,
+      marble,
+      stone,
+      warm lighting,
+      premium villa atmosphere
+
+  bohemian:
+    description:
+      Natural materials,
+      rattan,
+      plants,
+      warm earthy colors
+
+  modern_minimal:
+    description:
+      Clean architecture,
+      simple lines,
+      neutral colors

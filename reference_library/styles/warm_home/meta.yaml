@@ -1,0 +1,14 @@
+style_name: warm_home
+
+colors:
+  - soft_yellow
+  - warm_brown
+  - cream
+
+lighting:
+  - warm_ambient
+  - cozy_light
+
+mood:
+  - family_friendly
+  - cozy

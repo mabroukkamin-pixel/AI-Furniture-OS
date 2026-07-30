@@ -1,0 +1,32 @@
+products:
+
+  Partition001:
+
+    category:
+      - room_divider
+
+    material:
+      - rattan
+
+    style:
+      - natural
+      - bohemian
+      - gulf_luxury
+
+    preferred_scene:
+      - luxury_villa
+      - warm_home
+
+    camera:
+      - 45_degree
+      - lifestyle
+
+    lighting:
+      - golden_hour
+
+    preserve:
+      - weave
+      - rattan_texture
+      - frame
+      - color
+      - proportion

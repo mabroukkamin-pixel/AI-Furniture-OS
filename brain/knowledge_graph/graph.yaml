@@ -1,0 +1,86 @@
+materials:
+  rattan:
+    styles:
+      natural: 0.95
+      bohemian: 0.90
+      luxury: 0.75
+
+  metal:
+    styles:
+      industrial: 0.96
+      modern: 0.82
+
+  natural_wood_black_metal:
+    styles:
+      modern: 0.95
+      natural: 0.93
+      premium: 0.90
+      japandi: 0.88
+      industrial_luxury: 0.75
+
+  natural_wood:
+    styles:
+      natural: 0.95
+      modern: 0.90
+      japandi: 0.92
+      premium: 0.85
+
+  black_metal:
+    styles:
+      modern: 0.90
+      industrial_luxury: 0.85
+      premium: 0.80
+
+styles:
+  natural:
+    scenes:
+      villa: 0.95
+      resort: 0.88
+      japandi: 0.91
+
+  modern:
+    scenes:
+      modern_villa: 0.95
+      modern_entrance: 0.93
+      hallway: 0.85
+      luxury_entrance: 0.90
+
+  premium:
+    scenes:
+      luxury_villa: 0.96
+      showroom: 0.85
+
+  luxury:
+    scenes:
+      luxury_villa: 0.96
+      showroom: 0.85
+
+  japandi:
+    scenes:
+      warm_home: 0.95
+      villa: 0.90
+
+scenes:
+  villa:
+    lighting:
+      golden_hour: 0.95
+      soft_daylight: 0.88
+
+  modern_entrance:
+    lighting:
+      golden_hour: 0.95
+      warm_daylight: 0.90
+
+  luxury_villa:
+    lighting:
+      golden_hour: 0.96
+      warm_light: 0.90
+
+  resort:
+    lighting:
+      warm_daylight: 0.93
+
+  modern_villa:
+    lighting:
+      golden_hour: 0.95
+      warm_daylight: 0.90

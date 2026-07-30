@@ -1,0 +1,34 @@
+materials:
+
+  rattan:
+
+    styles:
+      - natural
+      - bohemian
+      - japandi
+
+    scenes:
+      - luxury_villa
+      - resort
+      - living_room
+
+    lighting:
+      - golden_hour
+      - warm_daylight
+
+
+  natural_wood:
+
+    styles:
+      - modern
+      - natural
+      - premium
+
+    scenes:
+      - luxury_home
+      - living_room
+      - villa
+
+    lighting:
+      - warm_daylight
+      - soft_shadow

@@ -1,0 +1,55 @@
+rules:
+
+  rattan:
+
+    style:
+      - gulf_luxury
+      - natural
+      - warm_home
+
+    background:
+      - luxury_villa
+      - beige_stone_wall
+      - warm_wood_floor
+
+    lighting:
+      - golden_hour
+      - warm_sunlight
+
+    camera:
+      - 45_degree
+      - lifestyle_shot
+
+
+  wood:
+
+    style:
+      - premium
+      - natural
+
+    background:
+      - modern_villa
+      - wooden_interior
+
+    lighting:
+      - soft_shadow
+
+    camera:
+      - front_view
+
+
+  metal:
+
+    style:
+      - modern
+      - clean
+
+    background:
+      - modern_office
+      - storage_room
+
+    lighting:
+      - studio_light
+
+    camera:
+      - straight_view

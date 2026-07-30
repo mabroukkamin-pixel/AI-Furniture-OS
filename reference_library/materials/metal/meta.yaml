@@ -1,0 +1,11 @@
+material_name: metal
+
+finish: matte_black
+
+works_with:
+  - premium
+  - modern
+
+preferred_light:
+  - studio_lighting
+  - directional_light

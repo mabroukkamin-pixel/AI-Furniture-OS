@@ -1,0 +1,43 @@
+luxury_villa:
+
+  architecture:
+
+      - travertine
+
+      - limestone
+
+      - oak
+
+  suitable_styles:
+
+      - luxury
+
+      - natural
+
+      - premium
+
+  accessories:
+
+      - vase
+
+      - plant
+
+      - artwork
+
+living_room:
+
+  accessories:
+
+      - sofa
+
+      - rug
+
+      - lamp
+
+resort:
+
+  lighting:
+
+      - sunset
+
+      - golden_hour

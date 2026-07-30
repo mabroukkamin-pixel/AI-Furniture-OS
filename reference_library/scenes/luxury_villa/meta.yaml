@@ -1,0 +1,15 @@
+scene_type: luxury_villa
+
+wall: beige_stone
+
+floor: warm_oak
+
+lighting:
+  - golden_hour
+  - warm_ambient
+
+camera:
+  - furniture_standard
+  - eye_level
+
+luxury_level: 10

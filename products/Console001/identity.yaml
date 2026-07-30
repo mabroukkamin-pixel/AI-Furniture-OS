@@ -1,0 +1,48 @@
+product:
+
+  id: Console001
+
+  name: Wooden Console
+
+  category: console
+
+  family:
+    - furniture
+    - entrance_furniture
+    - decoration
+
+  material:
+    primary: natural_wood
+    secondary:
+      - black_metal
+
+  style:
+    - modern
+    - natural
+    - premium
+
+  usage:
+    - entrance
+    - living_room
+    - hallway
+    - villa
+
+  size:
+
+    width: 35
+
+    height: 82
+
+  colors:
+
+    primary:
+      - natural_wood
+      - black
+
+  handmade: false
+
+  premium: true
+
+  transparent: false
+
+  movable: true

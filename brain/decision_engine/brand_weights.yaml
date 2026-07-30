@@ -1,0 +1,13 @@
+brand_weights:
+
+  gulf_luxury:
+    score: 8
+
+  premium:
+    score: 5
+
+  natural:
+    score: 4
+
+  warm_home:
+    score: 3

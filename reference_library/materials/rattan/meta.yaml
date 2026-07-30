@@ -1,0 +1,11 @@
+material_name: rattan
+
+finish: natural_honey
+
+works_with:
+  - natural
+  - luxury
+
+preferred_light:
+  - soft_side_lighting
+  - golden_hour

@@ -1,0 +1,37 @@
+behavior:
+
+  preserve:
+    - dimensions
+    - proportions
+    - texture
+    - color
+    - weave
+    - frame
+
+  emphasize:
+    - natural_material
+    - handmade
+    - warm_feeling
+    - premium
+
+  avoid:
+    - redesign
+    - extra_objects
+    - plastic_look
+    - glossy_finish
+
+preferred_backgrounds:
+  - living_room
+  - luxury_villa
+  - resort
+
+preferred_lighting:
+  - warm
+  - soft_daylight
+
+preferred_camera:
+  - furniture_standard
+
+output:
+  feeling: luxury
+  realism: maximum

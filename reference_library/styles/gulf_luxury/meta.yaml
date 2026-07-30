@@ -1,0 +1,29 @@
+name: rattan
+
+description: Natural woven rattan furniture
+
+compatible_styles:
+  - natural
+  - bohemian
+  - gulf_luxury
+
+preferred_scenes:
+  - luxury_villa
+  - resort
+  - japandi
+
+preferred_lighting:
+  - golden_hour
+  - warm_daylight
+
+preferred_camera:
+  - 45_degree
+  - eye_level
+
+colors:
+  - beige
+  - brown
+
+avoid:
+  - industrial
+  - cold_light

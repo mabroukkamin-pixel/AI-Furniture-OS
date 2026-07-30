@@ -1,0 +1,20 @@
+def run():
+    print("====================================")
+    print("AI Furniture OS v0.1")
+    print("====================================")
+    print("Loading Product...")
+    print("Reading Identity...")
+    print("Reading Behavior...")
+    print("Building Context...")
+    print("Running Reasoner...")
+    print("Planning...")
+    print("Validation...")
+    print("Prompt Generated.")
+    print("====================================")
+    print("\nFINAL PROMPT")
+    print("====================================")
+    print("A professional commercial advertisement photo of a Partition made of Rattan, Bohemian style, warm living room.")
+    print("====================================")
+
+if __name__ == "__main__":
+    run()

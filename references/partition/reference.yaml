@@ -1,0 +1,55 @@
+product: partition
+
+category:
+  - room_divider
+  - home_decor
+
+material:
+  primary:
+    - rattan
+    - wood
+
+style:
+  - natural
+  - boho
+  - gulf_home
+  - warm_luxury
+
+colors:
+  main:
+    - beige
+    - brown
+
+shape:
+  structure:
+    - folding_panels
+    - vertical_frames
+
+camera:
+  preferred:
+    - front_view
+    - 45_degree
+    - lifestyle_shot
+
+background:
+  recommended:
+    - luxury_villa
+    - beige_stone_wall
+    - warm_wood_floor
+    - modern_living_room
+
+lighting:
+  preferred:
+    - warm_sunlight
+    - soft_shadow
+    - golden_hour
+
+avoid:
+  - industrial_background
+  - dark_factory
+  - neon_colors
+  - product_modification
+
+brand_fit:
+  luxury_level: high
+  gulf_market: true

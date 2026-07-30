@@ -1,0 +1,22 @@
+product_type: partition
+
+preferred_environments:
+  - luxury_entryway
+  - modern_living_room
+  - villa_hall
+
+preferred_styles:
+  - modern
+  - bohemian
+
+preferred_camera:
+  - hero
+  - eye_level
+
+preferred_lighting:
+  - warm_soft_daylight
+  - balanced_studio
+
+avoid:
+  - kitchen
+  - bedroom

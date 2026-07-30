@@ -1,0 +1,18 @@
+marketing:
+  audience:
+    - kuwaiti_women
+    - home_lovers
+
+  emotion:
+    - luxury
+    - comfort
+    - elegance
+
+  platform:
+    - instagram
+    - facebook
+
+  selling_points:
+    - handmade
+    - natural_material
+    - decorative

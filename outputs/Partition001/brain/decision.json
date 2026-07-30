@@ -1,0 +1,105 @@
+{
+    "material": {
+        "primary": "rattan"
+    },
+    "lighting": [
+        "warm_daylight"
+    ],
+    "camera": "45_degree",
+    "fusion": {
+        "final_style": "natural",
+        "supporting_styles": [
+            "bohemian",
+            "luxury",
+            "premium_luxury"
+        ],
+        "scene": [
+            "luxury_villa"
+        ],
+        "camera": "45_degree",
+        "lighting": [
+            "warm_daylight"
+        ],
+        "materials": [
+            "rattan"
+        ],
+        "architecture": {
+            "architecture": [
+                "gulf_villa",
+                "luxury_resort",
+                "modern_natural_home"
+            ],
+            "walls": [
+                "travertine",
+                "beige_stone",
+                "lime_wash"
+            ],
+            "floors": [
+                "warm_oak",
+                "natural_stone",
+                "marble"
+            ],
+            "avoid": [
+                "industrial",
+                "neon",
+                "plastic"
+            ]
+        },
+        "colors": {
+            "primary": [
+                "beige",
+                "sand",
+                "ivory"
+            ],
+            "secondary": [
+                "walnut",
+                "olive_green"
+            ],
+            "accent": [
+                "gold",
+                "bronze"
+            ],
+            "avoid": [
+                "industrial",
+                "neon",
+                "plastic"
+            ]
+        },
+        "accessories": {
+            "recommended": {
+                "furniture": [
+                    "linen_sofa",
+                    "wooden_table"
+                ],
+                "decor": [
+                    "olive_tree",
+                    "ceramic_vase",
+                    "woven_basket",
+                    "natural_fabric"
+                ]
+            },
+            "avoid": [
+                "industrial",
+                "neon",
+                "plastic"
+            ]
+        },
+        "confidence": "calculated_later"
+    },
+    "primary_style": "natural",
+    "scene": [
+        "luxury_villa"
+    ],
+    "materials": [
+        "rattan"
+    ],
+    "confidence": {
+        "confidence": 90,
+        "reasons": [
+            "material matched",
+            "brand style matched",
+            "environment selected from knowledge graph"
+        ]
+    },
+    "graph": {}
+}

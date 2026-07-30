@@ -1,0 +1,12 @@
+{
+    "product": "Console001",
+    "timestamp": "2026-07-28T22:43:11.662375",
+    "status": "Success",
+    "files": {
+        "decision": "decision.json",
+        "creative_direction": "creative_direction.json",
+        "creative_brief": "creative_brief.json",
+        "prompt": "final_prompt.txt",
+        "marketing": "marketing.json"
+    }
+}

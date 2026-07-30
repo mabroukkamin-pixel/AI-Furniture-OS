@@ -1,0 +1,25 @@
+environment:
+
+  preferred:
+    - luxury_villa
+    - modern_entrance
+    - warm_home
+    - japandi
+
+  atmosphere:
+    - elegant
+    - calm
+    - premium
+    - welcoming
+
+  architecture:
+    - beige_stone_wall
+    - travertine
+    - warm_wood_floor
+    - neutral_walls
+
+  forbidden:
+    - warehouse
+    - office
+    - industrial_background
+    - crowded_scene

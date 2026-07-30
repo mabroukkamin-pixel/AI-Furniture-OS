@@ -1,0 +1,9 @@
+environment:
+  preferred:
+    - luxury_villa
+    - resort
+    - japandi
+
+  forbidden:
+    - warehouse
+    - office

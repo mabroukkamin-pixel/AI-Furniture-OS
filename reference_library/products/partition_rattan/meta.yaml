@@ -1,0 +1,47 @@
+product:
+
+  id:
+    CM-PARTITION-200-180-RATTAN-01
+
+  name:
+    ar: بارتيشن قش
+
+  category:
+    room_divider
+
+
+  material:
+    rattan
+
+
+  dimensions:
+    width: 200
+    height: 180
+    unit: cm
+
+
+  colors:
+
+    primary:
+      - beige
+
+    secondary:
+      - brown
+
+
+  style:
+
+    - natural
+    - gulf_luxury
+    - warm_home
+
+
+  preservation:
+
+    lock:
+      - shape
+      - dimensions
+      - texture
+      - color
+      - structure
+      - details

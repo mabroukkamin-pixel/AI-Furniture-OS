@@ -1,0 +1,40 @@
+branding:
+
+  company:
+    Chinese Market
+
+  arabic:
+    السوق الصيني
+
+
+  market:
+    Kuwait
+
+
+  audience:
+    - gulf_home
+    - luxury_buyers
+
+
+  colors:
+
+    primary:
+      - royal_blue
+      - gold
+      - white
+
+
+  style:
+
+    - premium
+    - luxury
+    - modern
+
+
+  communication:
+
+    tone:
+      elegant
+
+    message:
+      quality_home_furniture

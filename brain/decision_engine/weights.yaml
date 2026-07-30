@@ -1,0 +1,49 @@
+weights:
+
+  material:
+
+    rattan:
+      score: 10
+      priority:
+        - natural
+        - warm_home
+        - gulf_luxury
+
+
+    wood:
+      score: 7
+      priority:
+        - premium
+        - natural
+
+
+    metal:
+      score: 5
+      priority:
+        - modern
+        - clean
+
+
+
+  category:
+
+    room_divider:
+      score: 10
+      priority:
+        - gulf_luxury
+        - interior_design
+        - warm_space
+
+
+    console:
+      score: 8
+      priority:
+        - modern_luxury
+        - premium
+
+
+    cabinet:
+      score: 8
+      priority:
+        - storage_luxury
+        - warm_home

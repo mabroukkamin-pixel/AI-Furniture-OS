@@ -1,0 +1,74 @@
+id: MAT-001
+name: Rattan
+category: material
+description: Natural woven plant fiber used in furniture and decorative partitions.
+physical:
+  weight: light
+  hardness: medium
+  flexibility: high
+  transparency: semi_transparent
+  reflection: low
+  texture: woven
+  durability: medium
+visual:
+  warmth: warm
+  brightness: medium
+  contrast: low
+  elegance: premium
+  luxury: premium
+  simplicity: high
+emotional:
+  cozy: high
+  calm: high
+  premium: medium
+  organic: very_high
+  modern: medium
+commercial:
+  audience:
+    - homeowners
+    - hotels
+    - cafes
+    - restaurants
+  positioning: premium
+  price_level: medium
+  platforms:
+    - instagram
+    - website
+    - catalog
+compatibility:
+  styles:
+    - bohemian
+    - japandi
+    - natural
+    - rustic
+  materials:
+    - oak
+    - linen
+    - bamboo
+    - travertine
+  colors:
+    - beige
+    - sand
+    - cream
+    - light_brown
+recommendations:
+  lighting:
+    - warm
+    - soft_daylight
+  backgrounds:
+    - luxury_villa
+    - bohemian_living_room
+    - resort
+    - hotel_lobby
+  photography:
+    - hero
+    - lifestyle
+avoid:
+  - cyberpunk
+  - industrial_factory
+  - neon_city
+metadata:
+  version: 1.0
+  author: AI-Furniture-OS
+  created: null
+  updated: null

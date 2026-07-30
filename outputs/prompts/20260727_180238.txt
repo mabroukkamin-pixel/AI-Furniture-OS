@@ -1,0 +1,64 @@
+Ultra realistic luxury furniture advertising image.
+
+PRODUCT:
+Rattan Partition
+
+MATERIAL:
+Rattan
+
+SCENE:
+Modern Gulf luxury villa interior, premium stone surfaces, elegant architecture, warm natural materials, five star home atmosphere.
+
+LIGHTING:
+Warm cinematic lighting, golden tones, soft luxury shadows.
+
+CAMERA:
+Professional commercial hero photography, product centered, premium catalog style.Shot on 50mm lens,
+eye_level angle,soft depth of field.
+
+COMPOSITION:
+Minimal luxury composition, clean space, product as the main visual focus.The product occupies 75% of the frame.
+
+Position:
+center
+
+BRAND IDENTITY:
+Chinese Market -
+السوق الصيني
+
+Style:
+luxury_gulf_home
+
+Colors:
+gold, royal_blue, white
+
+PRODUCT PRESERVATION:
+LOCK:
+- preserve exact product geometry
+- preserve original dimensions
+- preserve original materials
+- preserve original colors
+- preserve texture and craftsmanship
+- preserve all structural details
+FORBIDDEN:
+- redesign product
+- change proportions
+- add elements
+- remove elements
+- change material
+
+MARKETING INTELLIGENCE:
+Target Customer:
+Kuwaiti women who love luxury homes
+Emotional Goal:
+desire, elegance, comfort and prestige
+
+Purchase Reason:
+Transform home spaces into premium looking interiors
+Selling Angle:
+Luxury home decoration with practical function
+
+Platform:
+Instagram
+
+Create a premium commercial furniture advertisement.

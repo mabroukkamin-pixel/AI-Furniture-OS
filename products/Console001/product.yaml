@@ -1,0 +1,17 @@
+id: Console001
+
+name_ar: كونسول خشبي
+
+category: console
+
+material: natural_wood_black_metal
+
+color: dark_light_natural_wood_black
+
+dimensions:
+  width: 35 cm
+  height: 82 cm
+
+price: 35 KD
+
+brand: Chinese Market

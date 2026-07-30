@@ -1,0 +1,23 @@
+marketing:
+
+  audience:
+    - kuwaiti_women
+    - home_lovers
+    - luxury_home_buyers
+
+  emotion:
+    - elegance
+    - warmth
+    - organization
+    - premium_lifestyle
+
+  platform:
+    - instagram
+    - facebook
+
+  selling_points:
+    - natural_wood
+    - modern_design
+    - entrance_decoration
+    - premium_look
+    - practical_furniture

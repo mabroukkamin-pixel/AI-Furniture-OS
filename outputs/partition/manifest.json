@@ -1,0 +1,12 @@
+{
+    "product": "partition",
+    "timestamp": "2026-07-28T16:00:17.461768",
+    "status": "Success",
+    "files": {
+        "decision": "decision.json",
+        "creative_direction": "creative_direction.json",
+        "creative_brief": "creative_brief.json",
+        "prompt": "final_prompt.txt",
+        "marketing": "marketing.json"
+    }
+}

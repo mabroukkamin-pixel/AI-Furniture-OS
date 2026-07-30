@@ -1,0 +1,12 @@
+material_name: wood
+
+finish: natural_oak_grain
+
+works_with:
+  - natural
+  - warm_home
+  - japandi
+
+preferred_light:
+  - soft_daylight
+  - warm_ambient

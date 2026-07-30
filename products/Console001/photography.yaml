@@ -1,0 +1,30 @@
+photography:
+
+  shot:
+    hero
+
+  lens:
+    50mm
+
+  angle:
+    45_degree
+
+  composition:
+    lifestyle
+
+  camera_style:
+    premium_furniture_photography
+
+  framing:
+    product_centered
+
+  background_depth:
+    soft_blur
+
+  lighting:
+    - warm_daylight
+    - golden_hour
+
+  output:
+    realism: maximum
+    quality: 8k

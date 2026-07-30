@@ -1,0 +1,26 @@
+brand:
+  name: Chinese Market
+  arabic_name: السوق الصيني
+
+  market:
+    country: Kuwait
+
+  audience:
+    - Kuwaiti women
+    - home lovers
+    - newly married couples
+
+  style:
+    - luxury
+    - modern gulf
+    - premium home
+
+  colors:
+    - gold
+    - royal_blue
+    - white
+
+  voice:
+    - elegant
+    - trustworthy
+    - premium
