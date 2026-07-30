@@ -11,3 +11,12 @@ __pycache__/
 *.log
 
 .DS_Store
+
+# Runtime outputs
+outputs/
+
+# Cache
+cache/
+
+# Logs
+logs/
