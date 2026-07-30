@@ -1,9 +1,44 @@
-japandi:
+materials:
 
-modern_gulf:
+  natural_wood:
 
-mediterranean:
+    preferred_architecture:
 
-minimal:
+      - modern_gulf
+      - japandi
 
-classic:
+    walls:
+
+      - beige_stone_wall
+      - travertine
+      - neutral_walls
+
+    floors:
+
+      - warm_wood_floor
+      - natural_stone
+
+    avoid:
+
+      - industrial
+      - warehouse
+
+
+  rattan:
+
+    preferred_architecture:
+
+      - resort
+      - bohemian
+
+    walls:
+
+      - white_plaster
+
+    floors:
+
+      - wood_floor
+
+    avoid:
+
+      - dark_industrial

@@ -1,4 +1,4 @@
-from brain.composers.master_prompt_composer import MasterPromptComposer
+from brain.prompt.master_prompt_composer import MasterPromptComposer
 
 
 class BrainContext:
@@ -39,7 +39,6 @@ class BrainContext:
                 "height": 180
             }
         }
-
 
         self.environment = {
 
@@ -84,7 +83,6 @@ class BrainContext:
                 "luxury resort interior"
             ]
         }
-
 
         self.scene = {}
 
@@ -158,15 +156,11 @@ class BrainContext:
         self.negative_prompt = {}
 
 
-
 context = BrainContext()
-
 
 composer = MasterPromptComposer()
 
-
 prompt = composer.compose(context)
-
 
 print("="*70)
 print("MASTER PROMPT")

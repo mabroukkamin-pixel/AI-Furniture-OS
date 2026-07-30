@@ -66,8 +66,6 @@ class MasterPromptComposer:
 
             self.design_dna.compose(context),
 
-            self.creative_direction.compose(context),
-
-            self.negative.compose(context)
+            self.creative_direction.compose(context)
 
         ])

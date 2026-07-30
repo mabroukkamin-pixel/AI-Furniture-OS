@@ -1,5 +1,4 @@
 from brain.decision_engine.decision_engine import DecisionEngine
-from brain.fusion_engine.brain_fusion_engine import BrainFusionEngine
 from brain.environment.environment_engine import EnvironmentEngine
 from brain.environment.architecture_loader import ArchitectureBrain
 from brain.environment.color_loader import ColorBrain
@@ -20,17 +19,15 @@ class BrainRunner:
 
         self.environment = EnvironmentEngine(
             ArchitectureBrain(
-                "brain/environment/environment.yaml"
+                "brain/knowledge/architecture.yaml"
             ),
             ColorBrain(
-                "brain/environment/environment.yaml"
+                "brain/knowledge/colors.yaml"
             ),
             AccessoryBrain(
-                "brain/environment/environment.yaml"
+                "brain/knowledge/accessories.yaml"
             )
         )
-
-        self.fusion = BrainFusionEngine()
 
     def run(self, context):
 
@@ -64,53 +61,25 @@ class BrainRunner:
             )
         )
 
-        # ===============================
-        # FUSION ENGINE
-        # ===============================
-
-        context = self.fusion.run(
-            context
-        )
-
         # ==========================
-        # COPY FUSION TO DECISION
+        # COPY ENVIRONMENT TO DECISION
         # ==========================
-
-        context.decision["fusion"] = context.fusion
 
         context.decision["primary_style"] = (
-            context.fusion.get(
-                "final_style"
-            )
+            context.product.get("style", ["modern"])[0]
         )
-
         context.decision["scene"] = (
-            context.fusion.get(
-                "scene",
-                []
-            )
+            context.environment.get("options", [])
         )
-
         context.decision["camera"] = (
-            context.fusion.get(
-                "camera",
-                []
-            )
+            context.camera
         )
-
         context.decision["lighting"] = (
-            context.fusion.get(
-                "lighting",
-                []
-            )
+            context.lighting
         )
-
-        context.decision["materials"] = (
-            context.fusion.get(
-                "materials",
-                []
-            )
-        )
+        context.decision["materials"] = [
+            context.product.get("material", {}).get("primary")
+        ]
 
         context.decision["confidence"] = {
             "confidence": 90,

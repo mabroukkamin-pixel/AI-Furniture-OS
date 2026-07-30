@@ -1,12 +1,10 @@
 class DesignDNAEngine:
 
-
     def analyze(self, context):
 
         print("========================================")
         print("        DESIGN DNA ENGINE")
         print("========================================")
-
 
         product = context.get(
             "product",
@@ -17,7 +15,6 @@ class DesignDNAEngine:
             "material",
             {}
         )
-
 
         branding = context.get(
             "branding",
@@ -39,12 +36,38 @@ class DesignDNAEngine:
             {}
         )
 
+        accessories = environment.get(
+            "accessories",
+            {}
+        )
+
+        architecture = environment.get(
+            "architecture",
+            []
+        )
+        if isinstance(architecture, dict):
+
+            architecture = (
+                architecture.get(
+                    "architecture",
+                    []
+                )
+                +
+                architecture.get(
+                    "walls",
+                    []
+                )
+                +
+                architecture.get(
+                    "floors",
+                    []
+                )
+            )
 
         dna = {
 
             "design_style":
                 "Modern Gulf Natural Luxury",
-
 
             "scene":
                 environment.get(
@@ -52,10 +75,8 @@ class DesignDNAEngine:
                     "luxury_villa"
                 ),
 
-
             "material_story":
                 f"Handcrafted {material.get('primary','natural material')} furniture",
-
 
             "brand_language":
                 branding.get(
@@ -63,17 +84,14 @@ class DesignDNAEngine:
                     "premium"
                 ),
 
-
             "architecture":
-                environment.get(
-                    "architecture",
-                    {}
-                ),
+                architecture,
 
+            "accessories":
+                accessories,
 
             "lighting_mood":
                 lighting,
-
 
             "camera_language":
                 photography.get(
@@ -81,13 +99,11 @@ class DesignDNAEngine:
                     {}
                 ),
 
-
             "composition":
                 photography.get(
                     "composition",
                     {}
                 ),
-
 
             "emotion":
                 [
@@ -96,6 +112,5 @@ class DesignDNAEngine:
                     "elegance"
                 ]
         }
-
 
         return dna

@@ -16,8 +16,24 @@ class MaterialExpert(BaseExpert):
                 {}
             )
 
+            primary = material.get(
+                "primary",
+                "unknown"
+            )
+
+            secondary = material.get(
+                "secondary",
+                []
+            )
+
             brain.decision["material"] = {
-                "name": material
+                "primary": primary,
+                "secondary": secondary
             }
+
+            print(
+                "Primary Material:",
+                primary
+            )
 
         return brain

@@ -137,4 +137,60 @@ class OutputManager:
             )
         )
 
+        self.save_json(
+            root,
+            "design_dna.json",
+            getattr(
+                context,
+                "design_dna",
+                {}
+            )
+        )
+
+        self.save_json(
+            root,
+            "audit.json",
+            getattr(
+                context,
+                "audit",
+                {}
+            )
+        )
+
+        self.save_json(
+            root,
+            "generation.json",
+            getattr(
+                context,
+                "generation",
+                {}
+            )
+        )
+
+        final_prompt = getattr(
+            context,
+            "final_prompt",
+            {}
+        )
+
+        if isinstance(final_prompt, dict):
+
+            self.save_text(
+                root,
+                "positive_prompt.txt",
+                final_prompt.get(
+                    "positive",
+                    ""
+                )
+            )
+
+            self.save_text(
+                root,
+                "negative_prompt.txt",
+                final_prompt.get(
+                    "negative",
+                    ""
+                )
+            )
+
         return root

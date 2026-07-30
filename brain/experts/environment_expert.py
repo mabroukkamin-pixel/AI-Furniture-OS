@@ -10,41 +10,64 @@ class EnvironmentExpert(BaseExpert):
         print("    ENVIRONMENT EXPERT")
         print("========================================")
 
-        if not brain.product:
-
-            print("No product found.")
-
-            return brain
 
         env = brain.context.get(
             "environment",
             {}
         ).get(
             "environment",
-            {}
-        )
+            {})
+
 
         preferred = env.get(
             "preferred",
             []
         )
 
+
         brain.environment = {
-            "primary": preferred[0] if preferred else "modern_interior",
-            "options": preferred,
-            "atmosphere": env.get(
-                "atmosphere",
-                []
-            ),
-            "architecture": env.get(
-                "architecture",
-                []
-            )
+
+            "primary":
+                preferred[0]
+                if preferred
+                else "modern_interior",
+
+
+            "options":
+                preferred,
+
+
+            "atmosphere":
+                env.get(
+                    "atmosphere",
+                    []
+                ),
+
+
+            "architecture":
+                env.get(
+                    "architecture",
+                    []
+                ),
+
+
+            "forbidden":
+                env.get(
+                    "forbidden",
+                    []
+                )
+
         }
 
-        print("Environment decided.")
+
+        print(
+            "Environment:",
+            brain.environment
+        )
+
 
         return brain
+
 
 
 register(

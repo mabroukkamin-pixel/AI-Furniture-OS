@@ -11,7 +11,7 @@ from brain.fusion_engine.brain_fusion_engine import BrainFusionEngine
 from brain.creative_engine.brain_creative_engine import BrainCreativeEngine
 from brain.brand_engine.brand_loader import BrandLoader
 from brain.prompt_engine.creative_context_builder import CreativeContextBuilder
-from brain.composers.prompt_writer import PromptWriter
+from brain.prompt.prompt_writer import PromptWriter
 from brain.direction_engine.direction_engine import DirectionEngine
 from brain.environment.architecture_loader import ArchitectureBrain
 from brain.environment.color_loader import ColorBrain

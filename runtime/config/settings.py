@@ -38,3 +38,15 @@ GEMINI_API_KEY = os.getenv(
 GEMINI_MODEL = os.getenv(
     "GEMINI_MODEL"
 )
+
+
+# Nano Banana
+NANO_BANANA_API_KEY = os.getenv(
+    "NANO_BANANA_API_KEY"
+)
+NANO_BANANA_BASE_URL = os.getenv(
+    "NANO_BANANA_BASE_URL"
+)
+NANO_BANANA_MODEL = os.getenv(
+    "NANO_BANANA_MODEL"
+)

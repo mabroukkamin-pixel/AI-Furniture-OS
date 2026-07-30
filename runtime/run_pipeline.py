@@ -1,13 +1,11 @@
 from runtime.pipeline import FurniturePipeline
 from brain.loaders.product_loader import ProductLoader
 from runtime.brain_runner import BrainRunner
-from brain.composers.prompt_writer import PromptWriter
-from brain.generators.generator_manager import GeneratorManager
+from brain.prompt.prompt_writer import PromptWriter
+import argparse
 
 
-def main():
-
-    product_id = "Partition001"
+def run(product_id):
 
     product_path = (
         f"products/{product_id}"
@@ -23,28 +21,79 @@ def main():
 
     writer = PromptWriter()
 
-    generator = GeneratorManager()
-
     pipeline = FurniturePipeline(
         loader,
         brain,
-        writer,
-        generator
+        writer
     )
 
     result = pipeline.run(
         product_id
     )
 
+    return {
+        "product": product_id,
+
+        "product_data": result.product,
+
+        "branding": (
+            result.branding
+            if hasattr(result, "branding")
+            else {}
+        ),
+
+        "design_dna": (
+            result.design_dna
+            if hasattr(result, "design_dna")
+            else {}
+        ),
+
+        "audit": (
+            result.audit
+            if hasattr(result, "audit")
+            else {}
+        ),
+
+        "generation": {
+            "status": (
+                result.generation.get("status")
+                if hasattr(result, "generation")
+                else "unknown"
+            ),
+            "output_folder": str(result.output_folder)
+        },
+
+        "prompt": {
+            "length": len(result.prompt["final"])
+        }
+    }
+
+
+def main():
+
+    import argparse
+
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument(
+        "--product",
+        required=True
+    )
+
+    args = parser.parse_args()
+
+    product_id = args.product
+
+    result = run(product_id)
+
     print()
     print("==============================")
     print("PIPELINE FINISHED")
     print("==============================")
-    print("Product :", product_id)
-    print("Prompt  :", len(result.prompt["final"]))
-    print("Output  :", result.output_folder)
-    if hasattr(result, "generation"):
-        print("Status  :", result.generation.get("status"))
+    print("Product :", result["product"])
+    print("Prompt  :", result["prompt"]["length"])
+    print("Output  :", result["generation"]["output_folder"])
+    print("Status  :", result["generation"]["status"])
 
 
 if __name__ == "__main__":

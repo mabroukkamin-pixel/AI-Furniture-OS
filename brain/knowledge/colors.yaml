@@ -1,15 +1,54 @@
-beige:
+materials:
 
- mood:
+  natural_wood:
 
-    warm
+    primary:
+      - oak
+      - beige
+      - warm_brown
 
-cream:
+    secondary:
+      - cream
+      - white
 
-white:
+    luxury_accents:
+      - gold
 
-gold:
+    avoid:
+      - neon_colors
+      - cold_blue
 
-oak:
 
-stone:
+  rattan:
+
+    primary:
+      - beige
+      - sand
+      - natural
+
+    secondary:
+      - white
+      - cream
+
+    luxury_accents:
+      - gold
+
+    avoid:
+      - dark_industrial
+
+
+  marble:
+
+    primary:
+      - white
+      - stone
+
+    secondary:
+      - cream
+
+    luxury_accents:
+      - gold
+      - black
+
+    avoid:
+      - rustic_colors

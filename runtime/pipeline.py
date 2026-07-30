@@ -2,7 +2,7 @@ from brain.core.brain_state import BrainState
 from brain.vision.image_resolver import ImageResolver
 from runtime.output_manager import OutputManager
 from runtime.production.production_manager import ProductionManager
-from brain.composers.context_adapter import ContextAdapter
+from brain.prompt.context_adapter import ContextAdapter
 from brain.decision.design_dna_engine import DesignDNAEngine
 from brain.audit.prompt_auditor import PromptAuditor
 

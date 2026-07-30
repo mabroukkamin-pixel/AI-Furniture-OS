@@ -1,5 +1,5 @@
 from brain.context import BrainContext
-from brain.composers.master_prompt_composer import MasterPromptComposer
+from brain.prompt.master_prompt_composer import MasterPromptComposer
 
 
 print("=" * 60)
