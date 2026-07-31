@@ -365,8 +365,7 @@ function renderManifest(manifest) {
 
 async function loadManifest(productId) {
     const url = (
-        `/outputs/${encodeURIComponent(productId)}`
-        + "/manifest.json"
+        `/runs/${encodeURIComponent(productId)}/latest`
     );
 
     const { response, body } = await fetchJson(url);
@@ -378,6 +377,18 @@ async function loadManifest(productId) {
     }
 
     renderManifest(body);
+}
+
+async function loadLatestManifest(productId) {
+    if (!productId) {
+        return;
+    }
+
+    try {
+        await loadManifest(productId);
+    } catch (error) {
+        // No saved run exists for this product yet.
+    }
 }
 
 async function loadSystemStatus() {
@@ -450,6 +461,9 @@ async function loadProducts() {
             setMessage("المنتج جاهز لبدء الإنتاج.");
             showReferenceImage(preferredProduct.id);
             await loadProductDetails(preferredProduct.id);
+            await loadLatestManifest(
+                preferredProduct.id
+            );
         }
     } catch (error) {
         elements.productSelect.innerHTML = (
@@ -478,6 +492,7 @@ elements.productSelect.addEventListener(
                 "المنتج جاهز لبدء الإنتاج."
             );
             showReferenceImage(productId);
+            await loadLatestManifest(productId);
         } else {
             setMessage(
                 "اختر منتجًا لبدء الإنتاج."

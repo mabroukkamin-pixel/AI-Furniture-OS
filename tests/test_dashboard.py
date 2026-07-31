@@ -1,6 +1,8 @@
+import json
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 from fastapi.testclient import TestClient
 
@@ -199,6 +201,55 @@ class DashboardTests(unittest.TestCase):
         self.assertEqual(
             response.status_code,
             404
+        )
+
+    def test_latest_run_endpoint_returns_manifest(self):
+        with tempfile.TemporaryDirectory() as temporary_folder:
+            temporary_outputs = Path(
+                temporary_folder
+            )
+
+            output_directory = (
+                temporary_outputs / "Partition001"
+            )
+
+            output_directory.mkdir(
+                parents=True
+            )
+
+            manifest = {
+                "run": {
+                    "status": "failed",
+                    "engine_name": "nano_banana",
+                },
+                "generation": {
+                    "status": "local_only",
+                },
+            }
+
+            (
+                output_directory / "manifest.json"
+            ).write_text(
+                json.dumps(manifest),
+                encoding="utf-8"
+            )
+
+            with patch(
+                "api.main.OUTPUTS_DIR",
+                temporary_outputs,
+            ):
+                response = self.client.get(
+                    "/runs/Partition001/latest"
+                )
+
+        self.assertEqual(
+            response.status_code,
+            200
+        )
+
+        self.assertEqual(
+            response.json(),
+            manifest
         )
 
     def test_output_artifact_is_served_safely(self):

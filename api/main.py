@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 
 import yaml
@@ -315,6 +316,51 @@ def get_product_image(product_id: str):
     return FileResponse(
         image_files[0]
     )
+
+
+@app.get("/runs/{product_id}/latest")
+def get_latest_run(product_id: str):
+
+    _require_product(product_id)
+
+    output_directory = _safe_child_directory(
+        OUTPUTS_DIR,
+        product_id
+    )
+
+    manifest_path = (
+        output_directory / "manifest.json"
+    )
+
+    if not manifest_path.is_file():
+        raise HTTPException(
+            status_code=404,
+            detail="No saved run found"
+        )
+
+    try:
+        manifest = json.loads(
+            manifest_path.read_text(
+                encoding="utf-8"
+            )
+        )
+    except (
+        OSError,
+        UnicodeError,
+        json.JSONDecodeError
+    ) as exc:
+        raise HTTPException(
+            status_code=500,
+            detail="Saved run manifest is invalid"
+        ) from exc
+
+    if not isinstance(manifest, dict):
+        raise HTTPException(
+            status_code=500,
+            detail="Saved run manifest is invalid"
+        )
+
+    return manifest
 
 
 @app.get(
