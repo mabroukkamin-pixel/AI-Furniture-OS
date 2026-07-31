@@ -79,7 +79,7 @@ async function loadProductDetails(productId) {
     }
 
     elements.editProductButton.disabled = false;
-        elements.archiveProductButton.disabled = false;
+    elements.archiveProductButton.disabled = false;
 
     try {
         const { response, body } = await fetchJson(
@@ -865,6 +865,25 @@ elements.editProductButton.addEventListener(
                     primaryColors[0] || ""
                 );
 
+                const structure = (
+                    body.structure || {}
+                );
+
+                for (const fieldName of [
+                    "doors",
+                    "drawers",
+                    "shelves",
+                    "legs",
+                    "handles",
+                    "panels",
+                ]) {
+                    elements.productForm.querySelector(
+                        `input[name="${fieldName}"]`
+                    ).value = (
+                        structure[fieldName] ?? 0
+                    );
+                }
+
                 const size = body.size || {};
                 elements.productForm.querySelector('input[name="width"]').value = size.width || "";
                 elements.productForm.querySelector('input[name="height"]').value = size.height || "";
@@ -1164,16 +1183,14 @@ elements.copyPromptButton.addEventListener(
 
         try {
             await navigator.clipboard.writeText(currentPrompt);
-            const originalText = elements.copyPromptButton.textContent;
-            elements.copyPromptButton.textContent = "تم النسخ!";
-            setTimeout(() => {
-                elements.copyPromptButton.textContent = originalText;
-            }, 1500);
+            setMessage("تم نسخ البرومبت إلى الحافظة بنجاح.", "success");
         } catch (error) {
-            setMessage("تعذر نسخ البرومبت إلى الحافظة.", "error");
+            setMessage("تعذر نسخ البرومبت.", "error");
         }
     }
 );
 
-loadSystemStatus();
-loadProducts();
+document.addEventListener("DOMContentLoaded", async () => {
+    await loadSystemStatus();
+    await loadProducts();
+});

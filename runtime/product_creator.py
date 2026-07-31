@@ -35,6 +35,31 @@ def _positive_number(value, field_name):
     return number
 
 
+def _non_negative_integer(
+    value,
+    field_name
+):
+    try:
+        number = float(value)
+    except (
+        TypeError,
+        ValueError,
+    ) as exc:
+        raise ValueError(
+            f"{field_name} must be an integer"
+        ) from exc
+
+    if (
+        number < 0
+        or not number.is_integer()
+    ):
+        raise ValueError(
+            f"{field_name} must be a non-negative integer"
+        )
+
+    return int(number)
+
+
 def create_product(
     products_directory,
     *,
@@ -52,6 +77,12 @@ def create_product(
     name_en=None,
     secondary_material=None,
     color=None,
+    doors=0,
+    drawers=0,
+    shelves=0,
+    legs=0,
+    handles=0,
+    panels=0,
 ):
     product_id = product_id.strip()
     name = name.strip()
@@ -149,6 +180,33 @@ def create_product(
             "depth"
         )
 
+    structure = {
+        "doors": _non_negative_integer(
+            doors,
+            "doors"
+        ),
+        "drawers": _non_negative_integer(
+            drawers,
+            "drawers"
+        ),
+        "shelves": _non_negative_integer(
+            shelves,
+            "shelves"
+        ),
+        "legs": _non_negative_integer(
+            legs,
+            "legs"
+        ),
+        "handles": _non_negative_integer(
+            handles,
+            "handles"
+        ),
+        "panels": _non_negative_integer(
+            panels,
+            "panels"
+        ),
+    }
+
     if not image_data:
         raise ValueError(
             "Product image is required"
@@ -235,6 +293,7 @@ def create_product(
                             else []
                         ),
                     },
+                    "structure": structure,
                     "handmade": False,
                     "premium": True,
                     "transparent": False,
@@ -425,6 +484,12 @@ def update_product(
     name_en=None,
     secondary_material=None,
     color=None,
+    doors=None,
+    drawers=None,
+    shelves=None,
+    legs=None,
+    handles=None,
+    panels=None,
 ):
     product_id = product_id.strip()
     name = name.strip()
@@ -622,6 +687,36 @@ def update_product(
             []
         )
 
+    structure_data = product.setdefault(
+        "structure",
+        {}
+    )
+
+    structure_updates = {
+        "doors": doors,
+        "drawers": drawers,
+        "shelves": shelves,
+        "legs": legs,
+        "handles": handles,
+        "panels": panels,
+    }
+
+    for field_name, value in (
+        structure_updates.items()
+    ):
+        if value is None:
+            structure_data.setdefault(
+                field_name,
+                0
+            )
+        else:
+            structure_data[field_name] = (
+                _non_negative_integer(
+                    value,
+                    field_name
+                )
+            )
+
     pricing_data = pricing.setdefault(
         "pricing",
         {}
@@ -671,6 +766,12 @@ async def create_product_endpoint(
     material: str = Form(...),
     secondary_material: str | None = Form(None),
     color: str | None = Form(None),
+    doors: int = Form(0),
+    drawers: int = Form(0),
+    shelves: int = Form(0),
+    legs: int = Form(0),
+    handles: int = Form(0),
+    panels: int = Form(0),
     width: float = Form(...),
     height: float = Form(...),
     depth: float | None = Form(None),
@@ -691,6 +792,12 @@ async def create_product_endpoint(
             material=material,
             secondary_material=secondary_material,
             color=color,
+            doors=doors,
+            drawers=drawers,
+            shelves=shelves,
+            legs=legs,
+            handles=handles,
+            panels=panels,
             width=width,
             height=height,
             depth=depth,
@@ -712,6 +819,12 @@ async def update_product_endpoint(
     material: str = Form(...),
     secondary_material: str | None = Form(None),
     color: str | None = Form(None),
+    doors: int | None = Form(None),
+    drawers: int | None = Form(None),
+    shelves: int | None = Form(None),
+    legs: int | None = Form(None),
+    handles: int | None = Form(None),
+    panels: int | None = Form(None),
     width: float = Form(...),
     height: float = Form(...),
     depth: float | None = Form(None),
@@ -732,6 +845,12 @@ async def update_product_endpoint(
             material=material,
             secondary_material=secondary_material,
             color=color,
+            doors=doors,
+            drawers=drawers,
+            shelves=shelves,
+            legs=legs,
+            handles=handles,
+            panels=panels,
             width=width,
             height=height,
             depth=depth,
