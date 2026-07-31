@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
+from fastapi.responses import JSONResponse
 
 from runtime.run_pipeline import run
 
@@ -31,8 +32,39 @@ def generate_product(request: ProductRequest):
         request.product_id
     )
 
-    return {
+    generation = result.get(
+        "generation",
+        {}
+    )
+
+    generation_status = generation.get(
+        "status",
+        "unknown"
+    )
+
+    api_status = (
+        "succeeded"
+        if generation_status == "success"
+        else "failed"
+    )
+
+    response_data = {
         "product": request.product_id,
-        "status": "success",
+        "status": api_status,
+        "generation_status": generation_status,
         "result": result
     }
+
+    if generation_status == "local_only":
+        return JSONResponse(
+            status_code=503,
+            content=response_data
+        )
+
+    if generation_status != "success":
+        return JSONResponse(
+            status_code=502,
+            content=response_data
+        )
+
+    return response_data
