@@ -22,3 +22,6 @@ cache/
 
 # Logs
 logs/
+
+# Archived products
+product_archive/

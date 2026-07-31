@@ -21,6 +21,11 @@ from runtime.product_creator import (
     create_product,
     update_product,
 )
+from runtime.product_archive import (
+    archive_product,
+    list_archived_products,
+    restore_product,
+)
 from runtime.config.settings import (
     GEMINI_MODEL,
     is_gemini_configured,
@@ -33,6 +38,10 @@ PROJECT_ROOT = Path(
 
 PRODUCTS_DIR = (
     PROJECT_ROOT / "products"
+)
+
+PRODUCT_ARCHIVE_DIR = (
+    PROJECT_ROOT / "product_archive"
 )
 
 OUTPUTS_DIR = (
@@ -385,6 +394,91 @@ async def update_product_endpoint(
         "product": {
             "id": product_directory.name,
             "name": name.strip(),
+            "image_url": (
+                f"/products/"
+                f"{product_directory.name}"
+                "/image"
+            ),
+        }
+    }
+
+
+@app.delete("/products/{product_id}")
+def archive_product_endpoint(
+    product_id: str
+):
+    try:
+        archived_directory = archive_product(
+            PRODUCTS_DIR,
+            PRODUCT_ARCHIVE_DIR,
+            product_id,
+        )
+    except FileNotFoundError as exc:
+        raise HTTPException(
+            status_code=404,
+            detail="Product not found"
+        ) from exc
+    except (
+        ValueError,
+        OSError,
+    ) as exc:
+        raise HTTPException(
+            status_code=400,
+            detail=str(exc)
+        ) from exc
+
+    return {
+        "status": "archived",
+        "product_id": product_id,
+        "archive_id": archived_directory.name,
+    }
+
+
+@app.get("/product-archive")
+def get_product_archive():
+
+    return {
+        "products": list_archived_products(
+            PRODUCT_ARCHIVE_DIR
+        )
+    }
+
+
+@app.post(
+    "/product-archive/{archive_id}/restore"
+)
+def restore_product_endpoint(
+    archive_id: str
+):
+    try:
+        product_directory = restore_product(
+            PRODUCTS_DIR,
+            PRODUCT_ARCHIVE_DIR,
+            archive_id,
+        )
+    except FileNotFoundError as exc:
+        raise HTTPException(
+            status_code=404,
+            detail="Archived product not found"
+        ) from exc
+    except FileExistsError as exc:
+        raise HTTPException(
+            status_code=409,
+            detail="Product already exists"
+        ) from exc
+    except (
+        ValueError,
+        OSError,
+    ) as exc:
+        raise HTTPException(
+            status_code=400,
+            detail=str(exc)
+        ) from exc
+
+    return {
+        "status": "restored",
+        "product": {
+            "id": product_directory.name,
             "image_url": (
                 f"/products/"
                 f"{product_directory.name}"
