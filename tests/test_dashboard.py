@@ -59,6 +59,11 @@ class DashboardTests(unittest.TestCase):
             script_response.text
         )
 
+        self.assertIn(
+            "showReferenceImage",
+            script_response.text
+        )
+
     def test_products_endpoint_lists_partition(self):
         response = self.client.get(
             "/products"
@@ -92,6 +97,27 @@ class DashboardTests(unittest.TestCase):
         self.assertNotIn(
             "images",
             product_ids
+        )
+
+    def test_product_image_endpoint_returns_image(self):
+        response = self.client.get(
+            "/products/Partition001/image"
+        )
+
+        self.assertEqual(
+            response.status_code,
+            200
+        )
+
+        self.assertTrue(
+            response.headers[
+                "content-type"
+            ].startswith("image/")
+        )
+
+        self.assertGreater(
+            len(response.content),
+            0
         )
 
     def test_invalid_product_id_is_rejected(self):

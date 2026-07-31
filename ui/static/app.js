@@ -84,6 +84,32 @@ function clearImage() {
     elements.emptyPreview.hidden = false;
 }
 
+function showReferenceImage(productId) {
+    if (!productId) {
+        clearImage();
+        return;
+    }
+
+    elements.generatedImage.onerror = () => {
+        clearImage();
+        setBadge("لا توجد صورة مرجعية", "error");
+    };
+
+    elements.generatedImage.src = (
+        `/products/${encodeURIComponent(productId)}/image`
+        + `?t=${Date.now()}`
+    );
+
+    elements.generatedImage.alt = (
+        `الصورة الأصلية للمنتج ${productId}`
+    );
+
+    elements.generatedImage.hidden = false;
+    elements.emptyPreview.hidden = true;
+
+    setBadge("الصورة الأصلية", "neutral");
+}
+
 function outputUrl(productId, artifactPath) {
     if (!artifactPath) {
         return null;
@@ -235,8 +261,12 @@ function renderManifest(manifest) {
         elements.emptyPreview.hidden = true;
         setBadge("تم إنتاج الصورة", "success");
     } else {
-        clearImage();
-        setBadge("لا توجد صورة", "error");
+        showReferenceImage(productId);
+
+        setBadge(
+            "الصورة الأصلية — لم يتم التوليد",
+            "error"
+        );
     }
 
     if (run.status === "succeeded") {
@@ -345,6 +375,7 @@ async function loadProducts() {
             elements.generateButton.disabled = false;
 
             setMessage("المنتج جاهز لبدء الإنتاج.");
+            showReferenceImage(preferredProduct.id);
         }
     } catch (error) {
         elements.productSelect.innerHTML = (
@@ -370,10 +401,13 @@ elements.productSelect.addEventListener(
             setMessage(
                 "المنتج جاهز لبدء الإنتاج."
             );
+            showReferenceImage(productId);
         } else {
             setMessage(
                 "اختر منتجًا لبدء الإنتاج."
             );
+            clearImage();
+            setBadge("لا توجد نتيجة", "neutral");
         }
     }
 );

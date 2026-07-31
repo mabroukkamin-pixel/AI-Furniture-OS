@@ -157,6 +157,48 @@ def list_products():
     }
 
 
+@app.get("/products/{product_id}/image")
+def get_product_image(product_id: str):
+
+    product_directory = _require_product(
+        product_id
+    )
+
+    images_directory = (
+        product_directory / "images"
+    )
+
+    supported_extensions = {
+        ".png",
+        ".jpg",
+        ".jpeg",
+        ".webp"
+    }
+
+    if images_directory.is_dir():
+        image_files = sorted(
+            path
+            for path in images_directory.iterdir()
+            if (
+                path.is_file()
+                and path.suffix.lower()
+                in supported_extensions
+            )
+        )
+    else:
+        image_files = []
+
+    if not image_files:
+        raise HTTPException(
+            status_code=404,
+            detail="Product image not found"
+        )
+
+    return FileResponse(
+        image_files[0]
+    )
+
+
 @app.get(
     "/outputs/{product_id}/{artifact_path:path}",
     include_in_schema=False
