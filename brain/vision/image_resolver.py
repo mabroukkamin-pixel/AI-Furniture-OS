@@ -3,7 +3,6 @@ import os
 
 class ImageResolver:
 
-
     def find_product_image(self, product_path):
 
         images_path = os.path.join(
@@ -11,13 +10,11 @@ class ImageResolver:
             "images"
         )
 
-
         if not os.path.exists(images_path):
 
             raise Exception(
                 f"No images folder found: {images_path}"
             )
-
 
         supported = [
             ".png",
@@ -26,9 +23,7 @@ class ImageResolver:
             ".webp"
         ]
 
-
         images = []
-
 
         for file in os.listdir(images_path):
 
@@ -43,17 +38,36 @@ class ImageResolver:
                     )
                 )
 
-
         if not images:
-
             raise Exception(
                 "No product images found"
             )
 
+        images.sort(
+            key=lambda path: (
+                os.path.basename(path).casefold()
+            )
+        )
 
-        # أول صورة تعتبر الصورة الرئيسية
+        main_image = next(
+            (
+                image
+                for image in images
+                if (
+                    os.path.basename(image).casefold()
+                    == "main.png"
+                )
+            ),
+            images[0]
+        )
+
+        reference_images = [
+            image
+            for image in images
+            if image != main_image
+        ]
 
         return {
-            "main_image": images[0],
-            "reference_images": images
+            "main_image": main_image,
+            "reference_images": reference_images
         }

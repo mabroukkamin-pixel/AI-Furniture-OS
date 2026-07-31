@@ -294,7 +294,14 @@ def get_product_image(product_id: str):
         ".webp"
     }
 
-    if images_directory.is_dir():
+    main_image = (
+        images_directory / "main.png"
+    )
+    if main_image.is_file():
+        image_files = [
+            main_image
+        ]
+    elif images_directory.is_dir():
         image_files = sorted(
             path
             for path in images_directory.iterdir()

@@ -8,6 +8,7 @@ from fastapi.testclient import TestClient
 
 from api.main import (
     OUTPUTS_DIR,
+    PRODUCTS_DIR,
     app,
 )
 
@@ -137,6 +138,17 @@ class DashboardTests(unittest.TestCase):
         self.assertGreater(
             len(response.content),
             0
+        )
+
+        expected_image = (
+            PRODUCTS_DIR
+            / "Partition001"
+            / "images"
+            / "main.png"
+        )
+        self.assertEqual(
+            response.content,
+            expected_image.read_bytes()
         )
 
     def test_product_details_endpoint(self):
