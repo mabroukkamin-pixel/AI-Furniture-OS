@@ -1,5 +1,6 @@
 from pathlib import Path
 
+import yaml
 from fastapi import (
     FastAPI,
     HTTPException,
@@ -101,6 +102,50 @@ def _require_product(
     return product_directory
 
 
+def _product_display_name(
+    product_directory: Path
+):
+    identity_path = (
+        product_directory / "identity.yaml"
+    )
+
+    try:
+        identity = yaml.safe_load(
+            identity_path.read_text(
+                encoding="utf-8"
+            )
+        )
+    except (
+        OSError,
+        UnicodeError,
+        yaml.YAMLError
+    ):
+        return product_directory.name
+
+    if not isinstance(identity, dict):
+        return product_directory.name
+
+    product = identity.get(
+        "product",
+        {}
+    )
+
+    if not isinstance(product, dict):
+        return product_directory.name
+
+    name = product.get(
+        "name"
+    )
+
+    if (
+        isinstance(name, str)
+        and name.strip()
+    ):
+        return name.strip()
+
+    return product_directory.name
+
+
 @app.get("/")
 def home():
 
@@ -148,7 +193,9 @@ def list_products():
                         "id":
                             product_directory.name,
                         "name":
-                            product_directory.name
+                            _product_display_name(
+                                product_directory
+                            )
                     }
                 )
 

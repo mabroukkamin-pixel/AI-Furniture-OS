@@ -81,9 +81,21 @@ class DashboardTests(unittest.TestCase):
             ]
         }
 
+        product_names = {
+            product["id"]: product["name"]
+            for product in response.json()[
+                "products"
+            ]
+        }
+
         self.assertIn(
             "Partition001",
             product_ids
+        )
+
+        self.assertEqual(
+            product_names["Partition001"],
+            "Rattan Partition"
         )
 
         self.assertNotIn(
