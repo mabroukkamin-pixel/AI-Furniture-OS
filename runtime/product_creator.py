@@ -4,6 +4,7 @@ from io import BytesIO
 from pathlib import Path
 
 import yaml
+from fastapi import Form, UploadFile, File, HTTPException
 from PIL import Image, ImageOps
 
 
@@ -47,12 +48,46 @@ def create_product(
     price,
     currency,
     image_data,
+    name_ar=None,
+    name_en=None,
+    secondary_material=None,
+    color=None,
 ):
     product_id = product_id.strip()
     name = name.strip()
     category = category.strip()
     material = material.strip()
     currency = currency.strip().upper()
+
+    name_ar = (
+        None
+        if name_ar is None
+        else name_ar.strip()
+    )
+
+    name_en = (
+        None
+        if name_en is None
+        else name_en.strip()
+    )
+
+    secondary_material = (
+        None
+        if secondary_material is None
+        else secondary_material.strip()
+    )
+
+    color = (
+        None
+        if color is None
+        else color.strip()
+    )
+
+    display_name = (
+        name_ar
+        or name_en
+        or name
+    )
 
     if not PRODUCT_ID_PATTERN.fullmatch(
         product_id
@@ -68,7 +103,7 @@ def create_product(
             "Invalid product ID"
         )
 
-    if not name:
+    if not display_name:
         raise ValueError(
             "Product name is required"
         )
@@ -170,14 +205,22 @@ def create_product(
             identity = {
                 "product": {
                     "id": product_id,
-                    "name": name,
+                    "name": display_name,
+                    "name_ar": (
+                        name_ar or display_name
+                    ),
+                    "name_en": name_en,
                     "category": category,
                     "family": [
                         "furniture",
                     ],
                     "material": {
                         "primary": material,
-                        "secondary": [],
+                        "secondary": (
+                            [secondary_material]
+                            if secondary_material
+                            else []
+                        ),
                     },
                     "style": [
                         "modern",
@@ -186,7 +229,11 @@ def create_product(
                     "usage": [],
                     "size": size,
                     "colors": {
-                        "primary": [],
+                        "primary": (
+                            [color]
+                            if color
+                            else []
+                        ),
                     },
                     "handmade": False,
                     "premium": True,
@@ -374,6 +421,10 @@ def update_product(
     price,
     currency,
     image_data=None,
+    name_ar=None,
+    name_en=None,
+    secondary_material=None,
+    color=None,
 ):
     product_id = product_id.strip()
     name = name.strip()
@@ -381,13 +432,43 @@ def update_product(
     material = material.strip()
     currency = currency.strip().upper()
 
+    name_ar = (
+        None
+        if name_ar is None
+        else name_ar.strip()
+    )
+
+    name_en = (
+        None
+        if name_en is None
+        else name_en.strip()
+    )
+
+    secondary_material = (
+        None
+        if secondary_material is None
+        else secondary_material.strip()
+    )
+
+    color = (
+        None
+        if color is None
+        else color.strip()
+    )
+
+    display_name = (
+        name_ar
+        or name_en
+        or name
+    )
+
     if (
         not PRODUCT_ID_PATTERN.fullmatch(product_id)
         or product_id.startswith((".", "_"))
     ):
         raise ValueError("Invalid product ID")
 
-    if not name:
+    if not display_name:
         raise ValueError("Product name is required")
 
     if not category:
@@ -489,14 +570,57 @@ def update_product(
         size["depth"] = depth
 
     product["id"] = product_id
-    product["name"] = name
+    product["name"] = display_name
+
+    if name_ar is not None:
+        product["name_ar"] = name_ar
+    else:
+        product.setdefault(
+            "name_ar",
+            display_name
+        )
+
+    if name_en is not None:
+        product["name_en"] = name_en
+    else:
+        product.setdefault(
+            "name_en",
+            ""
+        )
+
     product["category"] = category
     material_data["primary"] = material
-    material_data.setdefault(
-        "secondary",
-        []
-    )
+
+    if secondary_material is not None:
+        material_data["secondary"] = (
+            [secondary_material]
+            if secondary_material
+            else []
+        )
+    else:
+        material_data.setdefault(
+            "secondary",
+            []
+        )
+
     product["size"] = size
+
+    colors_data = product.setdefault(
+        "colors",
+        {}
+    )
+
+    if color is not None:
+        colors_data["primary"] = (
+            [color]
+            if color
+            else []
+        )
+    else:
+        colors_data.setdefault(
+            "primary",
+            []
+        )
 
     pricing_data = pricing.setdefault(
         "pricing",
@@ -536,3 +660,85 @@ def update_product(
         )
 
     return product_directory
+
+
+async def create_product_endpoint(
+    product_id: str = Form(...),
+    name: str = Form(...),
+    name_ar: str | None = Form(None),
+    name_en: str | None = Form(None),
+    category: str = Form(...),
+    material: str = Form(...),
+    secondary_material: str | None = Form(None),
+    color: str | None = Form(None),
+    width: float = Form(...),
+    height: float = Form(...),
+    depth: float | None = Form(None),
+    price: float = Form(...),
+    currency: str = Form(...),
+    image: UploadFile = File(...),
+):
+    try:
+        image_bytes = await image.read()
+        product_dir = Path("products")
+        create_product(
+            product_dir,
+            product_id=product_id,
+            name=name,
+            name_ar=name_ar,
+            name_en=name_en,
+            category=category,
+            material=material,
+            secondary_material=secondary_material,
+            color=color,
+            width=width,
+            height=height,
+            depth=depth,
+            price=price,
+            currency=currency,
+            image_data=image_bytes,
+        )
+        return {"status": "success", "product_id": product_id}
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+async def update_product_endpoint(
+    product_id: str = Form(...),
+    name: str = Form(...),
+    name_ar: str | None = Form(None),
+    name_en: str | None = Form(None),
+    category: str = Form(...),
+    material: str = Form(...),
+    secondary_material: str | None = Form(None),
+    color: str | None = Form(None),
+    width: float = Form(...),
+    height: float = Form(...),
+    depth: float | None = Form(None),
+    price: float = Form(...),
+    currency: str = Form(...),
+    image: UploadFile | None = File(None),
+):
+    try:
+        image_bytes = await image.read() if image else None
+        product_dir = Path("products")
+        update_product(
+            product_dir,
+            product_id=product_id,
+            name=name,
+            name_ar=name_ar,
+            name_en=name_en,
+            category=category,
+            material=material,
+            secondary_material=secondary_material,
+            color=color,
+            width=width,
+            height=height,
+            depth=depth,
+            price=price,
+            currency=currency,
+            image_data=image_bytes,
+        )
+        return {"status": "success", "product_id": product_id}
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))

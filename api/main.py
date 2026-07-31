@@ -270,8 +270,12 @@ def list_products():
 async def create_product_endpoint(
     product_id: str = Form(...),
     name: str = Form(...),
+    name_ar: str | None = Form(None),
+    name_en: str | None = Form(None),
     category: str = Form(...),
     material: str = Form(...),
+    secondary_material: str | None = Form(None),
+    color: str | None = Form(None),
     width: float = Form(...),
     height: float = Form(...),
     depth: float | None = Form(None),
@@ -296,8 +300,12 @@ async def create_product_endpoint(
             PRODUCTS_DIR,
             product_id=product_id,
             name=name,
+            name_ar=name_ar,
+            name_en=name_en,
             category=category,
             material=material,
+            secondary_material=secondary_material,
+            color=color,
             width=width,
             height=height,
             depth=depth,
@@ -337,8 +345,12 @@ async def create_product_endpoint(
 async def update_product_endpoint(
     product_id: str,
     name: str = Form(...),
+    name_ar: str | None = Form(None),
+    name_en: str | None = Form(None),
     category: str = Form(...),
     material: str = Form(...),
+    secondary_material: str | None = Form(None),
+    color: str | None = Form(None),
     width: float = Form(...),
     height: float = Form(...),
     depth: float | None = Form(None),
@@ -366,8 +378,12 @@ async def update_product_endpoint(
             PRODUCTS_DIR,
             product_id=product_id,
             name=name,
+            name_ar=name_ar,
+            name_en=name_en,
             category=category,
             material=material,
+            secondary_material=secondary_material,
+            color=color,
             width=width,
             height=height,
             depth=depth,
@@ -524,6 +540,15 @@ def get_product(product_id: str):
         "name": (
             product.get("name")
             or product_directory.name
+        ),
+        "name_ar": (
+            product.get("name_ar")
+            or product.get("name")
+            or product_directory.name
+        ),
+        "name_en": (
+            product.get("name_en")
+            or ""
         ),
         "category": product.get(
             "category"

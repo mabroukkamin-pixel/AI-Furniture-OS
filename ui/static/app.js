@@ -826,11 +826,44 @@ elements.editProductButton.addEventListener(
             );
 
             if (response.ok) {
-                elements.productForm.querySelector('input[name="name"]').value = body.name || "";
+                elements.productForm.querySelector(
+                    'input[name="name_ar"]'
+                ).value = (
+                    body.name_ar
+                    || body.name
+                    || ""
+                );
+
+                elements.productForm.querySelector(
+                    'input[name="name_en"]'
+                ).value = (
+                    body.name_en || ""
+                );
+
                 elements.productForm.querySelector('input[name="category"]').value = body.category || "";
 
                 const material = body.material && typeof body.material === "object" ? body.material.primary : body.material;
                 elements.productForm.querySelector('input[name="material"]').value = material || "";
+
+                const secondaryMaterials = (
+                    body.material?.secondary || []
+                );
+
+                elements.productForm.querySelector(
+                    'input[name="secondary_material"]'
+                ).value = (
+                    secondaryMaterials[0] || ""
+                );
+
+                const primaryColors = (
+                    body.colors?.primary || []
+                );
+
+                elements.productForm.querySelector(
+                    'input[name="color"]'
+                ).value = (
+                    primaryColors[0] || ""
+                );
 
                 const size = body.size || {};
                 elements.productForm.querySelector('input[name="width"]').value = size.width || "";
@@ -881,6 +914,19 @@ elements.productForm.addEventListener(
 
         try {
             const formData = new FormData(elements.productForm);
+
+            const nameAr = String(
+                formData.get("name_ar") || ""
+            ).trim();
+
+            const nameEn = String(
+                formData.get("name_en") || ""
+            ).trim();
+
+            formData.set(
+                "name",
+                nameAr || nameEn
+            );
 
             let url = "/products";
             let method = "POST";
@@ -1089,30 +1135,20 @@ elements.generateButton.addEventListener(
 
         try {
             const { body } = await fetchJson(
-                "/generate",
+                `/runs/${encodeURIComponent(productId)}/generate`,
                 {
                     method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        product_id: productId,
-                    }),
                 }
             );
 
-            await loadManifest(productId);
-
-            if (body.status === "succeeded") {
-                setMessage(
-                    "تم إنتاج الإعلان بنجاح.",
-                    "success"
-                );
-            }
+            renderManifest(body);
         } catch (error) {
-            setBadge("فشل التشغيل", "error");
-            setMessage(error.message, "error");
+            setMessage(
+                error.message || "تعذر تنفيذ الإنتاج.",
+                "error"
+            );
             elements.runStatus.textContent = "failed";
+            setBadge("خطأ في الإنتاج", "error");
         } finally {
             setLoading(false);
         }
@@ -1126,22 +1162,18 @@ elements.copyPromptButton.addEventListener(
             return;
         }
 
-        await navigator.clipboard.writeText(
-            currentPrompt
-        );
-
-        const originalText = (
-            elements.copyPromptButton.textContent
-        );
-
-        elements.copyPromptButton.textContent = "تم النسخ!";
-        setTimeout(() => {
-            elements.copyPromptButton.textContent = originalText;
-        }, 1500);
+        try {
+            await navigator.clipboard.writeText(currentPrompt);
+            const originalText = elements.copyPromptButton.textContent;
+            elements.copyPromptButton.textContent = "تم النسخ!";
+            setTimeout(() => {
+                elements.copyPromptButton.textContent = originalText;
+            }, 1500);
+        } catch (error) {
+            setMessage("تعذر نسخ البرومبت إلى الحافظة.", "error");
+        }
     }
 );
 
-document.addEventListener("DOMContentLoaded", () => {
-    loadSystemStatus();
-    loadProducts();
-});
+loadSystemStatus();
+loadProducts();

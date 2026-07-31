@@ -283,9 +283,18 @@
                 </label>
 
                 <label>
-                    اسم المنتج
+                    الاسم العربي
                     <input
-                        name="name"
+                        name="name_ar"
+                        required
+                    >
+                </label>
+
+                <label>
+                    الاسم الإنجليزي
+                    <input
+                        name="name_en"
+                        dir="ltr"
                         required
                     >
                 </label>
@@ -304,6 +313,23 @@
                     <input
                         name="material"
                         placeholder="wood"
+                        required
+                    >
+                </label>
+
+                <label>
+                    الخامة الثانوية — اختياري
+                    <input
+                        name="secondary_material"
+                        placeholder="metal / glass"
+                    >
+                </label>
+
+                <label>
+                    اللون الأساسي
+                    <input
+                        name="color"
+                        placeholder="dark_brown"
                         required
                     >
                 </label>
