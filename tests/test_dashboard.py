@@ -72,6 +72,41 @@ class DashboardTests(unittest.TestCase):
             script_response.text
         )
 
+        self.assertIn(
+            "/system/readiness",
+            script_response.text
+        )
+
+    def test_system_readiness_hides_api_key(self):
+        response = self.client.get(
+            "/system/readiness"
+        )
+
+        self.assertEqual(
+            response.status_code,
+            200
+        )
+
+        body = response.json()
+
+        self.assertEqual(
+            body["api"],
+            "ready"
+        )
+
+        self.assertIn(
+            body["image_engine"]["mode"],
+            {
+                "local",
+                "remote",
+            }
+        )
+
+        self.assertNotIn(
+            "api_key",
+            str(body).lower()
+        )
+
     def test_products_endpoint_lists_partition(self):
         response = self.client.get(
             "/products"

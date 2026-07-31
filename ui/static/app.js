@@ -393,18 +393,39 @@ async function loadLatestManifest(productId) {
 
 async function loadSystemStatus() {
     try {
-        const { response, body } = await fetchJson("/");
+        const { response, body } = await fetchJson(
+            "/system/readiness"
+        );
 
         if (!response.ok) {
-            throw new Error("System unavailable");
+            throw new Error(
+                "System unavailable"
+            );
         }
 
-        elements.systemDot.classList.add("online");
+        const imageEngine = (
+            body.image_engine || {}
+        );
+
+        elements.systemDot.classList.add(
+            "online"
+        );
+
         elements.systemStatus.textContent = (
-            `${body.system} — متصل`
+            imageEngine.configured
+                ? "AI Furniture OS — محرك الصور جاهز"
+                : "AI Furniture OS — متصل / وضع محلي"
+        );
+
+        elements.systemStatus.title = (
+            `${imageEngine.name || "image engine"}`
+            + ` — ${imageEngine.model || "no model"}`
         );
     } catch (error) {
-        elements.systemDot.classList.add("offline");
+        elements.systemDot.classList.add(
+            "offline"
+        );
+
         elements.systemStatus.textContent = (
             "النظام غير متصل"
         );

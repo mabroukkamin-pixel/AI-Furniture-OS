@@ -11,6 +11,7 @@ from runtime.clients.base_client import BaseClient
 from runtime.config.settings import (
     GEMINI_API_KEY,
     GEMINI_MODEL,
+    is_gemini_configured,
 )
 
 
@@ -28,11 +29,7 @@ class NanoBananaClient(BaseClient):
             GEMINI_MODEL or ""
         ).strip()
 
-        if (
-            api_key.startswith("AIza")
-            and len(api_key) > 30
-            and model
-        ):
+        if is_gemini_configured():
             self.client = genai.Client(
                 api_key=api_key,
                 http_options=types.HttpOptions(

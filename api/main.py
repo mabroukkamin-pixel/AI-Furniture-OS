@@ -14,6 +14,10 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 from runtime.run_pipeline import run
+from runtime.config.settings import (
+    GEMINI_MODEL,
+    is_gemini_configured,
+)
 
 
 PROJECT_ROOT = Path(
@@ -166,6 +170,28 @@ def home():
         "system": "AI Furniture OS",
         "version": "1.0.0",
         "status": "running"
+    }
+
+
+@app.get("/system/readiness")
+def system_readiness():
+
+    configured = (
+        is_gemini_configured()
+    )
+
+    return {
+        "api": "ready",
+        "image_engine": {
+            "name": "nano_banana",
+            "configured": configured,
+            "mode": (
+                "remote"
+                if configured
+                else "local"
+            ),
+            "model": GEMINI_MODEL,
+        }
     }
 
 

@@ -40,6 +40,23 @@ GEMINI_MODEL = os.getenv(
 )
 
 
+def is_gemini_configured():
+
+    api_key = (
+        GEMINI_API_KEY or ""
+    ).strip()
+
+    model = (
+        GEMINI_MODEL or ""
+    ).strip()
+
+    return (
+        api_key.startswith("AIza")
+        and len(api_key) > 30
+        and bool(model)
+    )
+
+
 # Nano Banana
 NANO_BANANA_API_KEY = os.getenv(
     "NANO_BANANA_API_KEY"
