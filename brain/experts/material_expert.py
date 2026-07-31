@@ -26,6 +26,12 @@ class MaterialExpert(BaseExpert):
                 []
             )
 
+            if (
+                not hasattr(brain, "decision")
+                or brain.decision is None
+            ):
+                brain.decision = {}
+
             brain.decision["material"] = {
                 "primary": primary,
                 "secondary": secondary

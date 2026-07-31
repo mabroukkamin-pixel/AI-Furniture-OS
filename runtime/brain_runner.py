@@ -1,4 +1,3 @@
-from brain.decision_engine.decision_engine import DecisionEngine
 from brain.environment.environment_engine import EnvironmentEngine
 from brain.environment.architecture_loader import ArchitectureBrain
 from brain.environment.color_loader import ColorBrain
@@ -14,8 +13,6 @@ class BrainRunner:
         manager = ExpertManager(product_name)
 
         self.experts = manager.build()
-
-        self.decision = DecisionEngine()
 
         self.environment = EnvironmentEngine(
             ArchitectureBrain(
@@ -36,14 +33,6 @@ class BrainRunner:
             context = expert.analyze(
                 context
             )
-
-        # ===============================
-        # DECISION ENGINE
-        # ===============================
-
-        context = self.decision.decide(
-            context
-        )
 
         # ===============================
         # ENVIRONMENT ENGINE

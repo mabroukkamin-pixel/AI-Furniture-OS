@@ -1,38 +1,38 @@
 class DesignDNAEngine:
 
-    def analyze(self, context):
+    def analyze(self, brain):
 
         print("========================================")
         print("        DESIGN DNA ENGINE")
         print("========================================")
 
-        product = context.get(
-            "product",
-            {}
-        )
-
-        material = product.get(
-            "material",
-            {}
-        )
-
-        branding = context.get(
-            "branding",
-            {}
-        )
-
-        environment = context.get(
+        product = brain.product
+        branding = brain.branding
+        environment = getattr(
+            brain,
             "environment",
             {}
         )
-
-        lighting = context.get(
+        lighting = getattr(
+            brain,
             "lighting",
             {}
         )
+        photography = {
+            "camera": getattr(
+                brain,
+                "camera",
+                {}
+            ),
+            "composition": getattr(
+                brain,
+                "composition",
+                {}
+            )
+        }
 
-        photography = context.get(
-            "photography",
+        material = product.get(
+            "material",
             {}
         )
 
