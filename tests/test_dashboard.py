@@ -81,6 +81,19 @@ class DashboardTests(unittest.TestCase):
             product_ids
         )
 
+        self.assertNotIn(
+            "_template",
+            product_ids
+        )
+        self.assertNotIn(
+            "_template_backup",
+            product_ids
+        )
+        self.assertNotIn(
+            "images",
+            product_ids
+        )
+
     def test_invalid_product_id_is_rejected(self):
         response = self.client.post(
             "/generate",

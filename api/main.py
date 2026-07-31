@@ -139,8 +139,9 @@ def list_products():
             if (
                 product_directory.is_dir()
                 and not product_directory.name.startswith(
-                    "."
+                    (".", "_")
                 )
+                and product_directory.name != "images"
             ):
                 products.append(
                     {
