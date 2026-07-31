@@ -218,6 +218,38 @@ class FurniturePipeline:
                 production_manager = self.production_manager_cls(brain_state)
                 generation_result = production_manager.run()
                 brain_state.generation = generation_result
+
+                generation_status = (
+                    generation_result.get(
+                        "status"
+                    )
+                    if isinstance(
+                        generation_result,
+                        dict
+                    )
+                    else None
+                )
+
+                generated_image = (
+                    generation_result.get(
+                        "image"
+                    )
+                    if isinstance(
+                        generation_result,
+                        dict
+                    )
+                    else None
+                )
+
+                if (
+                    generation_status
+                    != "success"
+                    or not generated_image
+                ):
+                    raise RuntimeError(
+                        "Image generation did not "
+                        "produce a local image"
+                    )
             except Exception as e:
                 _mark_failed(
                     brain_state,

@@ -27,7 +27,11 @@ class DummyProductionManager:
         self.state = state
 
     def run(self):
-        return {"status": "ok"}
+        return {
+            "status": "success",
+            "engine": "dummy",
+            "image": "outputs/test/generated.png",
+        }
 
 
 class DummyImageResolver:
