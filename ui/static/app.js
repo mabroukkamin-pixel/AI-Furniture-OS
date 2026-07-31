@@ -21,6 +21,8 @@ const elements = {
         "#generatedImage"
     ),
     detailProduct: document.querySelector("#detailProduct"),
+    detailSize: document.querySelector("#detailSize"),
+    detailPrice: document.querySelector("#detailPrice"),
     detailScene: document.querySelector("#detailScene"),
     detailMaterial: document.querySelector(
         "#detailMaterial"
@@ -43,6 +45,85 @@ async function fetchJson(url, options = {}) {
         response,
         body,
     };
+}
+
+async function loadProductDetails(productId) {
+    if (!productId) {
+        elements.detailProduct.textContent = "—";
+        elements.detailSize.textContent = "—";
+        elements.detailPrice.textContent = "—";
+        elements.detailMaterial.textContent = "—";
+        return;
+    }
+
+    try {
+        const { response, body } = await fetchJson(
+            `/products/${encodeURIComponent(productId)}`
+        );
+
+        if (!response.ok) {
+            throw new Error(
+                body.detail || "تعذر تحميل بيانات المنتج."
+            );
+        }
+
+        const size = (
+            body.size && typeof body.size === "object"
+                ? body.size
+                : {}
+        );
+
+        const dimensions = [
+            size.width,
+            size.height,
+            size.depth,
+        ].filter(
+            (value) => (
+                value !== undefined
+                && value !== null
+                && value !== ""
+            )
+        );
+
+        const material = (
+            body.material
+            && typeof body.material === "object"
+                ? body.material.primary
+                : body.material
+        );
+
+        const pricing = (
+            body.pricing
+            && typeof body.pricing === "object"
+                ? body.pricing
+                : {}
+        );
+
+        elements.detailProduct.textContent = (
+            body.name || body.id
+        );
+
+        elements.detailSize.textContent = (
+            dimensions.length
+                ? dimensions.join(" × ")
+                : "—"
+        );
+
+        elements.detailMaterial.textContent = (
+            material || "—"
+        );
+
+        elements.detailPrice.textContent = (
+            pricing.price !== undefined
+                ? `${pricing.price} ${pricing.currency || ""}`.trim()
+                : "—"
+        );
+    } catch (error) {
+        elements.detailProduct.textContent = productId;
+        elements.detailSize.textContent = "—";
+        elements.detailPrice.textContent = "—";
+        elements.detailMaterial.textContent = "—";
+    }
 }
 
 function setMessage(message, type = "") {
@@ -227,16 +308,8 @@ function renderManifest(manifest) {
 
     elements.copyPromptButton.disabled = !currentPrompt;
 
-    elements.detailProduct.textContent = (
-        productId || "—"
-    );
-
     elements.detailScene.textContent = (
         designDna.scene || "—"
-    );
-
-    elements.detailMaterial.textContent = (
-        decision.material?.primary || "—"
     );
 
     elements.detailEngine.textContent = (
@@ -376,6 +449,7 @@ async function loadProducts() {
 
             setMessage("المنتج جاهز لبدء الإنتاج.");
             showReferenceImage(preferredProduct.id);
+            await loadProductDetails(preferredProduct.id);
         }
     } catch (error) {
         elements.productSelect.innerHTML = (
@@ -388,7 +462,7 @@ async function loadProducts() {
 
 elements.productSelect.addEventListener(
     "change",
-    () => {
+    async () => {
         const productId = elements.productSelect.value;
 
         elements.selectedProductId.textContent = (
@@ -396,6 +470,8 @@ elements.productSelect.addEventListener(
         );
 
         elements.generateButton.disabled = !productId;
+
+        await loadProductDetails(productId);
 
         if (productId) {
             setMessage(

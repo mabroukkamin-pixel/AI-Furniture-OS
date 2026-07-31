@@ -102,16 +102,11 @@ def _require_product(
     return product_directory
 
 
-def _product_display_name(
-    product_directory: Path
-):
-    identity_path = (
-        product_directory / "identity.yaml"
-    )
+def _read_yaml_mapping(path: Path):
 
     try:
-        identity = yaml.safe_load(
-            identity_path.read_text(
+        data = yaml.safe_load(
+            path.read_text(
                 encoding="utf-8"
             )
         )
@@ -120,7 +115,24 @@ def _product_display_name(
         UnicodeError,
         yaml.YAMLError
     ):
-        return product_directory.name
+        return {}
+
+    if isinstance(data, dict):
+        return data
+
+    return {}
+
+
+def _product_display_name(
+    product_directory: Path
+):
+    identity_path = (
+        product_directory / "identity.yaml"
+    )
+
+    identity = _read_yaml_mapping(
+        identity_path
+    )
 
     if not isinstance(identity, dict):
         return product_directory.name
@@ -201,6 +213,65 @@ def list_products():
 
     return {
         "products": products
+    }
+
+
+@app.get("/products/{product_id}")
+def get_product(product_id: str):
+
+    product_directory = _require_product(
+        product_id
+    )
+
+    identity_data = _read_yaml_mapping(
+        product_directory / "identity.yaml"
+    )
+
+    pricing_data = _read_yaml_mapping(
+        product_directory / "pricing.yaml"
+    )
+
+    product = identity_data.get(
+        "product",
+        {}
+    )
+
+    pricing = pricing_data.get(
+        "pricing",
+        {}
+    )
+
+    if not isinstance(product, dict):
+        product = {}
+
+    if not isinstance(pricing, dict):
+        pricing = {}
+
+    return {
+        "id": product_directory.name,
+        "name": (
+            product.get("name")
+            or product_directory.name
+        ),
+        "category": product.get(
+            "category"
+        ),
+        "material": product.get(
+            "material",
+            {}
+        ),
+        "size": product.get(
+            "size",
+            {}
+        ),
+        "colors": product.get(
+            "colors",
+            {}
+        ),
+        "pricing": pricing,
+        "image_url": (
+            f"/products/{product_directory.name}/image"
+        )
     }
 
 

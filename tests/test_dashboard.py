@@ -64,6 +64,11 @@ class DashboardTests(unittest.TestCase):
             script_response.text
         )
 
+        self.assertIn(
+            "loadProductDetails",
+            script_response.text
+        )
+
     def test_products_endpoint_lists_partition(self):
         response = self.client.get(
             "/products"
@@ -130,6 +135,43 @@ class DashboardTests(unittest.TestCase):
         self.assertGreater(
             len(response.content),
             0
+        )
+
+    def test_product_details_endpoint(self):
+        response = self.client.get(
+            "/products/Partition001"
+        )
+
+        self.assertEqual(
+            response.status_code,
+            200
+        )
+
+        product = response.json()
+
+        self.assertEqual(
+            product["name"],
+            "Rattan Partition"
+        )
+
+        self.assertEqual(
+            product["material"]["primary"],
+            "rattan"
+        )
+
+        self.assertEqual(
+            product["size"]["width"],
+            200
+        )
+
+        self.assertEqual(
+            product["pricing"]["price"],
+            15
+        )
+
+        self.assertEqual(
+            product["pricing"]["currency"],
+            "KWD"
         )
 
     def test_invalid_product_id_is_rejected(self):
