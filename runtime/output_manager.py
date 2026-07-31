@@ -4,6 +4,38 @@ import json
 
 class OutputManager:
 
+    def normalize_artifact_path(self, path):
+        if not path:
+            return None
+
+        project_root = os.path.abspath(
+            os.path.join(
+                os.path.dirname(__file__),
+                os.pardir
+            )
+        )
+
+        absolute_path = os.path.abspath(path)
+
+        try:
+            relative_path = os.path.relpath(
+                absolute_path,
+                project_root
+            )
+        except ValueError:
+            return None
+
+        if relative_path.startswith(".."):
+            return None
+
+        return relative_path.replace("\\", "/")
+
+    def record_artifact(self, context, key, path):
+        normalized_path = self.normalize_artifact_path(path)
+
+        if normalized_path:
+            context.artifacts[key] = normalized_path
+
     def save_json(
         self,
         folder,
@@ -34,6 +66,8 @@ class OutputManager:
                 indent=4
             )
 
+        return path.replace("\\", "/")
+
     def save_text(
         self,
         folder,
@@ -46,13 +80,20 @@ class OutputManager:
             exist_ok=True
         )
 
+        path = os.path.join(
+            folder,
+            filename
+        )
+
         with open(
-            os.path.join(folder, filename),
+            path,
             "w",
             encoding="utf-8"
         ) as f:
 
             f.write(text)
+
+        return path.replace("\\", "/")
 
     def save_request(
         self,
@@ -137,7 +178,7 @@ class OutputManager:
             )
         )
 
-        self.save_json(
+        design_dna_path = self.save_json(
             root,
             "design_dna.json",
             getattr(
@@ -147,7 +188,13 @@ class OutputManager:
             )
         )
 
-        self.save_json(
+        self.record_artifact(
+            context,
+            "design_dna",
+            design_dna_path
+        )
+
+        audit_path = self.save_json(
             root,
             "audit.json",
             getattr(
@@ -157,7 +204,13 @@ class OutputManager:
             )
         )
 
-        self.save_json(
+        self.record_artifact(
+            context,
+            "audit",
+            audit_path
+        )
+
+        generation_path = self.save_json(
             root,
             "generation.json",
             getattr(
@@ -165,6 +218,12 @@ class OutputManager:
                 "generation",
                 {}
             )
+        )
+
+        self.record_artifact(
+            context,
+            "generation",
+            generation_path
         )
 
         final_prompt = getattr(
@@ -175,7 +234,7 @@ class OutputManager:
 
         if isinstance(final_prompt, dict):
 
-            self.save_text(
+            positive_prompt_path = self.save_text(
                 root,
                 "positive_prompt.txt",
                 final_prompt.get(
@@ -184,13 +243,25 @@ class OutputManager:
                 )
             )
 
-            self.save_text(
+            self.record_artifact(
+                context,
+                "positive_prompt",
+                positive_prompt_path
+            )
+
+            negative_prompt_path = self.save_text(
                 root,
                 "negative_prompt.txt",
                 final_prompt.get(
                     "negative",
                     ""
                 )
+            )
+
+            self.record_artifact(
+                context,
+                "negative_prompt",
+                negative_prompt_path
             )
 
         return root

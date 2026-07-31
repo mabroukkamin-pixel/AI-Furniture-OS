@@ -23,15 +23,18 @@ class PromptWriter:
 
         negative = self.negative.compose(context)
 
-        context.final_prompt = {
+        prompt_payload = {
 
             "positive": positive,
             "negative": negative
 
         }
 
+        context.final_prompt = prompt_payload
+
         context = self.finalizer.finalize(context)
 
-        context.prompt = context.final_prompt
+        context.prompt = prompt_payload
+        context.final_prompt = context.prompt
 
         return context

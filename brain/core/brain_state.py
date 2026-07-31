@@ -1,4 +1,5 @@
 from dataclasses import dataclass, field
+from typing import Optional
 
 
 @dataclass
@@ -42,6 +43,19 @@ class BrainState:
 
     # prompt
     prompt: dict = field(default_factory=dict)
+
+    # compatibility alias for final prompt payload
+    final_prompt: dict = field(default_factory=dict)
+
+    # run lifecycle and artifacts
+    run_id: str = ""
+    started_at: str = ""
+    completed_at: Optional[str] = None
+    status: str = "pending"
+    current_stage: str = ""
+    error: Optional[dict] = None
+    engine_name: str = ""
+    artifacts: dict = field(default_factory=dict)
 
     # debug
     trace: list = field(default_factory=list)
