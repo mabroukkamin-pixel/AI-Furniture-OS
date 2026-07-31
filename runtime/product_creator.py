@@ -359,3 +359,180 @@ def create_product(
         raise
 
     return product_directory
+
+
+def update_product(
+    products_directory,
+    *,
+    product_id,
+    name,
+    category,
+    material,
+    width,
+    height,
+    depth,
+    price,
+    currency,
+    image_data=None,
+):
+    product_id = product_id.strip()
+    name = name.strip()
+    category = category.strip()
+    material = material.strip()
+    currency = currency.strip().upper()
+
+    if (
+        not PRODUCT_ID_PATTERN.fullmatch(product_id)
+        or product_id.startswith((".", "_"))
+    ):
+        raise ValueError("Invalid product ID")
+
+    if not name:
+        raise ValueError("Product name is required")
+
+    if not category:
+        raise ValueError("Product category is required")
+
+    if not material:
+        raise ValueError("Primary material is required")
+
+    if not currency:
+        raise ValueError("Currency is required")
+
+    width = _positive_number(width, "width")
+    height = _positive_number(height, "height")
+    price = _positive_number(price, "price")
+
+    if depth in (None, ""):
+        depth = None
+    else:
+        depth = _positive_number(
+            depth,
+            "depth"
+        )
+
+    products_directory = Path(
+        products_directory
+    ).resolve()
+
+    product_directory = (
+        products_directory / product_id
+    )
+
+    if not product_directory.is_dir():
+        raise FileNotFoundError(
+            f"Product not found: {product_id}"
+        )
+
+    prepared_image = None
+
+    if image_data:
+        with Image.open(
+            BytesIO(image_data)
+        ) as uploaded_image:
+            uploaded_image.verify()
+
+        with Image.open(
+            BytesIO(image_data)
+        ) as uploaded_image:
+            product_image = ImageOps.exif_transpose(
+                uploaded_image
+            )
+
+            product_image.load()
+
+            image_buffer = BytesIO()
+
+            product_image.save(
+                image_buffer,
+                format="PNG"
+            )
+
+            prepared_image = image_buffer.getvalue()
+
+    identity_path = (
+        product_directory / "identity.yaml"
+    )
+
+    pricing_path = (
+        product_directory / "pricing.yaml"
+    )
+
+    identity = yaml.safe_load(
+        identity_path.read_text(
+            encoding="utf-8"
+        )
+    ) or {}
+
+    pricing = yaml.safe_load(
+        pricing_path.read_text(
+            encoding="utf-8"
+        )
+    ) or {}
+
+    product = identity.setdefault(
+        "product",
+        {}
+    )
+
+    material_data = product.setdefault(
+        "material",
+        {}
+    )
+
+    size = {
+        "width": width,
+        "height": height,
+    }
+
+    if depth is not None:
+        size["depth"] = depth
+
+    product["id"] = product_id
+    product["name"] = name
+    product["category"] = category
+    material_data["primary"] = material
+    material_data.setdefault(
+        "secondary",
+        []
+    )
+    product["size"] = size
+
+    pricing_data = pricing.setdefault(
+        "pricing",
+        {}
+    )
+
+    pricing_data["currency"] = currency
+    pricing_data["price"] = price
+    pricing_data.setdefault(
+        "category",
+        "standard"
+    )
+
+    _write_yaml(
+        identity_path,
+        identity
+    )
+
+    _write_yaml(
+        pricing_path,
+        pricing
+    )
+
+    if prepared_image is not None:
+        images_directory = (
+            product_directory / "images"
+        )
+
+        images_directory.mkdir(
+            exist_ok=True
+        )
+
+        (
+            images_directory / "main.png"
+        ).write_bytes(
+            prepared_image
+        )
+
+    return product_directory

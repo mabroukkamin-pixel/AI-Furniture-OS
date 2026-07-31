@@ -2,74 +2,45 @@ const elements = {
     systemDot: document.querySelector("#systemDot"),
     systemStatus: document.querySelector("#systemStatus"),
     productSelect: document.querySelector("#productSelect"),
-    selectedProductId: document.querySelector(
-        "#selectedProductId"
-    ),
-    generateButton: document.querySelector(
-        "#generateButton"
-    ),
+    selectedProductId: document.querySelector("#selectedProductId"),
+    generateButton: document.querySelector("#generateButton"),
     runMessage: document.querySelector("#runMessage"),
     runStatus: document.querySelector("#runStatus"),
-    generationStatus: document.querySelector(
-        "#generationStatus"
-    ),
+    generationStatus: document.querySelector("#generationStatus"),
     auditScore: document.querySelector("#auditScore"),
     promptLength: document.querySelector("#promptLength"),
     previewBadge: document.querySelector("#previewBadge"),
     emptyPreview: document.querySelector("#emptyPreview"),
-    generatedImage: document.querySelector(
-        "#generatedImage"
-    ),
+    generatedImage: document.querySelector("#generatedImage"),
     detailProduct: document.querySelector("#detailProduct"),
     detailSize: document.querySelector("#detailSize"),
     detailPrice: document.querySelector("#detailPrice"),
     detailScene: document.querySelector("#detailScene"),
-    detailMaterial: document.querySelector(
-        "#detailMaterial"
-    ),
+    detailMaterial: document.querySelector("#detailMaterial"),
     detailEngine: document.querySelector("#detailEngine"),
     artifactList: document.querySelector("#artifactList"),
     promptPreview: document.querySelector("#promptPreview"),
-    copyPromptButton: document.querySelector(
-        "#copyPromptButton"
-    ),
-    openProductDialog: document.querySelector(
-        "#openProductDialog"
-    ),
-    productDialog: document.querySelector(
-        "#productDialog"
-    ),
-    productForm: document.querySelector(
-        "#productForm"
-    ),
-    closeProductDialog: document.querySelector(
-        "#closeProductDialog"
-    ),
-    cancelProductDialog: document.querySelector(
-        "#cancelProductDialog"
-    ),
-    createProductButton: document.querySelector(
-        "#createProductButton"
-    ),
-    productFormMessage: document.querySelector(
-        "#productFormMessage"
-    ),
-    productImageInput: document.querySelector(
-        '#productForm input[name="image"]'
-    ),
-    productImagePreview: document.querySelector(
-        "#productImagePreview"
-    ),
-    productImagePreviewImage: document.querySelector(
-        "#productImagePreviewImage"
-    ),
-    productImagePreviewName: document.querySelector(
-        "#productImagePreviewName"
-    ),
+    copyPromptButton: document.querySelector("#copyPromptButton"),
+    openProductDialog: document.querySelector("#openProductDialog"),
+    editProductButton: document.querySelector("#editProductButton"),
+    productDialogMode: document.querySelector("#productDialogMode"),
+    productDialogTitle: document.querySelector("#productDialogTitle"),
+    productIdInput: document.querySelector('#productForm input[name="product_id"]'),
+    productDialog: document.querySelector("#productDialog"),
+    productForm: document.querySelector("#productForm"),
+    closeProductDialog: document.querySelector("#closeProductDialog"),
+    cancelProductDialog: document.querySelector("#cancelProductDialog"),
+    createProductButton: document.querySelector("#createProductButton"),
+    productFormMessage: document.querySelector("#productFormMessage"),
+    productImageInput: document.querySelector('#productForm input[name="image"]'),
+    productImagePreview: document.querySelector("#productImagePreview"),
+    productImagePreviewImage: document.querySelector("#productImagePreviewImage"),
+    productImagePreviewName: document.querySelector("#productImagePreviewName"),
 };
 
 let currentPrompt = "";
 let productImagePreviewUrl = null;
+let editingProductId = null;
 
 async function fetchJson(url, options = {}) {
     const response = await fetch(url, options);
@@ -87,8 +58,11 @@ async function loadProductDetails(productId) {
         elements.detailSize.textContent = "—";
         elements.detailPrice.textContent = "—";
         elements.detailMaterial.textContent = "—";
+        elements.editProductButton.disabled = true;
         return;
     }
+
+    elements.editProductButton.disabled = false;
 
     try {
         const { response, body } = await fetchJson(
@@ -332,7 +306,6 @@ function renderManifest(manifest) {
     const run = manifest.run || {};
     const generation = manifest.generation || {};
     const designDna = manifest.design_dna || {};
-    const decision = manifest.decision || {};
     const prompt = manifest.prompt || {};
     const audit = prompt.audit || {};
     const score = audit.score || {};
@@ -542,6 +515,7 @@ async function loadProducts(
             elements.productSelect.innerHTML = (
                 '<option value="">لا توجد منتجات</option>'
             );
+            elements.editProductButton.disabled = true;
         } else {
             const preferredProduct = (
                 body.products.find(
@@ -560,6 +534,7 @@ async function loadProducts(
             elements.productSelect.value = preferredProduct.id;
             elements.selectedProductId.textContent = preferredProduct.id;
             elements.generateButton.disabled = false;
+            elements.editProductButton.disabled = false;
 
             setMessage("المنتج جاهز لبدء الإنتاج.");
             showReferenceImage(preferredProduct.id);
@@ -572,6 +547,7 @@ async function loadProducts(
         elements.productSelect.innerHTML = (
             '<option value="">تعذر تحميل المنتجات</option>'
         );
+        elements.editProductButton.disabled = true;
 
         setMessage(error.message, "error");
     }
@@ -590,6 +566,7 @@ function clearProductImagePreview() {
 
 function closeProductFormDialog() {
     clearProductImagePreview();
+    editingProductId = null;
     elements.productDialog.close();
     elements.productFormMessage.textContent = "";
     elements.productFormMessage.className = (
@@ -631,12 +608,73 @@ elements.productImageInput.addEventListener(
 elements.openProductDialog.addEventListener(
     "click",
     () => {
+        editingProductId = null;
         elements.productForm.reset();
         clearProductImagePreview();
+        elements.productIdInput.disabled = false;
+        elements.productImageInput.required = true;
+        elements.productDialogMode.textContent = "NEW PRODUCT";
+        elements.productDialogTitle.textContent = "إضافة منتج جديد";
+        elements.createProductButton.textContent = "إنشاء المنتج";
         elements.productFormMessage.textContent = "";
         elements.productFormMessage.className = (
             "form-message"
         );
+        elements.productDialog.showModal();
+    }
+);
+
+elements.editProductButton.addEventListener(
+    "click",
+    async () => {
+        const productId = elements.productSelect.value;
+        if (!productId) {
+            return;
+        }
+
+        editingProductId = productId;
+        elements.productForm.reset();
+        clearProductImagePreview();
+        elements.productFormMessage.textContent = "";
+        elements.productFormMessage.className = "form-message";
+
+        elements.productDialogMode.textContent = "EDIT PRODUCT";
+        elements.productDialogTitle.textContent = "تعديل المنتج";
+        elements.createProductButton.textContent = "حفظ التعديلات";
+        elements.productIdInput.value = productId;
+        elements.productIdInput.disabled = true;
+
+        elements.productImageInput.required = false;
+
+        try {
+            const { response, body } = await fetchJson(
+                `/products/${encodeURIComponent(productId)}`
+            );
+
+            if (response.ok) {
+                elements.productForm.querySelector('input[name="name"]').value = body.name || "";
+                elements.productForm.querySelector('input[name="category"]').value = body.category || "";
+
+                const material = body.material && typeof body.material === "object" ? body.material.primary : body.material;
+                elements.productForm.querySelector('input[name="material"]').value = material || "";
+
+                const size = body.size || {};
+                elements.productForm.querySelector('input[name="width"]').value = size.width || "";
+                elements.productForm.querySelector('input[name="height"]').value = size.height || "";
+                elements.productForm.querySelector('input[name="depth"]').value = size.depth || "";
+
+                const pricing = body.pricing || {};
+                elements.productForm.querySelector('input[name="price"]').value = pricing.price || "";
+
+                const currencySelect = elements.productForm.querySelector('select[name="currency"]');
+                if (currencySelect) {
+                    currencySelect.value = pricing.currency || "KWD";
+                }
+            }
+        } catch (error) {
+            // Ignore pre-fill errors if any
+        }
+
         elements.productDialog.showModal();
     }
 );
@@ -656,29 +694,38 @@ elements.productForm.addEventListener(
     async (event) => {
         event.preventDefault();
 
-        const originalLabel = (
-            elements.createProductButton.textContent
-        );
+        const isEditing = Boolean(editingProductId);
+        const originalLabel = elements.createProductButton.textContent;
 
         elements.createProductButton.disabled = true;
-        elements.createProductButton.textContent = (
-            "جاري إنشاء المنتج..."
-        );
+        elements.createProductButton.textContent = isEditing
+            ? "جاري حفظ التعديلات..."
+            : "جاري إنشاء المنتج...";
 
         elements.productFormMessage.textContent = "";
-        elements.productFormMessage.className = (
-            "form-message"
-        );
+        elements.productFormMessage.className = "form-message";
 
         try {
-            const formData = new FormData(
-                elements.productForm
-            );
+            const formData = new FormData(elements.productForm);
+
+            let url = "/products";
+            let method = "POST";
+
+            if (isEditing) {
+                url = `/products/${encodeURIComponent(editingProductId)}`;
+                method = "PUT";
+                formData.delete("product_id");
+
+                const imageFile = elements.productImageInput.files[0];
+                if (!imageFile) {
+                    formData.delete("image");
+                }
+            }
 
             const { response, body } = await fetchJson(
-                "/products",
+                url,
                 {
-                    method: "POST",
+                    method: method,
                     body: formData,
                 }
             );
@@ -687,23 +734,23 @@ elements.productForm.addEventListener(
                 const message = (
                     typeof body.detail === "string"
                         ? body.detail
-                        : "تعذر إنشاء المنتج."
+                        : (isEditing ? "تعذر تعديل المنتج." : "تعذر إنشاء المنتج.")
                 );
 
                 throw new Error(message);
             }
 
-            elements.productFormMessage.textContent = (
-                "تم إنشاء المنتج بنجاح."
-            );
+            elements.productFormMessage.textContent = isEditing
+                ? "تم تعديل المنتج بنجاح."
+                : "تم إنشاء المنتج بنجاح.";
 
             elements.productFormMessage.className = (
                 "form-message success"
             );
 
-            await loadProducts(
-                body.product.id
-            );
+            const savedId = isEditing ? editingProductId : (body.product?.id || elements.productIdInput.value);
+
+            await loadProducts(savedId);
 
             setTimeout(
                 () => {
@@ -738,6 +785,7 @@ elements.productSelect.addEventListener(
         );
 
         elements.generateButton.disabled = !productId;
+        elements.editProductButton.disabled = !productId;
 
         await loadProductDetails(productId);
 

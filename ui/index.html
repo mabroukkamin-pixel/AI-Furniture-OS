@@ -56,6 +56,14 @@
                 type="button">
                 + إضافة منتج جديد</button>
 
+            <button
+                id="editProductButton"
+                class="secondary-button add-product-button"
+                type="button"
+                disabled>
+                تعديل المنتج المحدد
+            </button>
+
             <div class="product-id">
                 <span>Product ID</span>
                 <strong id="selectedProductId">
@@ -234,8 +242,8 @@
         >
             <div class="dialog-header">
                 <div>
-                    <p>NEW PRODUCT</p>
-                    <h2>إضافة منتج جديد</h2>
+                    <p id="productDialogMode">NEW PRODUCT</p>
+                    <h2 id="productDialogTitle">إضافة منتج جديد</h2>
                 </div>
 
                 <button

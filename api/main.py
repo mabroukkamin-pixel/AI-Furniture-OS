@@ -19,6 +19,7 @@ from pydantic import BaseModel
 from runtime.run_pipeline import run
 from runtime.product_creator import (
     create_product,
+    update_product,
 )
 from runtime.config.settings import (
     GEMINI_MODEL,
@@ -311,6 +312,76 @@ async def create_product_endpoint(
 
     return {
         "status": "created",
+        "product": {
+            "id": product_directory.name,
+            "name": name.strip(),
+            "image_url": (
+                f"/products/"
+                f"{product_directory.name}"
+                "/image"
+            ),
+        }
+    }
+
+
+@app.put("/products/{product_id}")
+async def update_product_endpoint(
+    product_id: str,
+    name: str = Form(...),
+    category: str = Form(...),
+    material: str = Form(...),
+    width: float = Form(...),
+    height: float = Form(...),
+    depth: float | None = Form(None),
+    price: float = Form(...),
+    currency: str = Form("KWD"),
+    image: UploadFile | None = File(None),
+):
+    image_data = None
+
+    if image is not None:
+        image_data = await image.read(
+            MAX_PRODUCT_IMAGE_BYTES + 1
+        )
+
+        await image.close()
+
+        if len(image_data) > MAX_PRODUCT_IMAGE_BYTES:
+            raise HTTPException(
+                status_code=413,
+                detail="Product image is too large"
+            )
+
+    try:
+        product_directory = update_product(
+            PRODUCTS_DIR,
+            product_id=product_id,
+            name=name,
+            category=category,
+            material=material,
+            width=width,
+            height=height,
+            depth=depth,
+            price=price,
+            currency=currency,
+            image_data=image_data,
+        )
+    except FileNotFoundError as exc:
+        raise HTTPException(
+            status_code=404,
+            detail="Product not found"
+        ) from exc
+    except (
+        ValueError,
+        OSError
+    ) as exc:
+        raise HTTPException(
+            status_code=400,
+            detail=str(exc)
+        ) from exc
+
+    return {
+        "status": "updated",
         "product": {
             "id": product_directory.name,
             "name": name.strip(),
