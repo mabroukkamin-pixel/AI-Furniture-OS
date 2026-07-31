@@ -26,6 +26,46 @@ class ManifestWriter:
 
         return relative_path.as_posix()
 
+    def _normalize_path(self, path):
+        if not path:
+            return path
+
+        return str(path).replace("\\", "/")
+
+    def _normalize_generation(self, generation):
+        if not isinstance(generation, dict):
+            return generation
+
+        normalized = dict(generation)
+
+        for key in ("output", "image"):
+            if key in normalized:
+                normalized[key] = self._normalize_path(
+                    normalized[key]
+                )
+
+        response = normalized.get("response")
+
+        if isinstance(response, dict):
+            normalized_response = dict(response)
+
+            for key in (
+                "image_path",
+                "prompt_path",
+            ):
+                if key in normalized_response:
+                    normalized_response[key] = (
+                        self._normalize_path(
+                            normalized_response[key]
+                        )
+                    )
+
+            normalized["response"] = (
+                normalized_response
+            )
+
+        return normalized
+
     def build(self, context, artifacts=None):
         prompt = getattr(
             context,
@@ -103,16 +143,21 @@ class ManifestWriter:
                     "product_id",
                     ""
                 ),
-                "image": getattr(
-                    context,
-                    "product_image",
-                    ""
+                "image": self._normalize_path(
+                    getattr(
+                        context,
+                        "product_image",
+                        ""
+                    )
                 ),
-                "reference_images": getattr(
-                    context,
-                    "reference_images",
-                    []
-                ),
+                "reference_images": [
+                    self._normalize_path(path)
+                    for path in getattr(
+                        context,
+                        "reference_images",
+                        []
+                    )
+                ],
             },
             "branding": getattr(
                 context,
@@ -170,10 +215,12 @@ class ManifestWriter:
                     {}
                 ),
             },
-            "generation": getattr(
-                context,
-                "generation",
-                {}
+            "generation": self._normalize_generation(
+                getattr(
+                    context,
+                    "generation",
+                    {}
+                )
             ),
             "artifacts": artifact_data,
             "trace": getattr(

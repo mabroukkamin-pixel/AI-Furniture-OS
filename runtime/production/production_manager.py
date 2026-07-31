@@ -72,6 +72,16 @@ class ProductionManager:
         self.state.generation = result
 
         if isinstance(result, dict):
+            self.state.engine_name = result.get(
+                "engine",
+                getattr(
+                    self.state,
+                    "engine_name",
+                    ""
+                )
+            )
+
+        if isinstance(result, dict):
             image_path = result.get("image")
 
             if image_path:
@@ -96,5 +106,27 @@ class ProductionManager:
                         generated_images.append(
                             normalized_path
                         )
+
+        if isinstance(result, dict):
+            response = result.get(
+                "response",
+                {}
+            )
+
+            if isinstance(response, dict):
+                prompt_path = response.get(
+                    "prompt_path"
+                )
+
+                if prompt_path:
+                    from runtime.output_manager import (
+                        OutputManager
+                    )
+
+                    OutputManager().record_artifact(
+                        self.state,
+                        "generated_prompt",
+                        prompt_path
+                    )
 
         return result

@@ -106,6 +106,16 @@ class ArtifactTrackingTests(unittest.TestCase):
             image_path = Path(temporary_folder) / "generated.png"
             image_path.write_bytes(b"image")
 
+            prompt_path = (
+                Path(temporary_folder)
+                / "generated_prompt.txt"
+            )
+
+            prompt_path.write_text(
+                "test prompt",
+                encoding="utf-8"
+            )
+
             state = SimpleNamespace(
                 product_id="GeneratedImageTest",
                 prompt={"final": "test prompt"},
@@ -120,9 +130,15 @@ class ArtifactTrackingTests(unittest.TestCase):
                 def generate(self, request):
                     return {
                         "status": "success",
+                        "engine": "nano_banana",
                         "image": str(image_path),
                         "response": {
-                            "image_url": "https://example.com/image.png"
+                            "image_url": (
+                                "https://example.com/image.png"
+                            ),
+                            "prompt_path": str(
+                                prompt_path
+                            ),
                         },
                     }
 
@@ -154,6 +170,36 @@ class ArtifactTrackingTests(unittest.TestCase):
                 os.path.isabs(generated_images[0])
             )
             self.assertNotIn("\\", generated_images[0])
+
+            self.assertEqual(
+                state.engine_name,
+                "nano_banana"
+            )
+
+            self.assertIn(
+                "generated_prompt",
+                state.artifacts
+            )
+
+            generated_prompt = state.artifacts[
+                "generated_prompt"
+            ]
+
+            self.assertFalse(
+                os.path.isabs(generated_prompt)
+            )
+
+            self.assertNotIn(
+                "\\",
+                generated_prompt
+            )
+
+            self.assertTrue(
+                (
+                    self.project_root
+                    / generated_prompt
+                ).exists()
+            )
 
     def test_remote_url_is_not_recorded_as_local_artifact(self):
         from runtime.production.production_manager import (

@@ -189,6 +189,63 @@ class ManifestWriterTests(unittest.TestCase):
                 context.artifacts
             )
 
+    def test_manifest_normalizes_path_separators(self):
+        context = self.make_context(
+            "outputs/ManifestTest"
+        )
+
+        context.product_image = (
+            r"products\ManifestTest\input.png"
+        )
+
+        context.reference_images = [
+            r"products\ManifestTest\reference.png"
+        ]
+
+        context.generation = {
+            "status": "local_only",
+            "output": r"outputs\ManifestTest",
+            "image": None,
+            "response": {
+                "image_path": None,
+                "prompt_path": (
+                    r"outputs\ManifestTest"
+                    r"\generated_prompt.txt"
+                ),
+            },
+        }
+
+        manifest = ManifestWriter().build(
+            context
+        )
+
+        self.assertEqual(
+            manifest["product"]["image"],
+            "products/ManifestTest/input.png"
+        )
+
+        self.assertEqual(
+            manifest["product"]["reference_images"],
+            [
+                "products/ManifestTest/reference.png"
+            ]
+        )
+
+        self.assertEqual(
+            manifest["generation"]["output"],
+            "outputs/ManifestTest"
+        )
+
+        self.assertEqual(
+            manifest["generation"]["response"][
+                "prompt_path"
+            ],
+            (
+                "outputs/ManifestTest/"
+                "generated_prompt.txt"
+            )
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
