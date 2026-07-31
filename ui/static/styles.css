@@ -718,3 +718,64 @@ select option {
         min-height: 340px;
     }
 }
+
+.danger-button {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    color: #ffb8bd;
+    background: rgba(151, 47, 58, 0.16);
+    border: 1px solid rgba(255, 111, 123, 0.38);
+    border-radius: 0.75rem;
+    cursor: pointer;
+}
+
+.danger-button:hover:not(:disabled) {
+    color: #ffffff;
+    background: rgba(179, 52, 65, 0.34);
+    border-color: rgba(255, 137, 147, 0.7);
+}
+
+.danger-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.45;
+}
+
+.archive-dialog-content {
+    padding: 2rem;
+}
+
+.archive-description {
+    margin: 0 0 1.25rem;
+    color: var(--muted);
+}
+
+.archive-list {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.archive-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem;
+    background: rgba(7, 21, 38, 0.72);
+    border: 1px solid var(--border);
+    border-radius: 0.8rem;
+}
+
+.archive-item-details {
+    display: grid;
+    gap: 0.25rem;
+}
+
+.archive-item-details span {
+    color: var(--muted);
+    font-size: 0.8rem;
+}
+
+.archive-restore-button {
+    flex: 0 0 auto;
+    padding: 0.65rem 1rem;
+}

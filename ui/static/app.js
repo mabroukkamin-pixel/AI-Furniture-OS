@@ -23,6 +23,21 @@ const elements = {
     copyPromptButton: document.querySelector("#copyPromptButton"),
     openProductDialog: document.querySelector("#openProductDialog"),
     editProductButton: document.querySelector("#editProductButton"),
+    archiveProductButton: document.querySelector(
+        "#archiveProductButton"
+    ),
+    openArchiveDialog: document.querySelector(
+        "#openArchiveDialog"
+    ),
+    archiveDialog: document.querySelector(
+        "#archiveDialog"
+    ),
+    closeArchiveDialog: document.querySelector(
+        "#closeArchiveDialog"
+    ),
+    archiveList: document.querySelector(
+        "#archiveList"
+    ),
     productDialogMode: document.querySelector("#productDialogMode"),
     productDialogTitle: document.querySelector("#productDialogTitle"),
     productIdInput: document.querySelector('#productForm input[name="product_id"]'),
@@ -59,10 +74,12 @@ async function loadProductDetails(productId) {
         elements.detailPrice.textContent = "—";
         elements.detailMaterial.textContent = "—";
         elements.editProductButton.disabled = true;
+        elements.archiveProductButton.disabled = true;
         return;
     }
 
     elements.editProductButton.disabled = false;
+        elements.archiveProductButton.disabled = false;
 
     try {
         const { response, body } = await fetchJson(
@@ -516,6 +533,7 @@ async function loadProducts(
                 '<option value="">لا توجد منتجات</option>'
             );
             elements.editProductButton.disabled = true;
+            elements.archiveProductButton.disabled = true;
         } else {
             const preferredProduct = (
                 body.products.find(
@@ -535,6 +553,7 @@ async function loadProducts(
             elements.selectedProductId.textContent = preferredProduct.id;
             elements.generateButton.disabled = false;
             elements.editProductButton.disabled = false;
+            elements.archiveProductButton.disabled = false;
 
             setMessage("المنتج جاهز لبدء الإنتاج.");
             showReferenceImage(preferredProduct.id);
@@ -548,8 +567,163 @@ async function loadProducts(
             '<option value="">تعذر تحميل المنتجات</option>'
         );
         elements.editProductButton.disabled = true;
+        elements.archiveProductButton.disabled = true;
 
         setMessage(error.message, "error");
+    }
+}
+
+function archiveMessage(message, className = "muted") {
+    const paragraph = document.createElement("p");
+    paragraph.className = className;
+    paragraph.textContent = message;
+
+    elements.archiveList.replaceChildren(
+        paragraph
+    );
+}
+
+function renderArchive(products) {
+    elements.archiveList.replaceChildren();
+
+    if (!products.length) {
+        archiveMessage(
+            "لا توجد منتجات مؤرشفة."
+        );
+        return;
+    }
+
+    for (const product of products) {
+        const item = document.createElement("article");
+        item.className = "archive-item";
+
+        const details = document.createElement("div");
+        details.className = "archive-item-details";
+
+        const productId = document.createElement("strong");
+        productId.textContent = (
+            product.product_id || "منتج غير معروف"
+        );
+
+        const archivedAt = document.createElement("span");
+
+        const archivedDate = product.archived_at
+            ? new Date(product.archived_at)
+            : null;
+
+        const formattedArchivedAt = (
+            archivedDate
+            && !Number.isNaN(
+                archivedDate.getTime()
+            )
+        )
+            ? archivedDate.toLocaleString("ar-EG")
+            : null;
+
+        archivedAt.textContent = formattedArchivedAt
+            ? `تاريخ الأرشفة: ${formattedArchivedAt}`
+            : "تاريخ الأرشفة غير متاح";
+
+        details.append(
+            productId,
+            archivedAt
+        );
+
+        const restoreButton = document.createElement(
+            "button"
+        );
+
+        restoreButton.type = "button";
+        restoreButton.className = (
+            "secondary-button archive-restore-button"
+        );
+        restoreButton.textContent = "استعادة";
+
+        restoreButton.addEventListener(
+            "click",
+            async () => {
+                restoreButton.disabled = true;
+                restoreButton.textContent = (
+                    "جاري الاستعادة..."
+                );
+
+                try {
+                    const { response, body } = await fetchJson(
+                        (
+                            "/product-archive/"
+                            + encodeURIComponent(
+                                product.archive_id
+                            )
+                            + "/restore"
+                        ),
+                        {
+                            method: "POST",
+                        }
+                    );
+
+                    if (!response.ok) {
+                        throw new Error(
+                            body.detail
+                            || "تعذرت استعادة المنتج."
+                        );
+                    }
+
+                    await loadProducts(
+                        body.product.id
+                    );
+
+                    await loadArchive();
+
+                    setMessage(
+                        "تمت استعادة المنتج بنجاح.",
+                        "success"
+                    );
+                } catch (error) {
+                    restoreButton.disabled = false;
+                    restoreButton.textContent = "استعادة";
+
+                    setMessage(
+                        error.message,
+                        "error"
+                    );
+                }
+            }
+        );
+
+        item.append(
+            details,
+            restoreButton
+        );
+
+        elements.archiveList.append(item);
+    }
+}
+
+async function loadArchive() {
+    archiveMessage(
+        "جاري تحميل الأرشيف..."
+    );
+
+    try {
+        const { response, body } = await fetchJson(
+            "/product-archive"
+        );
+
+        if (!response.ok) {
+            throw new Error(
+                body.detail
+                || "تعذر تحميل الأرشيف."
+            );
+        }
+
+        renderArchive(
+            body.products || []
+        );
+    } catch (error) {
+        archiveMessage(
+            error.message,
+            "form-message error"
+        );
     }
 }
 
@@ -775,6 +949,92 @@ elements.productForm.addEventListener(
     }
 );
 
+elements.openArchiveDialog.addEventListener(
+    "click",
+    async () => {
+        elements.archiveDialog.showModal();
+        await loadArchive();
+    }
+);
+
+elements.closeArchiveDialog.addEventListener(
+    "click",
+    () => {
+        elements.archiveDialog.close();
+    }
+);
+
+elements.archiveProductButton.addEventListener(
+    "click",
+    async () => {
+        const productId = (
+            elements.productSelect.value
+        );
+
+        if (!productId) {
+            return;
+        }
+
+        const selectedOption = (
+            elements.productSelect
+                .selectedOptions[0]
+        );
+
+        const productName = (
+            selectedOption?.textContent?.trim()
+            || productId
+        );
+
+        const confirmed = window.confirm(
+            (
+                `هل تريد نقل "${productName}" إلى الأرشيف؟\n`
+                + "يمكن استعادة المنتج لاحقًا."
+            )
+        );
+
+        if (!confirmed) {
+            return;
+        }
+
+        elements.archiveProductButton.disabled = true;
+
+        try {
+            const { response, body } = await fetchJson(
+                (
+                    `/products/${encodeURIComponent(productId)}`
+                ),
+                {
+                    method: "DELETE",
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error(
+                    body.detail
+                    || "تعذرت أرشفة المنتج."
+                );
+            }
+
+            clearImage();
+            clearRunResult();
+
+            await loadProducts();
+
+            setMessage(
+                "تم نقل المنتج إلى الأرشيف بنجاح.",
+                "success"
+            );
+        } catch (error) {
+            elements.archiveProductButton.disabled = false;
+
+            setMessage(
+                error.message,
+                "error"
+            );
+        }
+    }
+);
+
 elements.productSelect.addEventListener(
     "change",
     async () => {
@@ -786,6 +1046,7 @@ elements.productSelect.addEventListener(
 
         elements.generateButton.disabled = !productId;
         elements.editProductButton.disabled = !productId;
+        elements.archiveProductButton.disabled = !productId;
 
         await loadProductDetails(productId);
 
@@ -822,6 +1083,8 @@ elements.generateButton.addEventListener(
         );
         elements.runStatus.textContent = "running";
         elements.generationStatus.textContent = "—";
+        elements.auditScore.textContent = "—";
+        elements.promptLength.textContent = "—";
         setLoading(true);
 
         try {
@@ -871,17 +1134,14 @@ elements.copyPromptButton.addEventListener(
             elements.copyPromptButton.textContent
         );
 
-        elements.copyPromptButton.textContent = (
-            "تم النسخ"
-        );
-
-        window.setTimeout(() => {
-            elements.copyPromptButton.textContent = (
-                originalText
-            );
-        }, 1400);
+        elements.copyPromptButton.textContent = "تم النسخ!";
+        setTimeout(() => {
+            elements.copyPromptButton.textContent = originalText;
+        }, 1500);
     }
 );
 
-loadSystemStatus();
-loadProducts();
+document.addEventListener("DOMContentLoaded", () => {
+    loadSystemStatus();
+    loadProducts();
+});

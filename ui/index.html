@@ -64,6 +64,21 @@
                 تعديل المنتج المحدد
             </button>
 
+            <button
+                id="archiveProductButton"
+                class="danger-button"
+                type="button"
+                disabled>
+                نقل المنتج إلى الأرشيف
+            </button>
+
+            <button
+                id="openArchiveDialog"
+                class="secondary-button add-product-button"
+                type="button">
+                الأرشيف والاستعادة
+            </button>
+
             <div class="product-id">
                 <span>Product ID</span>
                 <strong id="selectedProductId">
@@ -386,6 +401,39 @@
                 </button>
             </div>
         </form>
+    </dialog>
+
+    <dialog
+        id="archiveDialog"
+        class="product-dialog archive-dialog">
+        <section class="archive-dialog-content">
+            <div class="dialog-header">
+                <div>
+                    <p>PRODUCT ARCHIVE</p>
+                    <h2>أرشيف المنتجات</h2>
+                </div>
+
+                <button
+                    id="closeArchiveDialog"
+                    type="button"
+                    class="dialog-close"
+                    aria-label="إغلاق">
+                    ×
+                </button>
+            </div>
+
+            <p class="archive-description">
+                المنتجات هنا لم تُحذف نهائيًا، ويمكن استعادتها في أي وقت.
+            </p>
+
+            <div
+                id="archiveList"
+                class="archive-list">
+                <p class="muted">
+                    جاري تحميل الأرشيف...
+                </p>
+            </div>
+        </section>
     </dialog>
 
     <script src="/static/app.js"></script>
