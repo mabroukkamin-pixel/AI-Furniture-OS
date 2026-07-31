@@ -282,6 +282,8 @@ async def create_product_endpoint(
     legs: int = Form(0),
     handles: int = Form(0),
     panels: int = Form(0),
+    preserve_rules: str | None = Form(None),
+    forbidden_changes: str | None = Form(None),
     width: float = Form(...),
     height: float = Form(...),
     depth: float | None = Form(None),
@@ -318,6 +320,8 @@ async def create_product_endpoint(
             legs=legs,
             handles=handles,
             panels=panels,
+            preserve_rules=preserve_rules,
+            forbidden_changes=forbidden_changes,
             width=width,
             height=height,
             depth=depth,
@@ -369,6 +373,8 @@ async def update_product_endpoint(
     legs: int | None = Form(None),
     handles: int | None = Form(None),
     panels: int | None = Form(None),
+    preserve_rules: str | None = Form(None),
+    forbidden_changes: str | None = Form(None),
     width: float = Form(...),
     height: float = Form(...),
     depth: float | None = Form(None),
@@ -408,6 +414,8 @@ async def update_product_endpoint(
             legs=legs,
             handles=handles,
             panels=panels,
+            preserve_rules=preserve_rules,
+            forbidden_changes=forbidden_changes,
             width=width,
             height=height,
             depth=depth,
@@ -543,6 +551,10 @@ def get_product(product_id: str):
         product_directory / "pricing.yaml"
     )
 
+    behavior_data = _read_yaml_mapping(
+        product_directory / "behavior.yaml"
+    )
+
     product = identity_data.get(
         "product",
         {}
@@ -553,11 +565,19 @@ def get_product(product_id: str):
         {}
     )
 
+    behavior = behavior_data.get(
+        "behavior",
+        {}
+    )
+
     if not isinstance(product, dict):
         product = {}
 
     if not isinstance(pricing, dict):
         pricing = {}
+
+    if not isinstance(behavior, dict):
+        behavior = {}
 
     return {
         "id": product_directory.name,
@@ -593,6 +613,16 @@ def get_product(product_id: str):
             "structure",
             {}
         ),
+        "preservation": {
+            "preserve": behavior.get(
+                "preserve",
+                []
+            ),
+            "avoid": behavior.get(
+                "avoid",
+                []
+            ),
+        },
         "pricing": pricing,
         "image_url": (
             f"/products/{product_directory.name}/image"

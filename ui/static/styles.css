@@ -779,3 +779,31 @@ select option {
     flex: 0 0 auto;
     padding: 0.65rem 1rem;
 }
+
+.full-width-field {
+    grid-column: 1 / -1;
+}
+
+.full-width-field small {
+    color: var(--muted);
+    font-size: 0.78rem;
+}
+
+.product-form-grid textarea {
+    width: 100%;
+    min-height: 7rem;
+    padding: 0.9rem 1rem;
+    color: var(--text);
+    background: rgba(7, 21, 38, 0.78);
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    font: inherit;
+    line-height: 1.7;
+    resize: vertical;
+}
+
+.product-form-grid textarea:focus {
+    outline: none;
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(225, 182, 91, 0.12);
+}

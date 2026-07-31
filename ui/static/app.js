@@ -884,6 +884,22 @@ elements.editProductButton.addEventListener(
                     );
                 }
 
+                const preservation = (
+                    body.preservation || {}
+                );
+
+                elements.productForm.querySelector(
+                    'textarea[name="preserve_rules"]'
+                ).value = (
+                    preservation.preserve || []
+                ).join(", ");
+
+                elements.productForm.querySelector(
+                    'textarea[name="forbidden_changes"]'
+                ).value = (
+                    preservation.avoid || []
+                ).join(", ");
+
                 const size = body.size || {};
                 elements.productForm.querySelector('input[name="width"]').value = size.width || "";
                 elements.productForm.querySelector('input[name="height"]').value = size.height || "";

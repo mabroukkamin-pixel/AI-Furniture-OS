@@ -60,6 +60,45 @@ def _non_negative_integer(
     return int(number)
 
 
+def _normalize_rules(
+    value,
+    default
+):
+    if value is None:
+        return list(default)
+
+    if isinstance(value, str):
+        raw_items = value.replace(
+            "\n",
+            ","
+        ).split(",")
+    elif isinstance(
+        value,
+        (
+            list,
+            tuple,
+        )
+    ):
+        raw_items = value
+    else:
+        raise ValueError(
+            "Rules must be text or a list"
+        )
+
+    rules = []
+
+    for item in raw_items:
+        rule = str(item).strip()
+
+        if (
+            rule
+            and rule not in rules
+        ):
+            rules.append(rule)
+
+    return rules
+
+
 def create_product(
     products_directory,
     *,
@@ -83,6 +122,8 @@ def create_product(
     legs=0,
     handles=0,
     panels=0,
+    preserve_rules=None,
+    forbidden_changes=None,
 ):
     product_id = product_id.strip()
     name = name.strip()
@@ -301,25 +342,35 @@ def create_product(
                 }
             }
 
+            preserve_items = _normalize_rules(
+                preserve_rules,
+                [
+                    "dimensions",
+                    "proportions",
+                    "texture",
+                    "color",
+                    "construction",
+                ]
+            )
+
+            forbidden_items = _normalize_rules(
+                forbidden_changes,
+                [
+                    "redesign",
+                    "extra_objects",
+                    "plastic_look",
+                ]
+            )
+
             behavior = {
                 "behavior": {
-                    "preserve": [
-                        "dimensions",
-                        "proportions",
-                        "texture",
-                        "color",
-                        "construction",
-                    ],
+                    "preserve": preserve_items,
                     "emphasize": [
                         "material",
                         "quality",
                         "premium",
                     ],
-                    "avoid": [
-                        "redesign",
-                        "extra_objects",
-                        "plastic_look",
-                    ],
+                    "avoid": forbidden_items,
                 },
                 "preferred_backgrounds": [
                     "luxury_villa",
@@ -490,6 +541,8 @@ def update_product(
     legs=None,
     handles=None,
     panels=None,
+    preserve_rules=None,
+    forbidden_changes=None,
 ):
     product_id = product_id.strip()
     name = name.strip()
@@ -604,6 +657,10 @@ def update_product(
         product_directory / "pricing.yaml"
     )
 
+    behavior_path = (
+        product_directory / "behavior.yaml"
+    )
+
     identity = yaml.safe_load(
         identity_path.read_text(
             encoding="utf-8"
@@ -612,6 +669,12 @@ def update_product(
 
     pricing = yaml.safe_load(
         pricing_path.read_text(
+            encoding="utf-8"
+        )
+    ) or {}
+
+    behavior = yaml.safe_load(
+        behavior_path.read_text(
             encoding="utf-8"
         )
     ) or {}
@@ -729,6 +792,47 @@ def update_product(
         "standard"
     )
 
+    behavior_data = behavior.setdefault(
+        "behavior",
+        {}
+    )
+
+    if preserve_rules is not None:
+        behavior_data["preserve"] = (
+            _normalize_rules(
+                preserve_rules,
+                []
+            )
+        )
+    else:
+        behavior_data.setdefault(
+            "preserve",
+            [
+                "dimensions",
+                "proportions",
+                "texture",
+                "color",
+                "construction",
+            ]
+        )
+
+    if forbidden_changes is not None:
+        behavior_data["avoid"] = (
+            _normalize_rules(
+                forbidden_changes,
+                []
+            )
+        )
+    else:
+        behavior_data.setdefault(
+            "avoid",
+            [
+                "redesign",
+                "extra_objects",
+                "plastic_look",
+            ]
+        )
+
     _write_yaml(
         identity_path,
         identity
@@ -737,6 +841,11 @@ def update_product(
     _write_yaml(
         pricing_path,
         pricing
+    )
+
+    _write_yaml(
+        behavior_path,
+        behavior
     )
 
     if prepared_image is not None:
