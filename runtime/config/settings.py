@@ -4,7 +4,9 @@ import os
 from dotenv import load_dotenv
 
 
-load_dotenv()
+load_dotenv(
+    override=True
+)
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]

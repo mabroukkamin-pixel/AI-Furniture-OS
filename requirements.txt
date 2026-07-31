@@ -6,3 +6,4 @@ Pillow>=12,<13
 python-dotenv>=1,<2
 PyYAML>=6.0.3,<7
 uvicorn[standard]>=0.34,<1
+python-multipart>=0.0.20,<1

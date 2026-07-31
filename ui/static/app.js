@@ -33,9 +33,43 @@ const elements = {
     copyPromptButton: document.querySelector(
         "#copyPromptButton"
     ),
+    openProductDialog: document.querySelector(
+        "#openProductDialog"
+    ),
+    productDialog: document.querySelector(
+        "#productDialog"
+    ),
+    productForm: document.querySelector(
+        "#productForm"
+    ),
+    closeProductDialog: document.querySelector(
+        "#closeProductDialog"
+    ),
+    cancelProductDialog: document.querySelector(
+        "#cancelProductDialog"
+    ),
+    createProductButton: document.querySelector(
+        "#createProductButton"
+    ),
+    productFormMessage: document.querySelector(
+        "#productFormMessage"
+    ),
+    productImageInput: document.querySelector(
+        '#productForm input[name="image"]'
+    ),
+    productImagePreview: document.querySelector(
+        "#productImagePreview"
+    ),
+    productImagePreviewImage: document.querySelector(
+        "#productImagePreviewImage"
+    ),
+    productImagePreviewName: document.querySelector(
+        "#productImagePreviewName"
+    ),
 };
 
 let currentPrompt = "";
+let productImagePreviewUrl = null;
 
 async function fetchJson(url, options = {}) {
     const response = await fetch(url, options);
@@ -269,6 +303,30 @@ function addArtifactLink(productId, name, path) {
     elements.artifactList.append(link);
 }
 
+function clearRunResult() {
+    elements.runStatus.textContent = "جاهز";
+    elements.generationStatus.textContent = "—";
+    elements.auditScore.textContent = "—";
+    elements.promptLength.textContent = "—";
+
+    elements.detailScene.textContent = "—";
+    elements.detailEngine.textContent = "—";
+
+    currentPrompt = "";
+
+    elements.promptPreview.textContent = (
+        "لم يتم إنشاء برومبت بعد."
+    );
+
+    elements.copyPromptButton.disabled = true;
+
+    elements.artifactList.innerHTML = (
+        '<p class="muted">'
+        + "لا توجد ملفات بعد."
+        + "</p>"
+    );
+}
+
 function renderManifest(manifest) {
     const productId = manifest.product_id;
     const run = manifest.run || {};
@@ -363,12 +421,23 @@ function renderManifest(manifest) {
     }
 }
 
-async function loadManifest(productId) {
+async function loadManifest(
+    productId,
+    allowMissing = false
+) {
     const url = (
         `/runs/${encodeURIComponent(productId)}/latest`
     );
 
     const { response, body } = await fetchJson(url);
+
+    if (
+        response.status === 404
+        && allowMissing
+    ) {
+        clearRunResult();
+        return false;
+    }
 
     if (!response.ok) {
         throw new Error(
@@ -377,6 +446,7 @@ async function loadManifest(productId) {
     }
 
     renderManifest(body);
+    return true;
 }
 
 async function loadLatestManifest(productId) {
@@ -385,7 +455,10 @@ async function loadLatestManifest(productId) {
     }
 
     try {
-        await loadManifest(productId);
+        await loadManifest(
+            productId,
+            true
+        );
     } catch (error) {
         // No saved run exists for this product yet.
     }
@@ -432,7 +505,9 @@ async function loadSystemStatus() {
     }
 }
 
-async function loadProducts() {
+async function loadProducts(
+    preferredProductId = "Partition001"
+) {
     try {
         const { response, body } = await fetchJson(
             "/products"
@@ -470,7 +545,14 @@ async function loadProducts() {
         } else {
             const preferredProduct = (
                 body.products.find(
-                    (product) => product.id === "Partition001"
+                    (product) => (
+                        product.id === preferredProductId
+                    )
+                )
+                || body.products.find(
+                    (product) => (
+                        product.id === "Partition001"
+                    )
                 )
                 || body.products[0]
             );
@@ -494,6 +576,157 @@ async function loadProducts() {
         setMessage(error.message, "error");
     }
 }
+
+function clearProductImagePreview() {
+    if (productImagePreviewUrl) {
+        URL.revokeObjectURL(productImagePreviewUrl);
+        productImagePreviewUrl = null;
+    }
+
+    elements.productImagePreview.hidden = true;
+    elements.productImagePreviewImage.removeAttribute("src");
+    elements.productImagePreviewName.textContent = "";
+}
+
+function closeProductFormDialog() {
+    clearProductImagePreview();
+    elements.productDialog.close();
+    elements.productFormMessage.textContent = "";
+    elements.productFormMessage.className = (
+        "form-message"
+    );
+}
+
+elements.productImageInput.addEventListener(
+    "change",
+    () => {
+        clearProductImagePreview();
+
+        const file = elements.productImageInput.files[0];
+
+        if (!file) {
+            return;
+        }
+
+        if (!file.type.startsWith("image/")) {
+            elements.productFormMessage.textContent = (
+                "الملف المختار ليس صورة صالحة."
+            );
+
+            elements.productFormMessage.className = (
+                "form-message error"
+            );
+
+            elements.productImageInput.value = "";
+            return;
+        }
+
+        productImagePreviewUrl = URL.createObjectURL(file);
+        elements.productImagePreviewImage.src = productImagePreviewUrl;
+        elements.productImagePreviewName.textContent = file.name;
+        elements.productImagePreview.hidden = false;
+    }
+);
+
+elements.openProductDialog.addEventListener(
+    "click",
+    () => {
+        elements.productForm.reset();
+        clearProductImagePreview();
+        elements.productFormMessage.textContent = "";
+        elements.productFormMessage.className = (
+            "form-message"
+        );
+        elements.productDialog.showModal();
+    }
+);
+
+elements.closeProductDialog.addEventListener(
+    "click",
+    closeProductFormDialog
+);
+
+elements.cancelProductDialog.addEventListener(
+    "click",
+    closeProductFormDialog
+);
+
+elements.productForm.addEventListener(
+    "submit",
+    async (event) => {
+        event.preventDefault();
+
+        const originalLabel = (
+            elements.createProductButton.textContent
+        );
+
+        elements.createProductButton.disabled = true;
+        elements.createProductButton.textContent = (
+            "جاري إنشاء المنتج..."
+        );
+
+        elements.productFormMessage.textContent = "";
+        elements.productFormMessage.className = (
+            "form-message"
+        );
+
+        try {
+            const formData = new FormData(
+                elements.productForm
+            );
+
+            const { response, body } = await fetchJson(
+                "/products",
+                {
+                    method: "POST",
+                    body: formData,
+                }
+            );
+
+            if (!response.ok) {
+                const message = (
+                    typeof body.detail === "string"
+                        ? body.detail
+                        : "تعذر إنشاء المنتج."
+                );
+
+                throw new Error(message);
+            }
+
+            elements.productFormMessage.textContent = (
+                "تم إنشاء المنتج بنجاح."
+            );
+
+            elements.productFormMessage.className = (
+                "form-message success"
+            );
+
+            await loadProducts(
+                body.product.id
+            );
+
+            setTimeout(
+                () => {
+                    closeProductFormDialog();
+                },
+                700
+            );
+        } catch (error) {
+            elements.productFormMessage.textContent = (
+                error.message
+            );
+
+            elements.productFormMessage.className = (
+                "form-message error"
+            );
+        } finally {
+            elements.createProductButton.disabled = false;
+            elements.createProductButton.textContent = (
+                originalLabel
+            );
+        }
+    }
+);
 
 elements.productSelect.addEventListener(
     "change",
@@ -519,6 +752,7 @@ elements.productSelect.addEventListener(
                 "اختر منتجًا لبدء الإنتاج."
             );
             clearImage();
+            clearRunResult();
             setBadge("لا توجد نتيجة", "neutral");
         }
     }

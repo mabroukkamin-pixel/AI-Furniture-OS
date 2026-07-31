@@ -1,3 +1,5 @@
+# Local test products
+products/_test_archive/
 .env
 **/.env
 

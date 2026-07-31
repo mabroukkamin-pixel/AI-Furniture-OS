@@ -4,7 +4,10 @@ from pathlib import Path
 import yaml
 from fastapi import (
     FastAPI,
+    File,
+    Form,
     HTTPException,
+    UploadFile,
 )
 from fastapi.responses import (
     FileResponse,
@@ -14,6 +17,9 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 from runtime.run_pipeline import run
+from runtime.product_creator import (
+    create_product,
+)
 from runtime.config.settings import (
     GEMINI_MODEL,
     is_gemini_configured,
@@ -34,6 +40,10 @@ OUTPUTS_DIR = (
 
 UI_DIR = (
     PROJECT_ROOT / "ui"
+)
+
+MAX_PRODUCT_IMAGE_BYTES = (
+    20 * 1024 * 1024
 )
 
 
@@ -240,6 +250,76 @@ def list_products():
 
     return {
         "products": products
+    }
+
+
+@app.post(
+    "/products",
+    status_code=201
+)
+async def create_product_endpoint(
+    product_id: str = Form(...),
+    name: str = Form(...),
+    category: str = Form(...),
+    material: str = Form(...),
+    width: float = Form(...),
+    height: float = Form(...),
+    depth: float | None = Form(None),
+    price: float = Form(...),
+    currency: str = Form("KWD"),
+    image: UploadFile = File(...),
+):
+    image_data = await image.read(
+        MAX_PRODUCT_IMAGE_BYTES + 1
+    )
+
+    await image.close()
+
+    if len(image_data) > MAX_PRODUCT_IMAGE_BYTES:
+        raise HTTPException(
+            status_code=413,
+            detail="Product image is too large"
+        )
+
+    try:
+        product_directory = create_product(
+            PRODUCTS_DIR,
+            product_id=product_id,
+            name=name,
+            category=category,
+            material=material,
+            width=width,
+            height=height,
+            depth=depth,
+            price=price,
+            currency=currency,
+            image_data=image_data,
+        )
+    except FileExistsError as exc:
+        raise HTTPException(
+            status_code=409,
+            detail="Product already exists"
+        ) from exc
+    except (
+        ValueError,
+        OSError
+    ) as exc:
+        raise HTTPException(
+            status_code=400,
+            detail=str(exc)
+        ) from exc
+
+    return {
+        "status": "created",
+        "product": {
+            "id": product_directory.name,
+            "name": name.strip(),
+            "image_url": (
+                f"/products/"
+                f"{product_directory.name}"
+                "/image"
+            ),
+        }
     }
 
 
