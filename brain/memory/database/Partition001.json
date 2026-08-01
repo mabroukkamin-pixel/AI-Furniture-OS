@@ -43,56 +43,117 @@
     },
     "decision": {
         "selected_style": "gulf_villa",
-        "base_score": 95,
-        "memory_bonus": 0,
-        "visual_memory_bonus": 6,
-        "score": 101,
-        "memory_used": true,
-        "visual_matches": [
-            {
-                "image": "outputs/Partition001\\mock_generated_image.png",
-                "similarity": 60,
-                "breakdown": {
-                    "category": 30,
-                    "material": 25,
-                    "style": 0,
-                    "scene": 0,
-                    "design_style": 0,
-                    "colors": 5
-                },
-                "reasons": [
-                    "same category",
-                    "same material",
-                    "matching colors"
-                ]
-            }
+        "score": 95,
+        "reasons": [
+            "material compatibility",
+            "handmade quality",
+            "gulf luxury market"
         ],
+        "rule": "rattan_gulf_villa",
         "ranking": [
             {
                 "style": "gulf_villa",
-                "score": 101,
-                "base_score": 95,
-                "memory_bonus": 0,
-                "visual_memory_bonus": 6
+                "score": 95,
+                "reasons": [
+                    "material compatibility",
+                    "handmade quality",
+                    "gulf luxury market"
+                ],
+                "rule": "rattan_gulf_villa",
+                "source": "decision_rule"
             },
             {
                 "style": "luxury_resort",
-                "score": 96,
-                "base_score": 90,
-                "memory_bonus": 0,
-                "visual_memory_bonus": 6
+                "score": 90,
+                "reasons": [
+                    "natural material",
+                    "resort atmosphere"
+                ],
+                "rule": "rattan_resort",
+                "source": "decision_rule"
             },
             {
-                "style": "modern_natural_home",
-                "score": 91,
-                "base_score": 85,
-                "memory_bonus": 0,
-                "visual_memory_bonus": 6
+                "style": "natural",
+                "score": 50,
+                "reasons": [
+                    "material knowledge match"
+                ],
+                "rule": null,
+                "source": "knowledge_graph"
+            },
+            {
+                "style": "bohemian",
+                "score": 50,
+                "reasons": [
+                    "material knowledge match"
+                ],
+                "rule": null,
+                "source": "knowledge_graph"
+            },
+            {
+                "style": "japandi",
+                "score": 50,
+                "reasons": [
+                    "material knowledge match"
+                ],
+                "rule": null,
+                "source": "knowledge_graph"
             }
-        ]
+        ],
+        "scenes": [
+            "luxury_villa",
+            "resort",
+            "living_room"
+        ],
+        "engine_result": {
+            "decisions": [
+                {
+                    "style": "gulf_villa",
+                    "score": 95,
+                    "reasons": [
+                        "material compatibility",
+                        "handmade quality",
+                        "gulf luxury market"
+                    ]
+                },
+                {
+                    "style": "luxury_resort",
+                    "score": 90,
+                    "reasons": [
+                        "natural material",
+                        "resort atmosphere"
+                    ]
+                }
+            ],
+            "score": {
+                "score": 75,
+                "reasons": [
+                    "material compatibility",
+                    "handmade quality",
+                    "premium product",
+                    "gulf market match"
+                ]
+            }
+        },
+        "source": "DecisionExpert V3",
+        "primary_style": "gulf_villa",
+        "lighting": {
+            "type": "warm_daylight",
+            "direction": "soft_side_light",
+            "quality": "cinematic"
+        },
+        "confidence": {
+            "confidence": 95,
+            "reasons": [
+                "DecisionExpert V3 completed",
+                "knowledge graph matched",
+                "environment generated"
+            ]
+        }
     },
     "environment": {
-        "primary": "luxury_villa",
+        "primary": "modern",
+        "selected_style": "modern",
         "atmosphere": [
             "warm natural luxury",
             "modern gulf lifestyle",
@@ -104,47 +165,22 @@
             "japandi"
         ],
         "architecture": {
-            "architecture": [
-                "resort",
-                "bohemian"
-            ],
-            "walls": [
-                "white_plaster"
-            ],
-            "floors": [
-                "wood_floor"
-            ],
-            "avoid": [
-                "dark_industrial"
-            ]
+            "architecture": [],
+            "walls": [],
+            "floors": [],
+            "avoid": []
         },
         "colors": {
-            "primary": [
-                "beige",
-                "sand",
-                "natural"
-            ],
-            "secondary": [
-                "white",
-                "cream"
-            ],
-            "accent": [
-                "gold"
-            ],
-            "avoid": [
-                "dark_industrial"
-            ]
+            "primary": [],
+            "secondary": [],
+            "accent": [],
+            "avoid": []
         },
         "accessories": {
-            "recommended": [
-                "ceramic_vase",
-                "pampas",
-                "books"
-            ],
-            "avoid": [
-                "metal_heavy_objects"
-            ]
-        }
+            "recommended": {},
+            "avoid": []
+        },
+        "source": "BrainState"
     },
     "lighting": {
         "type": "warm_daylight",
@@ -167,24 +203,13 @@
     },
     "design_dna": {
         "design_style": "Modern Gulf Natural Luxury",
-        "scene": "luxury_villa",
+        "scene": "modern",
         "material_story": "Handcrafted rattan furniture",
         "brand_language": "premium_luxury",
-        "architecture": [
-            "resort",
-            "bohemian",
-            "white_plaster",
-            "wood_floor"
-        ],
+        "architecture": [],
         "accessories": {
-            "recommended": [
-                "ceramic_vase",
-                "pampas",
-                "books"
-            ],
-            "avoid": [
-                "metal_heavy_objects"
-            ]
+            "recommended": {},
+            "avoid": []
         },
         "lighting_mood": {
             "type": "warm_daylight",
@@ -227,13 +252,22 @@
     "branding": {
         "company": "Chinese Market",
         "arabic": "السوق الصيني",
-        "style": "premium_luxury",
+        "market": "Kuwait",
+        "audience": [
+            "gulf_home",
+            "luxury_buyers"
+        ],
         "colors": {
             "primary": [
                 "royal_blue",
                 "gold",
                 "white"
             ]
+        },
+        "style": "premium_luxury",
+        "communication": {
+            "tone": "elegant",
+            "message": "quality_home_furniture"
         }
     },
     "generation": {
