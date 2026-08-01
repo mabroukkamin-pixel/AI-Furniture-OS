@@ -1,53 +1,28 @@
 ﻿from brain.experts.base_expert import BaseExpert
-from brain.services.brain_service import BrainService
 
 
-class MaterialExpert(BaseExpert):
+class CompositionExpert(BaseExpert):
 
     def analyze(self, brain):
 
-        service = BrainService(brain)
-
         print("========================================")
-        print("        MATERIAL EXPERT")
+        print("    COMPOSITION EXPERT")
         print("========================================")
 
-        if brain.product:
+        brain.composition = {
 
-            material = brain.product.get(
-                "material",
-                {}
-            )
+            "style": "luxury_minimal",
 
-            primary = material.get(
-                "primary",
-                "unknown"
-            )
+            "product_position": "center",
 
-            secondary = material.get(
-                "secondary",
-                []
-            )
+            "product_scale": "75%",
 
-            if not hasattr(brain, "knowledge") or brain.knowledge is None:
-                brain.knowledge = {}
+            "position": "center",
 
-            brain.knowledge["material"] = {
-                "primary": primary,
-                "secondary": secondary
-            }
+            "balance": "luxury_minimal",
 
-            service.decision.set(
-                "material",
-                {
-                    "primary": primary,
-                    "secondary": secondary
-                }
-            )
+            "focus": "product_first"
 
-            print(
-                "Primary Material:",
-                primary
-            )
+        }
 
         return brain
