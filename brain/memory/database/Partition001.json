@@ -1,0 +1,252 @@
+{
+    "product_id": "Partition001",
+    "product": {
+        "id": "Partition001",
+        "name": "Rattan Partition",
+        "category": "partition",
+        "family": [
+            "furniture",
+            "room_divider",
+            "decoration"
+        ],
+        "material": {
+            "primary": "rattan",
+            "secondary": [
+                "wood"
+            ]
+        },
+        "style": [
+            "bohemian",
+            "natural",
+            "luxury"
+        ],
+        "usage": [
+            "living_room",
+            "bedroom",
+            "office",
+            "hotel"
+        ],
+        "size": {
+            "width": 200,
+            "height": 180
+        },
+        "colors": {
+            "primary": [
+                "beige",
+                "brown"
+            ]
+        },
+        "handmade": true,
+        "premium": true,
+        "transparent": false,
+        "movable": true
+    },
+    "decision": {
+        "selected_style": "gulf_villa",
+        "base_score": 95,
+        "memory_bonus": 5,
+        "score": 100,
+        "memory_used": true,
+        "ranking": [
+            {
+                "style": "gulf_villa",
+                "score": 100,
+                "base_score": 95,
+                "memory_bonus": 5
+            },
+            {
+                "style": "luxury_resort",
+                "score": 95,
+                "base_score": 90,
+                "memory_bonus": 5
+            },
+            {
+                "style": "modern_natural_home",
+                "score": 90,
+                "base_score": 85,
+                "memory_bonus": 5
+            }
+        ]
+    },
+    "environment": {
+        "primary": "luxury_villa",
+        "atmosphere": [
+            "warm natural luxury",
+            "modern gulf lifestyle",
+            "five star resort feeling"
+        ],
+        "options": [
+            "luxury_villa",
+            "resort",
+            "japandi"
+        ],
+        "architecture": {
+            "architecture": [
+                "resort",
+                "bohemian"
+            ],
+            "walls": [
+                "white_plaster"
+            ],
+            "floors": [
+                "wood_floor"
+            ],
+            "avoid": [
+                "dark_industrial"
+            ]
+        },
+        "colors": {
+            "primary": [
+                "beige",
+                "sand",
+                "natural"
+            ],
+            "secondary": [
+                "white",
+                "cream"
+            ],
+            "accent": [
+                "gold"
+            ],
+            "avoid": [
+                "dark_industrial"
+            ]
+        },
+        "accessories": {
+            "recommended": [
+                "ceramic_vase",
+                "pampas",
+                "books"
+            ],
+            "avoid": [
+                "metal_heavy_objects"
+            ]
+        }
+    },
+    "lighting": {
+        "type": "warm_daylight",
+        "direction": "soft_side_light",
+        "quality": "cinematic"
+    },
+    "camera": {
+        "angle": "45_degree",
+        "lens": "50mm",
+        "shot": "premium_product_photography",
+        "height": "eye_level"
+    },
+    "composition": {
+        "style": "luxury_minimal",
+        "product_position": "center",
+        "product_scale": "75%",
+        "position": "center",
+        "balance": "luxury_minimal",
+        "focus": "product_first"
+    },
+    "design_dna": {
+        "design_style": "Modern Gulf Natural Luxury",
+        "scene": "luxury_villa",
+        "material_story": "Handcrafted rattan furniture",
+        "brand_language": "premium_luxury",
+        "architecture": [
+            "resort",
+            "bohemian",
+            "white_plaster",
+            "wood_floor"
+        ],
+        "accessories": {
+            "recommended": [
+                "ceramic_vase",
+                "pampas",
+                "books"
+            ],
+            "avoid": [
+                "metal_heavy_objects"
+            ]
+        },
+        "lighting_mood": {
+            "type": "warm_daylight",
+            "direction": "soft_side_light",
+            "quality": "cinematic"
+        },
+        "camera_language": {
+            "angle": "45_degree",
+            "lens": "50mm",
+            "shot": "premium_product_photography",
+            "height": "eye_level"
+        },
+        "composition": {
+            "style": "luxury_minimal",
+            "product_position": "center",
+            "product_scale": "75%",
+            "position": "center",
+            "balance": "luxury_minimal",
+            "focus": "product_first"
+        },
+        "emotion": [
+            "luxury",
+            "comfort",
+            "elegance"
+        ]
+    },
+    "marketing": {
+        "audience": [
+            "Kuwaiti_home_buyers",
+            "Luxury_home_owners"
+        ],
+        "positioning": "premium_home_furniture",
+        "message": "luxury_natural_design",
+        "platforms": [
+            "Instagram",
+            "TikTok",
+            "Facebook"
+        ]
+    },
+    "branding": {
+        "company": "Chinese Market",
+        "arabic": "السوق الصيني",
+        "style": "premium_luxury",
+        "colors": {
+            "primary": [
+                "royal_blue",
+                "gold",
+                "white"
+            ]
+        }
+    },
+    "generation": {
+        "status": "success",
+        "engine": "nano_banana",
+        "output": "outputs/Partition001",
+        "image": "outputs/Partition001\\mock_generated_image.png",
+        "error": null,
+        "response": {
+            "status": "success",
+            "image": "outputs/Partition001\\mock_generated_image.png",
+            "image_path": "outputs/Partition001\\mock_generated_image.png",
+            "prompt_path": "outputs/Partition001\\generated_prompt.txt",
+            "provider": "mock",
+            "fallback": true
+        }
+    },
+    "audit": {
+        "rules": {
+            "product": true,
+            "environment": true,
+            "lighting": true,
+            "camera": true,
+            "composition": true,
+            "branding": true,
+            "marketing": true,
+            "preservation": true,
+            "quality": true,
+            "design_dna": true,
+            "negative": true
+        },
+        "score": {
+            "score": 100,
+            "maximum": 100,
+            "percentage": 100.0
+        },
+        "report": "========================================\nPROMPT AUDIT REPORT\n========================================\n\nPRODUCT              PASS\nENVIRONMENT          PASS\nLIGHTING             PASS\nCAMERA               PASS\nCOMPOSITION          PASS\nBRANDING             PASS\nMARKETING            PASS\nPRESERVATION         PASS\nQUALITY              PASS\nDESIGN_DNA           PASS\nNEGATIVE             PASS\n\n----------------------------------------\nScore : 100 / 100\nSuccess : 100.0%"
+    }
+}

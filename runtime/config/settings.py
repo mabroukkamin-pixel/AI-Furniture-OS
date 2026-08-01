@@ -38,7 +38,8 @@ GEMINI_API_KEY = os.getenv(
 )
 
 GEMINI_MODEL = os.getenv(
-    "GEMINI_MODEL"
+    "GEMINI_MODEL",
+    ""
 )
 
 
@@ -53,8 +54,7 @@ def is_gemini_configured():
     ).strip()
 
     return (
-        api_key.startswith("AIza")
-        and len(api_key) > 30
+        len(api_key) > 20
         and bool(model)
     )
 

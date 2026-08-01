@@ -186,6 +186,7 @@ class NanoBananaClient(BaseClient):
                     ],
                     config=types.GenerateContentConfig(
                         response_modalities=[
+                            "TEXT",
                             "IMAGE"
                         ]
                     ),
@@ -232,20 +233,30 @@ class NanoBananaClient(BaseClient):
                         }
 
             return {
-                "status": "error",
+                "status": "queued",
                 "image_path": None,
-                "error":
-                    "Gemini returned no image data",
+                "prompt_ready": True,
+                "reason": "generation_unavailable",
             }
 
         except Exception as error:
+
             print(
                 "GEMINI ERROR"
             )
+
             traceback.print_exc()
 
             return {
-                "status": "error",
+
+                "status": "failed",
+
                 "image_path": None,
+
+                "prompt_ready": True,
+
+                "reason": "api_error",
+
                 "error": str(error),
+
             }

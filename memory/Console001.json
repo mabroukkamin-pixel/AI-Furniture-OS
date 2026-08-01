@@ -1,0 +1,92 @@
+{
+    "product": "Console001",
+    "image": "outputs/Console001\\mock_generated_image.png",
+    "design_dna": {
+        "design_style": "Modern Gulf Natural Luxury",
+        "scene": "luxury_villa",
+        "material_story": "Handcrafted natural_wood furniture",
+        "brand_language": "premium_luxury",
+        "architecture": [
+            "modern_gulf",
+            "japandi",
+            "beige_stone_wall",
+            "travertine",
+            "neutral_walls",
+            "warm_wood_floor",
+            "natural_stone"
+        ],
+        "accessories": {
+            "recommended": [
+                "ceramic_vase",
+                "green_plant",
+                "books",
+                "gold_decor"
+            ],
+            "avoid": [
+                "plastic",
+                "colorful_objects"
+            ]
+        },
+        "lighting_mood": {
+            "type": "warm_daylight",
+            "direction": "soft_side_light",
+            "quality": "cinematic"
+        },
+        "camera_language": {
+            "angle": "45_degree",
+            "lens": "50mm",
+            "shot": "premium_product_photography",
+            "height": "eye_level"
+        },
+        "composition": {
+            "style": "luxury_minimal",
+            "product_position": "center",
+            "product_scale": "75%",
+            "position": "center",
+            "balance": "luxury_minimal",
+            "focus": "product_first"
+        },
+        "emotion": [
+            "luxury",
+            "comfort",
+            "elegance"
+        ]
+    },
+    "decision": {
+        "selected_style": "gulf_villa",
+        "base_score": 0,
+        "memory_bonus": 1,
+        "score": 1,
+        "memory_used": true,
+        "ranking": [
+            {
+                "style": "gulf_villa",
+                "score": 1,
+                "base_score": 0,
+                "memory_bonus": 1
+            },
+            {
+                "style": "modern_luxury_home",
+                "score": 1,
+                "base_score": 0,
+                "memory_bonus": 1
+            },
+            {
+                "style": "contemporary_interior",
+                "score": 1,
+                "base_score": 0,
+                "memory_bonus": 1
+            }
+        ]
+    },
+    "experience": {
+        "score": 100,
+        "success": true,
+        "reasons": [
+            "decision_created",
+            "design_dna_created",
+            "prompt_audit_passed",
+            "generation_completed"
+        ]
+    }
+}

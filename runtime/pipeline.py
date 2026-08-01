@@ -2,6 +2,10 @@ from datetime import datetime, timezone
 from uuid import uuid4
 
 from brain.core.brain_state import BrainState
+from brain.memory.memory_manager import MemoryManager
+from brain.memory.retrieval_engine import RetrievalEngine
+from brain.fusion.memory_fusion import MemoryFusion
+from brain.learning.experience_engine import ExperienceEngine
 
 
 def _utc_now_iso():
@@ -39,7 +43,8 @@ class FurniturePipeline:
         loader,
         brain,
         writer,
-        generator=None
+        generator=None,
+        output_manager_cls=None
     ):
 
         self.loader = loader
@@ -47,7 +52,11 @@ class FurniturePipeline:
         self.writer = writer
         self.generator = generator
         self.image_resolver_cls = None
-        self.output_manager_cls = None
+        
+        from runtime.output_manager import OutputManager
+        self.output_manager_cls = output_manager_cls or OutputManager
+        self.output_manager = self.output_manager_cls()
+
         self.design_dna_engine_cls = None
         self.prompt_auditor_cls = None
         self.production_manager_cls = None
@@ -76,9 +85,41 @@ class FurniturePipeline:
 
         manifest_writer = self.manifest_writer_cls()
 
-        return manifest_writer.write(
+        manifest_result = manifest_writer.write(
             brain_state
         )
+
+        from runtime.reporting.metadata_builder import MetadataBuilder
+        from runtime.reporting.validator import Validator
+        from runtime.reporting.production_logger import ProductionLogger
+        from runtime.reporting.report_generator import ReportGenerator
+        from runtime.reporting.preview_generator import PreviewGenerator
+        from runtime.reporting.package_builder import PackageBuilder
+
+        metadata = MetadataBuilder().build(brain_state)
+        brain_state.metadata = metadata
+
+        validation = Validator().validate(brain_state)
+        brain_state.validation = validation
+
+        ProductionLogger().log(brain_state)
+
+        ReportGenerator().generate(brain_state)
+
+        PreviewGenerator().generate(brain_state)
+
+        MetadataBuilder().build(brain_state)
+        ReportGenerator().generate(brain_state)
+        ProductionLogger().log(brain_state)
+        PackageBuilder().build(brain_state)
+
+        from runtime.manifest_manager import ManifestManager
+        ManifestManager().save(brain_state)
+
+        from runtime.memory.visual_memory import VisualMemory
+        VisualMemory().save(brain_state)
+
+        return manifest_result
 
     def _try_write_failure_outputs(
         self,
@@ -96,6 +137,25 @@ class FurniturePipeline:
                     "stage": "writing_failure_manifest",
                     "type": output_error.__class__.__name__,
                     "message": str(output_error),
+                }
+            )
+
+        try:
+            from runtime.reporting.metadata_builder import MetadataBuilder
+            from runtime.reporting.report_generator import ReportGenerator
+            from runtime.reporting.production_logger import ProductionLogger
+            from runtime.reporting.package_builder import PackageBuilder
+
+            MetadataBuilder().build(brain_state)
+            ReportGenerator().generate(brain_state)
+            ProductionLogger().log(brain_state)
+            PackageBuilder().build(brain_state)
+        except Exception as reporting_error:
+            brain_state.trace.append(
+                {
+                    "stage": "writing_failure_reporting",
+                    "type": reporting_error.__class__.__name__,
+                    "message": str(reporting_error),
                 }
             )
 
@@ -165,6 +225,60 @@ class FurniturePipeline:
                 brain_state
             )
 
+            # GRAPH INTELLIGENCE
+            brain_state.current_stage = "running_graph_reasoning"
+
+            from brain.graph.graph_manager import GraphManager
+            from brain.decision.decision_engine_v2 import DecisionEngineV2
+
+            graph_manager = GraphManager()
+            graph_manager.build()
+
+            graph_reasoner = graph_manager.reasoner
+
+            brain_state = graph_reasoner.reason(
+                brain_state
+            )
+
+            # DECISION ENGINE V2
+
+            brain_state.current_stage = "running_decision_engine"
+
+            print("========================================")
+            print("        MEMORY RETRIEVAL")
+            print("========================================")
+            retriever = RetrievalEngine()
+            similar_memories = retriever.retrieve(
+                brain_state.product
+            )
+            brain_state.memory = {
+                "similar_experiences": similar_memories
+            }
+            
+            fusion = MemoryFusion()
+            brain_state = fusion.apply(
+                brain_state
+            )
+
+            print(
+                "Similar Memories:",
+                len(similar_memories)
+            )
+
+            decision_engine = DecisionEngineV2()
+
+            brain_state = decision_engine.analyze(
+                brain_state
+            )
+
+            print("==============================")
+            print("GRAPH DECISION")
+            print("==============================")
+
+            print(
+                brain_state.decision
+            )
+
             # DESIGN DNA
             brain_state.current_stage = "analyzing_design_dna"
             if self.design_dna_engine_cls is None:
@@ -218,6 +332,21 @@ class FurniturePipeline:
                 production_manager = self.production_manager_cls(brain_state)
                 generation_result = production_manager.run()
                 brain_state.generation = generation_result
+
+                # حفظ الذاكرة بعد انتهاء Production Manager مباشرة باستخدام learn()
+                memory = MemoryManager()
+                memory.learn(brain_state)
+
+                experience = ExperienceEngine()
+                brain_state = experience.evaluate(
+                    brain_state
+                )
+                print("==============================")
+                print("EXPERIENCE SCORE")
+                print("==============================")
+                print(
+                    brain_state.experience
+                )
 
                 generation_status = (
                     generation_result.get(
@@ -291,7 +420,30 @@ class FurniturePipeline:
                 brain_state
             )
 
+            from runtime.reporting.preview_generator import PreviewGenerator
+            preview = PreviewGenerator()
+            preview.generate(
+                brain_state
+            )
+
             self.last_state = brain_state
+
+            brain_state.finished_at = _utc_now_iso()
+            self.output_manager.save_manifest(
+                brain_state
+            )
+            self.output_manager.save_log(
+                brain_state,
+                f"""
+Pipeline Finished
+
+Product : {product_id}
+
+Status : {brain_state.generation_status}
+
+Run ID : {brain_state.run_id}
+"""
+            )
 
             return brain_state
         except Exception as e:

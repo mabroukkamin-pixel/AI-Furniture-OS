@@ -1,9 +1,12 @@
 ﻿from brain.experts.base_expert import BaseExpert
+from brain.services.brain_service import BrainService
 
 
 class MaterialExpert(BaseExpert):
 
     def analyze(self, brain):
+
+        service = BrainService(brain)
 
         print("========================================")
         print("        MATERIAL EXPERT")
@@ -27,15 +30,23 @@ class MaterialExpert(BaseExpert):
             )
 
             if (
-                not hasattr(brain, "decision")
-                or brain.decision is None
+                not hasattr(brain, "knowledge")
+                or brain.knowledge is None
             ):
-                brain.decision = {}
+                brain.knowledge = {}
 
-            brain.decision["material"] = {
+            brain.knowledge["material"] = {
                 "primary": primary,
                 "secondary": secondary
             }
+
+            service.decision.set(
+                "material",
+                {
+                    "primary": primary,
+                    "secondary": secondary
+                }
+            )
 
             print(
                 "Primary Material:",

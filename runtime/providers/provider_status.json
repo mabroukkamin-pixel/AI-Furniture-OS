@@ -1,0 +1,16 @@
+{
+    "nano_banana": {
+        "available": true,
+        "reason": null,
+        "failures": 3,
+        "last_failure": 1785547929.2261407,
+        "cooldown_until": null
+    },
+    "mock": {
+        "available": false,
+        "reason": "'ProviderHealth' object has no attribute 'load_status'",
+        "failures": 3,
+        "last_failure": 1785547929.2282047,
+        "cooldown_until": 1785547989.2282047
+    }
+}

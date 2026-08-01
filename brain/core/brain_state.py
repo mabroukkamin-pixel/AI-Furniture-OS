@@ -35,6 +35,8 @@ class BrainState:
 
     fusion: dict = field(default_factory=dict)
 
+    experience: dict = field(default_factory=dict)
+
     # marketing
     marketing: dict = field(default_factory=dict)
 
@@ -46,6 +48,39 @@ class BrainState:
 
     # compatibility alias for final prompt payload
     final_prompt: dict = field(default_factory=dict)
+
+    # generation result
+    generation: dict = field(default_factory=dict)
+
+    # generated image path
+    generated_image: str = ""
+
+    # output folder
+    output_folder: str = ""
+
+    # product id
+    product_id: str = ""
+
+    # product image
+    product_image: str = ""
+
+    # reference images
+    reference_images: list = field(default_factory=list)
+
+    # Design DNA
+    design_dna: dict = field(default_factory=dict)
+
+    # preservation
+    preservation: dict = field(default_factory=dict)
+
+    # audit
+    audit: dict = field(default_factory=dict)
+
+    # new reporting and memory fields
+    memory: dict = field(default_factory=dict)
+    embedding: dict = field(default_factory=dict)
+    similarity: dict = field(default_factory=dict)
+    history: list = field(default_factory=list)
 
     # run lifecycle and artifacts
     run_id: str = ""

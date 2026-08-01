@@ -1,37 +1,50 @@
-from runtime.clients.nano_banana_client import (
-    NanoBananaClient,
-)
 from runtime.engines.base_engine import BaseEngine
+from runtime.generation.generation_router import (
+    GenerationRouter,
+)
 
 
 class NanoBananaEngine(BaseEngine):
 
     def __init__(self, state=None):
         super().__init__(state)
-        self.client = NanoBananaClient()
+
+        self.generator = GenerationRouter()
 
     def generate(self, request):
-        prompt = request["prompt"]
-        image = request["product_image"]
-        product = request["product_id"]
-        output_folder = request[
+
+        product = request.get(
+            "product_id"
+        )
+
+        output_folder = request.get(
             "output_folder"
-        ]
+        )
 
         print()
         print("=" * 30)
         print("NANO BANANA ENGINE")
         print("=" * 30)
 
-        response = self.client.generate(
-            prompt,
-            image,
-            output_folder
+        response = self.generator.generate(
+            request
         )
 
-        image_path = response.get(
-            "image_path"
-        )
+        if self.state:
+
+            self.state.generation_status = (
+                response.get(
+                    "status",
+                    ""
+                )
+            )
+
+            self.state.generation_error = (
+                response.get(
+                    "error",
+                    {}
+                )
+            )
 
         print(
             "Product:",
@@ -44,12 +57,24 @@ class NanoBananaEngine(BaseEngine):
         )
 
         return {
+
             "status": response.get(
                 "status",
                 "error"
             ),
+
             "engine": "nano_banana",
+
             "output": output_folder,
-            "image": image_path,
+
+            "image": response.get(
+                "image_path"
+            ),
+
+            "error": response.get(
+                "error"
+            ),
+
             "response": response,
+
         }

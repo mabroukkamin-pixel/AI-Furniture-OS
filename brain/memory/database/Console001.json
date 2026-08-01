@@ -1,0 +1,262 @@
+{
+    "product_id": "Console001",
+    "product": {
+        "id": "Console001",
+        "name": "Wooden Console",
+        "category": "console",
+        "family": [
+            "furniture",
+            "entrance_furniture",
+            "decoration"
+        ],
+        "material": {
+            "primary": "natural_wood",
+            "secondary": [
+                "black_metal"
+            ]
+        },
+        "style": [
+            "modern",
+            "natural",
+            "premium"
+        ],
+        "usage": [
+            "entrance",
+            "living_room",
+            "hallway",
+            "villa"
+        ],
+        "size": {
+            "width": 35,
+            "height": 82
+        },
+        "colors": {
+            "primary": [
+                "natural_wood",
+                "black"
+            ]
+        },
+        "handmade": false,
+        "premium": true,
+        "transparent": false,
+        "movable": true
+    },
+    "decision": {
+        "selected_style": "gulf_villa",
+        "base_score": 0,
+        "memory_bonus": 1,
+        "score": 1,
+        "memory_used": true,
+        "ranking": [
+            {
+                "style": "gulf_villa",
+                "score": 1,
+                "base_score": 0,
+                "memory_bonus": 1
+            },
+            {
+                "style": "modern_luxury_home",
+                "score": 1,
+                "base_score": 0,
+                "memory_bonus": 1
+            },
+            {
+                "style": "contemporary_interior",
+                "score": 1,
+                "base_score": 0,
+                "memory_bonus": 1
+            }
+        ]
+    },
+    "environment": {
+        "primary": "luxury_villa",
+        "atmosphere": [
+            "warm natural luxury",
+            "modern gulf lifestyle",
+            "five star resort feeling"
+        ],
+        "options": [
+            "luxury_villa",
+            "resort",
+            "japandi"
+        ],
+        "architecture": {
+            "architecture": [
+                "modern_gulf",
+                "japandi"
+            ],
+            "walls": [
+                "beige_stone_wall",
+                "travertine",
+                "neutral_walls"
+            ],
+            "floors": [
+                "warm_wood_floor",
+                "natural_stone"
+            ],
+            "avoid": [
+                "industrial",
+                "warehouse"
+            ]
+        },
+        "colors": {
+            "primary": [
+                "oak",
+                "beige",
+                "warm_brown"
+            ],
+            "secondary": [
+                "cream",
+                "white"
+            ],
+            "accent": [
+                "gold"
+            ],
+            "avoid": [
+                "neon_colors",
+                "cold_blue"
+            ]
+        },
+        "accessories": {
+            "recommended": [
+                "ceramic_vase",
+                "green_plant",
+                "books",
+                "gold_decor"
+            ],
+            "avoid": [
+                "plastic",
+                "colorful_objects"
+            ]
+        }
+    },
+    "lighting": {
+        "type": "warm_daylight",
+        "direction": "soft_side_light",
+        "quality": "cinematic"
+    },
+    "camera": {
+        "angle": "45_degree",
+        "lens": "50mm",
+        "shot": "premium_product_photography",
+        "height": "eye_level"
+    },
+    "composition": {
+        "style": "luxury_minimal",
+        "product_position": "center",
+        "product_scale": "75%",
+        "position": "center",
+        "balance": "luxury_minimal",
+        "focus": "product_first"
+    },
+    "design_dna": {
+        "design_style": "Modern Gulf Natural Luxury",
+        "scene": "luxury_villa",
+        "material_story": "Handcrafted natural_wood furniture",
+        "brand_language": "premium_luxury",
+        "architecture": [
+            "modern_gulf",
+            "japandi",
+            "beige_stone_wall",
+            "travertine",
+            "neutral_walls",
+            "warm_wood_floor",
+            "natural_stone"
+        ],
+        "accessories": {
+            "recommended": [
+                "ceramic_vase",
+                "green_plant",
+                "books",
+                "gold_decor"
+            ],
+            "avoid": [
+                "plastic",
+                "colorful_objects"
+            ]
+        },
+        "lighting_mood": {
+            "type": "warm_daylight",
+            "direction": "soft_side_light",
+            "quality": "cinematic"
+        },
+        "camera_language": {
+            "angle": "45_degree",
+            "lens": "50mm",
+            "shot": "premium_product_photography",
+            "height": "eye_level"
+        },
+        "composition": {
+            "style": "luxury_minimal",
+            "product_position": "center",
+            "product_scale": "75%",
+            "position": "center",
+            "balance": "luxury_minimal",
+            "focus": "product_first"
+        },
+        "emotion": [
+            "luxury",
+            "comfort",
+            "elegance"
+        ]
+    },
+    "marketing": {
+        "audience": [
+            "Kuwaiti_home_buyers",
+            "Luxury_home_owners"
+        ],
+        "positioning": "premium_home_furniture",
+        "message": "luxury_natural_design",
+        "platforms": [
+            "Instagram",
+            "TikTok",
+            "Facebook"
+        ]
+    },
+    "branding": {
+        "company": "Chinese Market",
+        "arabic": "السوق الصيني",
+        "style": "premium_luxury",
+        "colors": [
+            "gold",
+            "royal_blue",
+            "white"
+        ]
+    },
+    "generation": {
+        "status": "success",
+        "engine": "nano_banana",
+        "output": "outputs/Console001",
+        "image": "outputs/Console001\\mock_generated_image.png",
+        "error": null,
+        "response": {
+            "status": "success",
+            "image": "outputs/Console001\\mock_generated_image.png",
+            "image_path": "outputs/Console001\\mock_generated_image.png",
+            "prompt_path": "outputs/Console001\\generated_prompt.txt",
+            "provider": "mock",
+            "fallback": true
+        }
+    },
+    "audit": {
+        "rules": {
+            "product": true,
+            "environment": true,
+            "lighting": true,
+            "camera": true,
+            "composition": true,
+            "branding": true,
+            "marketing": true,
+            "preservation": true,
+            "quality": true,
+            "design_dna": true,
+            "negative": true
+        },
+        "score": {
+            "score": 100,
+            "maximum": 100,
+            "percentage": 100.0
+        },
+        "report": "========================================\nPROMPT AUDIT REPORT\n========================================\n\nPRODUCT              PASS\nENVIRONMENT          PASS\nLIGHTING             PASS\nCAMERA               PASS\nCOMPOSITION          PASS\nBRANDING             PASS\nMARKETING            PASS\nPRESERVATION         PASS\nQUALITY              PASS\nDESIGN_DNA           PASS\nNEGATIVE             PASS\n\n----------------------------------------\nScore : 100 / 100\nSuccess : 100.0%"
+    }
+}

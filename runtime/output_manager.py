@@ -265,3 +265,81 @@ class OutputManager:
             )
 
         return root
+
+    def save_manifest(self, context):
+
+        root = getattr(
+            context,
+            "output_folder",
+            None
+        )
+
+        if not root:
+            return
+
+        manifest = {
+
+            "product": getattr(
+                context,
+                "product_id",
+                ""
+            ),
+
+            "status": getattr(
+                context,
+                "generation_status",
+                ""
+            ),
+
+            "run_id": getattr(
+                context,
+                "run_id",
+                ""
+            ),
+
+            "started_at": getattr(
+                context,
+                "started_at",
+                ""
+            ),
+
+            "finished_at": getattr(
+                context,
+                "finished_at",
+                ""
+            ),
+
+            "artifacts": getattr(
+                context,
+                "artifacts",
+                {}
+            )
+
+        }
+
+        self.save_json(
+            root,
+            "manifest.json",
+            manifest
+        )
+
+    def save_log(
+        self,
+        context,
+        text
+    ):
+
+        root = getattr(
+            context,
+            "output_folder",
+            None
+        )
+
+        if not root:
+            return
+
+        self.save_text(
+            root,
+            "pipeline.log",
+            text
+        )
