@@ -6,51 +6,49 @@ class MaterialExpert(BaseExpert):
 
     def analyze(self, brain):
 
-        service = BrainService(brain)
-
         print("========================================")
         print("        MATERIAL EXPERT")
         print("========================================")
 
-        if brain.product:
+        material = brain.product.get(
+            "material",
+            {}
+        )
 
-            material = brain.product.get(
-                "material",
-                {}
-            )
+        primary = material.get(
+            "primary",
+            "unknown"
+        )
 
-            primary = material.get(
-                "primary",
-                "unknown"
-            )
+        secondary = material.get(
+            "secondary",
+            []
+        )
 
-            secondary = material.get(
-                "secondary",
-                []
-            )
 
-            if (
-                not hasattr(brain, "knowledge")
-                or brain.knowledge is None
-            ):
-                brain.knowledge = {}
+        brain.knowledge["material"] = {
 
-            brain.knowledge["material"] = {
+            "primary": primary,
+            "secondary": secondary
+
+        }
+
+
+        service = BrainService(brain)
+
+        service.decision.set(
+            "material",
+            {
                 "primary": primary,
                 "secondary": secondary
             }
+        )
 
-            service.decision.set(
-                "material",
-                {
-                    "primary": primary,
-                    "secondary": secondary
-                }
-            )
 
-            print(
-                "Primary Material:",
-                primary
-            )
+        print(
+            "Primary Material:",
+            primary
+        )
+
 
         return brain

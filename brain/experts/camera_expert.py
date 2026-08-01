@@ -3,17 +3,19 @@
 
 class CameraExpert(BaseExpert):
 
-    def analyze(self, context):
+    def analyze(self, brain):
 
         print("========================================")
         print("        CAMERA EXPERT")
         print("========================================")
 
-        context.camera = {
+        brain.camera = {
+
             "angle": "45_degree",
             "lens": "50mm",
             "shot": "premium_product_photography",
             "height": "eye_level"
+
         }
 
-        return context
+        return brain
