@@ -16,77 +16,55 @@ class EnvironmentEngine:
 
     def analyze(
         self,
-        material
+        decision
     ):
 
 
-        architecture_data = (
-            self.architecture.analyze(
-                material
-            )
+        material = decision.get(
+            "material",
+            "unknown"
+        )
+
+        style = decision.get(
+            "primary_style",
+            "modern"
         )
 
 
-        colors_data = (
-            self.colors.analyze(
-                material
-            )
+        architecture_data = self.architecture.analyze(
+            material
         )
 
-
-        accessories_data = (
-            self.accessories.analyze(
-                material
-            )
+        colors_data = self.colors.analyze(
+            material
         )
 
-
-        # ============================
-        # SCENE DECISION
-        # ============================
-
-        scenes = [
-            "luxury_villa",
-            "resort",
-            "japandi"
-        ]
-
-
-        # ============================
-        # ATMOSPHERE
-        # ============================
-
-        atmosphere = [
-            "warm natural luxury",
-            "modern gulf lifestyle",
-            "five star resort feeling"
-        ]
+        accessories_data = self.accessories.analyze(
+            material
+        )
 
 
         return {
 
+            "primary": style,
 
-            "primary":
+            "selected_style": style,
+
+            "atmosphere": [
+                "warm natural luxury",
+                "modern gulf lifestyle",
+                "five star resort feeling"
+            ],
+
+            "options": [
                 "luxury_villa",
+                "resort",
+                "japandi"
+            ],
 
+            "architecture": architecture_data,
 
-            "atmosphere":
-                atmosphere,
+            "colors": colors_data,
 
-
-            "options":
-                scenes,
-
-
-            "architecture":
-                architecture_data,
-
-
-            "colors":
-                colors_data,
-
-
-            "accessories":
-                accessories_data
-
+            "accessories": accessories_data
         }

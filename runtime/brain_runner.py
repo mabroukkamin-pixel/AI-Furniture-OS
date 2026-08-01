@@ -94,7 +94,7 @@ class BrainRunner:
 
         context.environment = (
             self.environment.analyze(
-                material
+                context.decision
             )
         )
 
