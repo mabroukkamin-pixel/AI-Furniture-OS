@@ -4,6 +4,7 @@ from brain.environment.color_loader import ColorBrain
 from brain.environment.accessory_loader import AccessoryBrain
 from brain.graph.graph_manager import GraphManager
 from brain.core.brain_orchestrator import BrainOrchestrator
+from brain.validators.state_validator import StateValidator
 
 
 class BrainRunner:
@@ -29,6 +30,7 @@ class BrainRunner:
         )
 
         self.graph = GraphManager().build()
+        self.validator = StateValidator()
 
         self.orchestrator = BrainOrchestrator(
             experts=self.experts,
@@ -40,6 +42,18 @@ class BrainRunner:
     def run(self, context):
 
         context = self.orchestrator.run_experts(context)
+
+        # ===============================
+        # STATE VALIDATION
+        # ===============================
+
+        context.validation = (
+            self.validator.validate(context)
+        )
+
+        print("==============================")
+        print("STATE VALIDATION")
+        print(context.validation)
 
         # ===============================
         # KNOWLEDGE GRAPH & REASONER & DECISION GRAPH
@@ -92,7 +106,7 @@ class BrainRunner:
         # ENVIRONMENT ENGINE
         # ===============================
 
-        self.environment.analyze(
+        context.environment = self.environment.analyze(
             context
         )
 
