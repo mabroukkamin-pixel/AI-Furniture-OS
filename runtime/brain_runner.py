@@ -76,18 +76,6 @@ class BrainRunner:
             []
         )
 
-        context.graph = {
-
-            "material": material,
-
-            "recommended_styles": styles,
-
-            "knowledge_source": "KnowledgeGraph",
-
-            "reasoner": "GraphReasoner"
-
-        }
-
         lighting = self.graph.decision.evaluate(
 
             {
@@ -162,20 +150,9 @@ class BrainRunner:
 
         )
 
-        context.decision["scene"] = (
-            context.environment.get("options", [])
-        )
-        context.decision["camera"] = (
-            context.camera
-        )
-
         # Lighting is now handled by DecisionGraph above, but if not set, fallback can remain
         if "lighting" not in context.decision or not context.decision["lighting"]:
             context.decision["lighting"] = context.lighting
-
-        context.decision["materials"] = [
-            context.product.get("material", {}).get("primary")
-        ]
 
         # ===============================
         # DYNAMIC CONFIDENCE CALCULATION
