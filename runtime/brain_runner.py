@@ -2,7 +2,6 @@ from brain.environment.environment_engine import EnvironmentEngine
 from brain.environment.architecture_loader import ArchitectureBrain
 from brain.environment.color_loader import ColorBrain
 from brain.environment.accessory_loader import AccessoryBrain
-from brain.graph.graph_manager import GraphManager
 from brain.core.brain_orchestrator import BrainOrchestrator
 from brain.validators.state_validator import StateValidator
 
@@ -14,7 +13,6 @@ class BrainRunner:
         from brain.expert_manager import ExpertManager
 
         manager = ExpertManager(product_name)
-
         self.experts = manager.build()
 
         self.environment = EnvironmentEngine(
@@ -29,155 +27,75 @@ class BrainRunner:
             )
         )
 
-        self.graph = GraphManager().build()
         self.validator = StateValidator()
 
         self.orchestrator = BrainOrchestrator(
             experts=self.experts,
-            graph=self.graph,
+            graph=None,
             environment=self.environment,
             experience=getattr(self, "experience", None)
         )
 
+    def _build_graph_compatibility(self, context):
+
+        graph_decision = context.graph_decision or {}
+
+        recommendations = graph_decision.get("recommendations", [])
+
+        context.graph = {
+            "material": graph_decision.get("material"),
+            "recommendations": recommendations,
+            "recommended_styles": [item.get("style") for item in recommendations if item.get("style")],
+            "scenes": graph_decision.get("scenes", []),
+            "confidence": graph_decision.get("selected_score", 0) / 100,
+            "source": "DecisionExpert V3 compatibility projection"
+        }
+
+        return context
+
+    def _finalize_decision(self, context):
+
+        selected_style = context.decision.get("selected_style")
+
+        if selected_style:
+            context.decision["primary_style"] = selected_style
+
+        if not context.decision.get("lighting"):
+            context.decision["lighting"] = context.lighting
+
+        score = context.decision.get("score", 0)
+
+        context.decision["confidence"] = {
+            "confidence": min(score, 100),
+            "reasons": [
+                "DecisionExpert V3 completed",
+                "knowledge graph matched",
+                "environment generated"
+            ]
+        }
+
+        return context
+
     def run(self, context):
 
         context = self.orchestrator.run_experts(context)
+        context = self._build_graph_compatibility(context)
 
-        # ===============================
-        # STATE VALIDATION
-        # ===============================
-
-        context.validation = (
-            self.validator.validate(context)
-        )
+        context.validation = self.validator.validate(context)
 
         print("==============================")
         print("STATE VALIDATION")
         print(context.validation)
 
-        # ===============================
-        # KNOWLEDGE GRAPH & REASONER & DECISION GRAPH
-        # ===============================
+        print("==============================")
+        print("DECISION GRAPH V3")
+        print(context.graph_decision)
 
-        material = context.product.get(
-            "material",
-            {}
-        ).get(
-            "primary"
-        )
+        context = self.environment.analyze(context)
+        context = self._finalize_decision(context)
 
-        # GRAPH REASONING V2
-        context = self.graph.reasoner.analyze(
-            context
-        )
-
-        styles = context.graph.get(
-            "styles",
-            []
-        )
-
-        lighting = self.graph.decision.evaluate(
-
-            {
-                "material": material
-            }
-
-        )
-
-        if lighting:
-
-            context.decision[
-                "lighting"
-            ] = lighting[0]
-
-        # ===============================
-        # ENVIRONMENT ENGINE
-        # ===============================
-
-        context = self.environment.analyze(
-            context
-        )
-
-        # ==========================
-        # COPY ENVIRONMENT TO DECISION
-        # ==========================
-
-        recommended = context.graph.get(
-            "recommended_styles",
-            []
-        )
-
-        if recommended:
-
-            context.decision[
-                "primary_style"
-            ] = recommended[0]
-
-        else:
-
-            context.decision[
-                "primary_style"
-            ] = context.product.get(
-                "style",
-                ["modern"]
-            )[0]
-
-        # ===============================
-        # GRAPH MEMORY (بعد تحديد primary_style)
-        # ===============================
-
-        self.graph.memory.store(
-
-            {
-
-                "product":
-
-                    context.product.get(
-                        "name"
-                    ),
-
-                "material":
-
-                    material,
-
-                "style":
-
-                    context.decision[
-                        "primary_style"
-                    ]
-
-            }
-
-        )
-
-        # Lighting is now handled by DecisionGraph above, but if not set, fallback can remain
-        if "lighting" not in context.decision or not context.decision["lighting"]:
-            context.decision["lighting"] = context.lighting
-
-        # ===============================
-        # DYNAMIC CONFIDENCE CALCULATION
-        # ===============================
-
-        confidence = 70
-
-        if styles:
-            confidence += 10
-
-        if lighting:
-            confidence += 10
-
-        if context.environment:
-            confidence += 10
-
-        context.decision["confidence"] = {
-            "confidence": confidence,
-            "reasons": [
-                "knowledge graph matched",
-                "decision graph matched",
-                "environment generated"
-            ]
-        }
-
-        context.decision["graph"] = context.graph
+        print("==============================")
+        print("BRAIN RUNNER V3 RESULT")
+        print(context.decision)
 
         return context

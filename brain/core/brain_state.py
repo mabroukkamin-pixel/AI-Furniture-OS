@@ -14,6 +14,9 @@ class BrainState:
     # general context
     context: dict = field(default_factory=dict)
 
+    # analysis layer
+    analysis: dict = field(default_factory=dict)
+
     # decisions
     decision: dict = field(default_factory=dict)
 
@@ -29,6 +32,7 @@ class BrainState:
     knowledge: dict = field(default_factory=dict)
 
     graph: dict = field(default_factory=dict)
+    graph_decision: dict = field(default_factory=dict)
 
     # reference memory
     reference: dict = field(default_factory=dict)
@@ -75,6 +79,9 @@ class BrainState:
 
     # audit
     audit: dict = field(default_factory=dict)
+
+    # state validation
+    validation: dict = field(default_factory=dict)
 
     # new reporting and memory fields
     memory: dict = field(default_factory=dict)

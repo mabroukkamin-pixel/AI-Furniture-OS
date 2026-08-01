@@ -156,6 +156,46 @@ class OutputManager:
             context.decision
         )
 
+        graph_decision_path = self.save_json(
+            brain,
+            "graph_decision.json",
+            getattr(
+                context,
+                "graph_decision",
+                {}
+            )
+        )
+
+        self.record_artifact(
+            context,
+            "graph_decision",
+            graph_decision_path
+        )
+
+        decision_graph_memory = (
+            getattr(
+                context,
+                "memory",
+                {}
+            )
+            .get(
+                "decision_graph",
+                {}
+            )
+        )
+
+        graph_memory_path = self.save_json(
+            brain,
+            "graph_memory.json",
+            decision_graph_memory
+        )
+
+        self.record_artifact(
+            context,
+            "graph_memory",
+            graph_memory_path
+        )
+
         self.save_json(
             brain,
             "branding.json",
@@ -287,7 +327,7 @@ class OutputManager:
 
             "status": getattr(
                 context,
-                "generation_status",
+                "status",
                 ""
             ),
 

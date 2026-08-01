@@ -1,0 +1,60 @@
+decision_rules:
+
+
+  - name: rattan_gulf_villa
+
+    conditions:
+
+      material: rattan
+      handmade: true
+      premium: true
+      market: Kuwait
+
+    decision:
+
+      style: gulf_villa
+      score: 95
+
+      reasons:
+
+        - material compatibility
+        - handmade quality
+        - gulf luxury market
+
+
+  - name: rattan_resort
+
+
+    conditions:
+
+      material: rattan
+
+
+    decision:
+
+      style: luxury_resort
+      score: 90
+
+      reasons:
+
+        - natural material
+        - resort atmosphere
+
+
+  - name: wood_modern
+
+
+    conditions:
+
+      material: natural_wood
+
+
+    decision:
+
+      style: modern_natural_home
+      score: 85
+
+      reasons:
+
+        - wood compatibility
+        - modern interior match

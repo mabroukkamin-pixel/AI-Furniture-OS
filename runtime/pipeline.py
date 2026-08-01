@@ -224,24 +224,8 @@ class FurniturePipeline:
                 brain_state
             )
 
-            # GRAPH INTELLIGENCE
-            brain_state.current_stage = "running_graph_reasoning"
-
-            from brain.graph.graph_manager import GraphManager
-            from brain.decision.decision_engine_v2 import DecisionEngineV2
-
-            graph_manager = GraphManager()
-            graph_manager.build()
-
-            graph_reasoner = graph_manager.reasoner
-
-            brain_state = graph_reasoner.reason(
-                brain_state
-            )
-
-            # DECISION ENGINE V2
-
-            brain_state.current_stage = "running_decision_engine"
+            # Decision Graph V3 is executed by DecisionExpert.
+            brain_state.current_stage = "running_memory_fusion"
 
             # MEMORY FUSION V2
             print("========================================")
@@ -272,16 +256,9 @@ class FurniturePipeline:
                 len(visual_matches)
             )
 
-            decision_engine = DecisionEngineV2()
-
-            brain_state = decision_engine.analyze(
-                brain_state
-            )
-
             print("==============================")
-            print("GRAPH DECISION")
+            print("DECISION EXPERT V3 RESULT")
             print("==============================")
-
             print(
                 brain_state.decision
             )
@@ -340,9 +317,26 @@ class FurniturePipeline:
                 generation_result = production_manager.run()
                 brain_state.generation = generation_result
                 
-                from brain.visual_memory.visual_memory_manager import VisualMemoryManager
-                visual_memory = VisualMemoryManager()
-                visual_memory.learn(brain_state)
+                try:
+                    from brain.visual_memory.visual_memory_manager import VisualMemoryManager
+
+                    visual_memory = VisualMemoryManager()
+                    visual_memory.learn(brain_state)
+
+                except Exception as memory_error:
+                    brain_state.trace.append(
+                        {
+                            "stage": "visual_memory_learning",
+                            "type": memory_error.__class__.__name__,
+                            "message": str(memory_error),
+                            "severity": "warning"
+                        }
+                    )
+
+                    print(
+                        "Visual Memory Learning Warning:",
+                        memory_error
+                    )
 
                 memory = MemoryManager()
                 memory.learn(brain_state)
@@ -461,7 +455,7 @@ Pipeline Finished
 
 Product : {product_id}
 
-Status : {brain_state.generation_status}
+Status : {brain_state.status}
 
 Run ID : {brain_state.run_id}
 """

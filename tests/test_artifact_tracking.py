@@ -1,4 +1,4 @@
-import os
+﻿import os
 import sys
 import types
 import tempfile
@@ -49,6 +49,8 @@ class ArtifactTrackingTests(unittest.TestCase):
                 "generation",
                 "positive_prompt",
                 "negative_prompt",
+                "graph_decision",
+                "graph_memory",
             }
 
             self.assertEqual(
