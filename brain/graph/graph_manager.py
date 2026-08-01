@@ -42,11 +42,8 @@ class GraphManager:
         self.edge_builder.connect()
 
         self.decision.add_rule(
-
             lambda c: c["material"] == "rattan",
-
             "warm_daylight"
-
         )
 
         return self
