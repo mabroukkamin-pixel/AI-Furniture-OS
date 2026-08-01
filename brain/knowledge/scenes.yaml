@@ -41,3 +41,44 @@ resort:
       - sunset
 
       - golden_hour
+
+modern_entrance:
+
+  architecture:
+    - contemporary_interior
+    - neutral_walls
+
+  lighting:
+    - warm_daylight
+
+  accessories:
+    - console
+    - artwork
+
+
+warm_home:
+
+  architecture:
+    - warm_oak
+    - neutral_walls
+
+  lighting:
+    - soft_daylight
+
+  accessories:
+    - linen_sofa
+    - ceramic_vase
+
+
+japandi:
+
+  architecture:
+    - light_wood
+    - lime_wash
+
+  lighting:
+    - soft_daylight
+
+  accessories:
+    - ceramic_vase
+    - natural_fabric

@@ -73,16 +73,16 @@ def finding_codes(findings):
     return [finding["code"] for finding in findings]
 
 
-def test_current_knowledge_is_valid_with_reference_warnings():
+def test_current_knowledge_has_complete_references():
     report = KnowledgeValidator("brain/knowledge").validate()
 
     assert report["valid"] is True
     assert report["errors"] == []
     assert report["stats"]["files"] == 4
-    assert report["stats"]["materials"] == 2
+    assert report["stats"]["materials"] == 3
     assert report["stats"]["decision_rules"] == 3
-    assert report["stats"]["warning_count"] > 0
-    assert "unknown_style_reference" in finding_codes(report["warnings"])
+    assert report["stats"]["warning_count"] == 0
+    assert report["warnings"] == []
 
 
 def test_missing_required_file_is_an_error(tmp_path):

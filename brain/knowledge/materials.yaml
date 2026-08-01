@@ -131,3 +131,23 @@ materials:
       - industrial_background
       - plastic
       - glossy_finish
+
+  wood:
+
+    styles: []
+
+    scenes: []
+
+    lighting:
+      - warm_daylight
+      - soft_shadow
+
+    colors:
+      primary:
+        - natural_wood
+        - oak
+        - walnut
+
+    avoid:
+      - plastic
+      - neon
