@@ -3,8 +3,9 @@ from brain.experts.base_expert import BaseExpert
 
 class ProductExpert(BaseExpert):
 
-    def __init__(self, product_path="products/Partition001"):
+    def __init__(self, product_path=None):
         self.product_path = product_path
+
 
     def analyze(self, brain):
 
@@ -49,29 +50,46 @@ class ProductExpert(BaseExpert):
             {}
         )
 
+
         product_data = identity.get(
             "product",
             {}
         )
 
+
         print("BEFORE:")
         print(brain.product.keys())
 
+
+        # final product object
         brain.product = product_data
+
+
+        # keep structured state
+        brain.behavior = behavior
+        brain.environment = environment
+        brain.branding = branding
+        brain.marketing = marketing
+        brain.photography = photography
+        brain.preservation = behavior
+        brain.context = {}
+
+
+        brain.context.update(
+            {
+                "pricing": pricing
+            }
+        )
+
 
         print("AFTER:")
         print(brain.product.keys())
 
-        brain.context["identity"] = identity
-        brain.context["behavior"] = behavior
-        brain.context["pricing"] = pricing
-        brain.context["photography"] = photography
-        brain.context["environment"] = environment
-        brain.context["branding"] = branding
 
         print(
             "Loaded :",
             product_data.get("name")
         )
+
 
         return brain
