@@ -55,27 +55,27 @@
     "decision": {
         "selected_style": "gulf_villa",
         "base_score": 0,
-        "memory_bonus": 1,
-        "score": 1,
+        "memory_bonus": 5,
+        "score": 5,
         "memory_used": true,
         "ranking": [
             {
                 "style": "gulf_villa",
-                "score": 1,
+                "score": 5,
                 "base_score": 0,
-                "memory_bonus": 1
+                "memory_bonus": 5
             },
             {
                 "style": "modern_luxury_home",
-                "score": 1,
+                "score": 5,
                 "base_score": 0,
-                "memory_bonus": 1
+                "memory_bonus": 5
             },
             {
                 "style": "contemporary_interior",
-                "score": 1,
+                "score": 5,
                 "base_score": 0,
-                "memory_bonus": 1
+                "memory_bonus": 5
             }
         ]
     },

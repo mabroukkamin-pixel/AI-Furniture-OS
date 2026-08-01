@@ -3,7 +3,6 @@ from uuid import uuid4
 
 from brain.core.brain_state import BrainState
 from brain.memory.memory_manager import MemoryManager
-from brain.memory.retrieval_engine import RetrievalEngine
 from brain.fusion.memory_fusion import MemoryFusion
 from brain.learning.experience_engine import ExperienceEngine
 
@@ -244,25 +243,33 @@ class FurniturePipeline:
 
             brain_state.current_stage = "running_decision_engine"
 
+            # MEMORY FUSION V2
             print("========================================")
-            print("        MEMORY RETRIEVAL")
+            print("        MEMORY FUSION V2")
             print("========================================")
-            retriever = RetrievalEngine()
-            similar_memories = retriever.retrieve(
-                brain_state.product
-            )
-            brain_state.memory = {
-                "similar_experiences": similar_memories
-            }
-            
             fusion = MemoryFusion()
             brain_state = fusion.apply(
                 brain_state
             )
-
             print(
-                "Similar Memories:",
-                len(similar_memories)
+                "Memory Fusion Applied"
+            )
+
+            # VISUAL MEMORY RETRIEVAL V2
+            print("==============================")
+            print("VISUAL MEMORY RETRIEVAL V2")
+            print("==============================")
+            from brain.visual_memory.visual_memory_manager import VisualMemoryManager
+            visual_memory_manager = VisualMemoryManager()
+            visual_matches = visual_memory_manager.retrieve(
+                brain_state
+            )
+            brain_state.visual_memory = {
+                "matches": visual_matches
+            }
+            print(
+                "Visual Matches:",
+                len(visual_matches)
             )
 
             decision_engine = DecisionEngineV2()
@@ -312,7 +319,7 @@ class FurniturePipeline:
                 brain_state
             )
 
-            # 4. OUTPUT MANAGER EXPORT (حفظ كل المخرجات أولاً وقبل المحرك)
+            # 4. OUTPUT MANAGER EXPORT
             brain_state.current_stage = "exporting_outputs"
             if self.output_manager_cls is None:
                 from runtime.output_manager import OutputManager
@@ -332,8 +339,11 @@ class FurniturePipeline:
                 production_manager = self.production_manager_cls(brain_state)
                 generation_result = production_manager.run()
                 brain_state.generation = generation_result
+                
+                from brain.visual_memory.visual_memory_manager import VisualMemoryManager
+                visual_memory = VisualMemoryManager()
+                visual_memory.learn(brain_state)
 
-                # حفظ الذاكرة بعد انتهاء Production Manager مباشرة باستخدام learn()
                 memory = MemoryManager()
                 memory.learn(brain_state)
 
@@ -380,6 +390,11 @@ class FurniturePipeline:
                         "produce a local image"
                     )
             except Exception as e:
+
+                import traceback
+
+                traceback.print_exc()
+
                 _mark_failed(
                     brain_state,
                     e,
@@ -429,6 +444,13 @@ class FurniturePipeline:
             self.last_state = brain_state
 
             brain_state.finished_at = _utc_now_iso()
+            
+            from runtime.artifacts.artifact_registry import ArtifactRegistry
+            artifact_registry = ArtifactRegistry()
+            artifact_registry.register(
+                brain_state
+            )
+
             self.output_manager.save_manifest(
                 brain_state
             )

@@ -1,0 +1,9 @@
+{
+    "artifact_version": "v027",
+    "product_id": "Partition001",
+    "status": "succeeded",
+    "engine": "nano_banana",
+    "created_at": "2026-08-01T10:29:53.957801Z",
+    "files": {},
+    "trace": []
+}
