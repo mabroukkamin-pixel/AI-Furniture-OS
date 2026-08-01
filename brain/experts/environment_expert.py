@@ -11,15 +11,10 @@ class EnvironmentExpert(BaseExpert):
         print("========================================")
 
 
-        env = brain.context.get(
-            "environment",
-            {}
-        ).get(
-            "environment",
-            {})
+        environment = brain.environment or {}
 
 
-        preferred = env.get(
+        preferred = environment.get(
             "preferred",
             []
         )
@@ -38,24 +33,28 @@ class EnvironmentExpert(BaseExpert):
 
 
             "atmosphere":
-                env.get(
+                environment.get(
                     "atmosphere",
                     []
                 ),
 
 
             "architecture":
-                env.get(
+                environment.get(
                     "architecture",
                     []
                 ),
 
 
             "forbidden":
-                env.get(
+                environment.get(
                     "forbidden",
                     []
-                )
+                ),
+
+
+            "source":
+                "BrainState"
 
         }
 
