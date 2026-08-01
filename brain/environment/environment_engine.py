@@ -16,8 +16,15 @@ class EnvironmentEngine:
 
     def analyze(
         self,
-        decision
+        brain
     ):
+
+        print("========================================")
+        print("    ENVIRONMENT ENGINE")
+        print("========================================")
+
+
+        decision = brain.decision
 
 
         material = decision.get(
@@ -44,7 +51,7 @@ class EnvironmentEngine:
         )
 
 
-        return {
+        brain.environment = {
 
             "primary": style,
 
@@ -66,5 +73,11 @@ class EnvironmentEngine:
 
             "colors": colors_data,
 
-            "accessories": accessories_data
+            "accessories": accessories_data,
+
+            "source": "BrainState"
+
         }
+
+
+        return brain
