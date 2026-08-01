@@ -13,17 +13,24 @@ class DecisionExpert(BaseExpert):
             brain.decision = {}
 
         material = (
-            brain.product.get("material", {})
+            brain.product
+            .get("material", {})
             .get("primary", "unknown")
         )
 
         style = (
-            brain.product.get("style", ["modern"])[0]
+            brain.product
+            .get("style", ["modern"])[0]
         )
 
+
         brain.decision.update({
+
             "material": material,
-            "primary_style": style,
+
+            "primary_style": style
+
         })
+
 
         return brain
