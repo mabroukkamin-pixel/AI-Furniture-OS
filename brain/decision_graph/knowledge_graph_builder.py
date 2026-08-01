@@ -5,6 +5,10 @@ import yaml
 from brain.decision_graph.graph_edges import GraphEdge
 from brain.decision_graph.graph_memory import GraphMemory
 from brain.decision_graph.graph_nodes import GraphNode
+from brain.knowledge.knowledge_validator import (
+    KnowledgeValidationError,
+    KnowledgeValidator,
+)
 
 
 class KnowledgeGraphBuilder:
@@ -14,10 +18,15 @@ class KnowledgeGraphBuilder:
         knowledge_directory="brain/knowledge"
     ):
 
-        self.knowledge_directory = Path(
+        self.validator = KnowledgeValidator(
             knowledge_directory
         )
 
+        self.knowledge_directory = (
+            self.validator.knowledge_directory
+        )
+
+        self.validation_report = None
         self.memory = GraphMemory()
 
     def _load_yaml(self, filename):
@@ -312,6 +321,15 @@ class KnowledgeGraphBuilder:
                 )
 
     def build(self):
+
+        self.validation_report = (
+            self.validator.validate()
+        )
+
+        if not self.validation_report["valid"]:
+            raise KnowledgeValidationError(
+                self.validation_report
+            )
 
         self.memory = GraphMemory()
 

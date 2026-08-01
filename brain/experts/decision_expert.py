@@ -98,6 +98,7 @@ class DecisionExpert(BaseExpert):
         brain.memory["decision_graph"] = {
             "stats": memory.stats(),
             "graph": memory.export(),
+            "validation": self.graph_builder.validation_report,
             "selected_style": brain.decision.get(
                 "selected_style"
             ),
