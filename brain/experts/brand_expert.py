@@ -1,33 +1,53 @@
 ﻿from brain.experts.base_expert import BaseExpert
-import os
 
 
 class BrandExpert(BaseExpert):
 
-    def analyze(self, context):
+    def analyze(self, state):
+
         print(__file__)
 
         print("========================================")
         print("        BRAND EXPERT")
         print("========================================")
 
-        branding_wrapper = context.context.get(
-            "branding",
-            {}
-        )
-        branding = branding_wrapper.get(
-            "branding",
-            {}
-        )
+        branding = state.branding
 
-        context.branding = {
-            "company": branding.get("company", ""),
-            "arabic": branding.get("arabic", ""),
+        # compatibility fallback
+        if isinstance(branding, dict) and "branding" in branding:
+            branding = branding.get(
+                "branding",
+                {}
+            )
+
+        state.branding = {
+            "company": branding.get(
+                "company",
+                ""
+            ),
+
+            "arabic": branding.get(
+                "arabic",
+                ""
+            ),
+
             "style": "premium_luxury",
-            "colors": branding.get("colors", [])
+
+            "colors": branding.get(
+                "colors",
+                {}
+            )
         }
 
-        print("DEBUG STATE BRANDING:")
-        print(context.branding)
 
-        return context
+        print("DEBUG STATE BRANDING:")
+        print(state.branding)
+
+
+        state.log(
+            "BrandExpert",
+            "Brand analysis completed"
+        )
+
+
+        return state
