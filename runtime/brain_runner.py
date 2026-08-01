@@ -92,10 +92,8 @@ class BrainRunner:
         # ENVIRONMENT ENGINE
         # ===============================
 
-        context.environment = (
-            self.environment.analyze(
-                context.decision
-            )
+        self.environment.analyze(
+            context
         )
 
         # ==========================
