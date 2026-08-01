@@ -11,10 +11,13 @@ class EnvironmentExpert(BaseExpert):
         print("========================================")
 
 
-        environment = brain.environment or {}
+        env = brain.product.get(
+            "environment",
+            {}
+        )
 
 
-        preferred = environment.get(
+        preferred = env.get(
             "preferred",
             []
         )
@@ -27,31 +30,26 @@ class EnvironmentExpert(BaseExpert):
                 if preferred
                 else "modern_interior",
 
-
             "options":
                 preferred,
 
-
             "atmosphere":
-                environment.get(
+                env.get(
                     "atmosphere",
                     []
                 ),
 
-
             "architecture":
-                environment.get(
+                env.get(
                     "architecture",
                     []
                 ),
 
-
             "forbidden":
-                environment.get(
+                env.get(
                     "forbidden",
                     []
                 ),
-
 
             "source":
                 "BrainState"
