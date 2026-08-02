@@ -58,9 +58,6 @@ class BrainState:
     # compatibility alias for final prompt payload
     final_prompt: dict = field(default_factory=dict)
 
-    # execution
-    action_plan: dict = field(default_factory=dict)
-
     # generation result
     generation: dict = field(default_factory=dict)
 
