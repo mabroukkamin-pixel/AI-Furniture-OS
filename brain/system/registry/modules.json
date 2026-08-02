@@ -1,0 +1,44 @@
+﻿{
+"system":"AI Furniture OS",
+"version":"2.0",
+
+"modules":[
+
+{
+"name":"Brain Core",
+"path":"brain/core",
+"priority":1,
+"enabled":true
+},
+
+{
+"name":"Decision Graph",
+"path":"brain/decision_graph",
+"priority":2,
+"enabled":true
+},
+
+{
+"name":"Visual Memory",
+"path":"brain/visual_memory",
+"priority":3,
+"enabled":true
+},
+
+{
+"name":"Learning Layer",
+"path":"brain/learning",
+"priority":4,
+"enabled":true
+},
+
+{
+"name":"Runtime",
+"path":"runtime",
+"priority":5,
+"enabled":true
+}
+
+]
+
+}

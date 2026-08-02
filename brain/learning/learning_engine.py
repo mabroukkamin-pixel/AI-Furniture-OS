@@ -1,27 +1,36 @@
-﻿class LearningEngine:
+﻿import json,os,datetime
 
 
-    def learn(self, state):
+class LearningEngine:
 
 
-        experience = {
+    def learn(self,data=None):
 
-            "product":
-                getattr(
-                    state.product,
-                    "id",
-                    None
-                ),
+        memory={
 
+        "date":str(datetime.datetime.now()),
 
-            "decision":
-                state.decision,
+        "learned":True,
 
-
-            "experience":
-                state.experience
+        "data":data
 
         }
 
 
-        return experience
+        os.makedirs(
+        "brain/learning",
+        exist_ok=True)
+
+
+        with open(
+        "brain/learning/memory.json",
+        "w",
+        encoding="utf8") as f:
+
+            json.dump(
+            memory,
+            f,
+            indent=4)
+
+
+        return memory

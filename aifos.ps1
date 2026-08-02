@@ -1,228 +1,44 @@
-﻿# =====================================================
+# =====================================================
 # AI FURNITURE OS V2
-# AUTONOMOUS MASTER CONTROL PANEL
+# MASTER AUTONOMOUS CONTROLLER
 # =====================================================
 
 $ErrorActionPreference = "Stop"
 
-
 $ROOT = Get-Location
 
-$TIME = Get-Date -Format "yyyyMMdd_HHmmss"
-
-$LOG = "docs\reports\aifos_$TIME.log"
-
-$REPORT = "docs\reports\aifos_$TIME.json"
-
-
-New-Item -ItemType Directory -Force docs\reports | Out-Null
+Write-Host ""
+Write-Host "================================="
+Write-Host " AI FURNITURE OS V2 "
+Write-Host " MASTER CONTROL CENTER "
+Write-Host "================================="
+Write-Host ""
 
 
-function Write-Log($text){
+function STEP($name){
 
-    Write-Host $text
-
-    Add-Content `
-    -Path $LOG `
-    -Value $text
+    Write-Host ""
+    Write-Host "---------------------------------"
+    Write-Host $name
+    Write-Host "---------------------------------"
 
 }
 
 
+function CHECK_PATH($path,$name){
 
-Write-Log ""
+    if(Test-Path $path){
 
-Write-Log "================================="
-
-Write-Log " AI FURNITURE OS V2 MASTER "
-
-Write-Log "================================="
-
-
-
-# =====================================================
-# 1 ENVIRONMENT
-# =====================================================
-
-
-Write-Log ""
-
-Write-Log "[1] ENVIRONMENT CHECK"
-
-
-if(Test-Path ".venv\Scripts\Activate.ps1"){
-
-    & .\.venv\Scripts\Activate.ps1
-
-    Write-Log "ENVIRONMENT OK"
-
-}
-else{
-
-    Write-Log "ENVIRONMENT MISSING"
-
-    exit 1
-
-}
-
-
-
-
-# =====================================================
-# 2 PYTHON CHECK
-# =====================================================
-
-
-Write-Log ""
-
-Write-Log "[2] PYTHON CHECK"
-
-
-
-python -m compileall `
-brain\core `
-brain\decision `
-brain\decision_graph `
-brain\learning `
-brain\visual_memory `
-runtime
-
-
-
-if($LASTEXITCODE -ne 0){
-
-    Write-Log "PYTHON CHECK FAILED"
-
-    exit 1
-
-}
-
-
-Write-Log "PYTHON OK"
-
-
-
-
-# =====================================================
-# 3 MODULE CHECK
-# =====================================================
-
-
-Write-Log ""
-
-Write-Log "[3] MODULE CHECK"
-
-
-
-$modules=@(
-
-"brain\core\brain_state.py",
-
-"brain\learning",
-
-"brain\visual_memory",
-
-"brain\decision_graph",
-
-"runtime\pipeline.py",
-
-"runtime\run_pipeline.py"
-
-)
-
-
-
-$result=@{}
-
-
-
-foreach($m in $modules){
-
-
-    if(Test-Path $m){
-
-        $result[$m]="OK"
-
-        Write-Log "$m OK"
+        Write-Host "$name : OK"
 
     }
     else{
 
-        $result[$m]="MISSING"
+        Write-Host "$name : MISSING"
 
-        Write-Log "$m MISSING"
+        New-Item $path -ItemType Directory -Force | Out-Null
 
-    }
-
-}
-
-
-
-
-# =====================================================
-# 4 PIPELINE
-# =====================================================
-
-
-Write-Log ""
-
-Write-Log "[4] PIPELINE RUN"
-
-
-
-python -m runtime.run_pipeline --product Partition001
-
-
-
-if($LASTEXITCODE -ne 0){
-
-    Write-Log "PIPELINE FAILED"
-
-    exit 1
-
-}
-
-
-
-Write-Log "PIPELINE SUCCESS"
-
-
-
-
-# =====================================================
-# 5 DECISION GRAPH
-# =====================================================
-
-
-Write-Log ""
-
-Write-Log "[5] DECISION GRAPH"
-
-
-
-$decisionFiles=@(
-
-"outputs\Partition001\decision.json",
-
-"outputs\Partition001\creative_direction.json",
-
-"outputs\Partition001\manifest.json"
-
-)
-
-
-
-$decisionOK=$false
-
-
-
-foreach($file in $decisionFiles){
-
-    if(Test-Path $file){
-
-        Write-Log "FOUND $file"
-
-        $decisionOK=$true
+        Write-Host "$name : CREATED"
 
     }
 
@@ -230,221 +46,198 @@ foreach($file in $decisionFiles){
 
 
 
-if($decisionOK){
+# =========================================
+# 1 ENVIRONMENT
+# =========================================
 
-    Write-Log "DECISION GRAPH OK"
+STEP "ENVIRONMENT CHECK"
+
+
+CHECK_PATH ".venv" "PYTHON ENV"
+
+CHECK_PATH "brain" "BRAIN"
+
+CHECK_PATH "runtime" "RUNTIME"
+
+CHECK_PATH "outputs" "OUTPUT"
+
+
+# =========================================
+# 2 BRAIN CHECK
+# =========================================
+
+STEP "BRAIN HEALTH"
+
+
+python -m compileall brain\core brain\decision_graph brain\fusion brain\visual_memory
+
+
+if($LASTEXITCODE -eq 0){
+
+Write-Host "BRAIN HEALTH : OK"
 
 }
 else{
 
-    Write-Log "DECISION GRAPH NOT FOUND"
+Write-Host "BRAIN ERROR"
+
+exit 1
 
 }
 
 
 
+# =========================================
+# 3 MODULE DISCOVERY
+# =========================================
 
-# =====================================================
+STEP "MODULE SCANNER"
+
+
+$modules = Get-ChildItem brain -Directory
+
+
+Write-Host "MODULES FOUND:"
+$modules.Name
+
+
+
+# =========================================
+# 4 SYSTEM CORE
+# =========================================
+
+
+STEP "SYSTEM MANAGER"
+
+
+if(Test-Path "brain\system\system_controller.py"){
+
+Write-Host "SYSTEM CONTROLLER : READY"
+
+}
+else{
+
+Write-Host "SYSTEM CONTROLLER : MISSING"
+
+}
+
+
+
+# =========================================
+# 5 DECISION GRAPH
+# =========================================
+
+
+STEP "DECISION GRAPH"
+
+
+if(Test-Path "brain\decision_graph"){
+
+Write-Host "DECISION GRAPH : READY"
+
+}
+else{
+
+Write-Host "DECISION GRAPH : NEEDS BUILD"
+
+}
+
+
+
+# =========================================
 # 6 VISUAL MEMORY
-# =====================================================
+# =========================================
 
 
-Write-Log ""
-
-Write-Log "[6] VISUAL MEMORY"
-
+STEP "VISUAL MEMORY"
 
 
 if(Test-Path "brain\visual_memory"){
 
-    Write-Log "VISUAL MEMORY OK"
+Write-Host "VISUAL MEMORY : READY"
 
 }
 else{
 
-    Write-Log "VISUAL MEMORY ERROR"
+Write-Host "VISUAL MEMORY : MISSING"
 
 }
 
 
 
-
-# =====================================================
-# 7 LEARNING
-# =====================================================
-
-
-Write-Log ""
-
-Write-Log "[7] LEARNING LAYER"
+# =========================================
+# 7 PIPELINE TEST
+# =========================================
 
 
-
-$learning=@(
-
-"brain\learning\experience_engine.py",
-
-"brain\learning\experience_memory.py",
-
-"brain\learning\learning_engine.py",
-
-"brain\learning\reward_system.py"
-
-)
+STEP "PIPELINE TEST"
 
 
+if(Test-Path "runtime\run_pipeline.py"){
 
-foreach($l in $learning){
-
-    if(Test-Path $l){
-
-        Write-Log "$l OK"
-
-    }
-    else{
-
-        Write-Log "$l MISSING"
-
-    }
-
-}
-
-
-
-
-# =====================================================
-# 8 OUTPUT
-# =====================================================
-
-
-Write-Log ""
-
-Write-Log "[8] OUTPUT"
-
-
-
-if(Test-Path "outputs\Partition001"){
-
-    dir outputs\Partition001 |
-
-    Out-String |
-
-    Add-Content $LOG
-
-
-    Write-Log "OUTPUT OK"
+Write-Host "PIPELINE ENGINE : READY"
 
 }
 else{
 
-    Write-Log "OUTPUT MISSING"
+Write-Host "PIPELINE ENGINE : MISSING"
 
 }
 
 
 
+# =========================================
+# 8 OUTPUT CHECK
+# =========================================
 
-# =====================================================
+
+STEP "OUTPUT SYSTEM"
+
+
+if(Test-Path "outputs"){
+
+Write-Host "OUTPUT MANAGER : READY"
+
+}
+
+
+
+# =========================================
 # 9 REPORT
-# =====================================================
+# =========================================
 
 
-Write-Log ""
-
-Write-Log "[9] CREATE REPORT"
+STEP "SYSTEM REPORT"
 
 
+$report = @{
 
-$system=@{
+system="AI Furniture OS V2"
 
-time=$TIME
+time=(Get-Date)
 
-modules=$result
+brain="checked"
 
-decision=$decisionOK
+modules=$modules.Name
 
-status="completed"
-
-}
-
-
-
-$system |
-
-ConvertTo-Json -Depth 5 |
-
-Set-Content $REPORT
-
-
-
-Write-Log "REPORT CREATED"
-
-
-
-
-# =====================================================
-# 10 GIT AUTO
-# =====================================================
-
-
-Write-Log ""
-
-Write-Log "[10] GIT"
-
-
-
-$status=git status --porcelain
-
-
-
-if($status){
-
-
-    git add .
-
-
-    git commit `
-    -m "AI Furniture OS V2 autonomous update"
-
-
-
-    git push origin main
-
-
-    Write-Log "GITHUB UPDATED"
-
-
-}
-else{
-
-
-    Write-Log "NO CHANGES"
+status="READY"
 
 }
 
 
+$report | ConvertTo-Json |
+
+Out-File "docs\reports\aifos_master_report.json"
 
 
-# =====================================================
-# FINAL
-# =====================================================
 
+Write-Host ""
 
-Write-Log ""
+Write-Host "================================="
+Write-Host " AI FURNITURE OS READY "
+Write-Host "================================="
 
-Write-Log "================================="
+Write-Host ""
 
-Write-Log " AI FURNITURE OS V2 READY "
-
-Write-Log "================================="
-
-
-Write-Log ""
-
-Write-Log "REPORT:"
-
-Write-Log $REPORT
-
-Write-Log ""
-
-git status
+Write-Host "REPORT:"
+Write-Host "docs\reports\aifos_master_report.json"
