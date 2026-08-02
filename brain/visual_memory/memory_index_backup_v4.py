@@ -1,14 +1,15 @@
 from pathlib import Path
 import json
-from brain.visual_memory.config import ACTIVE_MEMORY
 
 
 class MemoryIndex:
 
+
     def __init__(self):
 
-        self.memory_file = Path(
-            ACTIVE_MEMORY
+        self.memory_file = (
+            Path(__file__).parent /
+            "learned_memory.json"
         )
 
         self.index_file = (
@@ -16,10 +17,12 @@ class MemoryIndex:
             "index.json"
         )
 
+
     def build(self):
 
         if not self.memory_file.exists():
             return []
+
 
         memories = json.loads(
             self.memory_file.read_text(
@@ -27,7 +30,9 @@ class MemoryIndex:
             )
         )
 
+
         index = []
+
 
         for i, memory in enumerate(memories):
 
@@ -54,6 +59,7 @@ class MemoryIndex:
 
             })
 
+
         self.index_file.write_text(
 
             json.dumps(
@@ -66,18 +72,22 @@ class MemoryIndex:
 
         )
 
+
         print(
             "Visual Index Built:",
             len(index)
         )
 
+
         return index
+
 
     def load(self):
 
         if not self.index_file.exists():
 
             return self.build()
+
 
         return json.loads(
 
@@ -86,6 +96,7 @@ class MemoryIndex:
             )
 
         )
+
 
     def calculate_similarity(
         self,
@@ -103,7 +114,9 @@ class MemoryIndex:
             {}
         )
 
+
         score = 0
+
 
         weights = {
 
@@ -119,6 +132,7 @@ class MemoryIndex:
 
         }
 
+
         for field, weight in weights.items():
 
             if (
@@ -129,12 +143,14 @@ class MemoryIndex:
 
                 score += weight
 
+
         query_colors = set(
             query_visual.get(
                 "colors",
                 []
             )
         )
+
 
         memory_colors = set(
             memory_visual.get(
@@ -143,11 +159,14 @@ class MemoryIndex:
             )
         )
 
+
         if query_colors & memory_colors:
 
             score += 5
 
+
         return score
+
 
     def search(
         self,
@@ -163,7 +182,9 @@ class MemoryIndex:
         if not index:
             return []
 
+
         results = []
+
 
         for item in index:
 
@@ -175,6 +196,7 @@ class MemoryIndex:
                 )
             )
 
+
             print(
                 "MEMORY VISUAL:",
                 item.get(
@@ -182,6 +204,7 @@ class MemoryIndex:
                     {}
                 )
             )
+
 
             similarity = self.calculate_similarity(
                 embedding,
@@ -192,6 +215,7 @@ class MemoryIndex:
                     )
                 }
             )
+
 
             results.append({
 
@@ -213,12 +237,15 @@ class MemoryIndex:
 
             })
 
+
         results.sort(
             key=lambda x: x["similarity"],
             reverse=True
         )
 
+
         return results[:top_k]
+
 
     def add(self, memory):
 

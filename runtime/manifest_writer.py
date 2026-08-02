@@ -88,6 +88,18 @@ class ManifestWriter:
             )
         )
 
+        trace_value = getattr(
+            context,
+            "trace",
+            []
+        )
+        if hasattr(trace_value, "export"):
+            trace_export = trace_value.export()
+        elif hasattr(trace_value, "events"):
+            trace_export = trace_value.events
+        else:
+            trace_export = trace_value
+
         return {
             "manifest_version": self.manifest_version,
             "product_id": getattr(
@@ -223,10 +235,10 @@ class ManifestWriter:
                 )
             ),
             "artifacts": artifact_data,
-            "trace": getattr(
-                context,
-                "trace",
-                []
+            "trace": (
+                context.trace.export()
+                if hasattr(context.trace, "export")
+                else trace_export
             ),
         }
 

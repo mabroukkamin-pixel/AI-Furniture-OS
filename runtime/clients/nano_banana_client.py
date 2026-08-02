@@ -9,10 +9,10 @@ from brain.runtime.executors.output_executor import OutputExecutor
 
 from brain.services.memory_service import MemoryService
 from brain.services.fusion_service import FusionService
+from brain.runtime.brain_runtime import BrainRuntime
 
 
-class BrainRuntime:
-
+class BrainRuntimeRef:
 
     def __init__(self):
 
@@ -41,13 +41,11 @@ class BrainRuntime:
 
         ]
 
-
     def run(self):
 
         print("=" * 50)
         print("            BRAIN RUNTIME")
         print("=" * 50)
-
 
         for executor in self.executors:
 
@@ -59,5 +57,25 @@ class BrainRuntime:
                 self.state
             )
 
-
         return self.state
+
+
+class NanoBananaClient:
+
+    def __init__(self):
+
+        self.runtime = BrainRuntime()
+
+    def generate(self, prompt):
+
+        print(
+            "NanoBanana Client Adapter"
+        )
+
+        return {
+
+            "status": "runtime_ready",
+
+            "prompt": prompt
+
+        }

@@ -205,7 +205,7 @@
         "design_style": "Modern Gulf Natural Luxury",
         "scene": "modern",
         "material_story": "Handcrafted rattan furniture",
-        "brand_language": "premium_luxury",
+        "brand_language": "premium gulf lifestyle",
         "architecture": [],
         "accessories": {
             "recommended": {},
@@ -250,21 +250,19 @@
         ]
     },
     "branding": {
-        "company": "Chinese Market",
+        "company": "",
         "arabic": "السوق الصيني",
         "market": "Kuwait",
         "audience": [
             "gulf_home",
             "luxury_buyers"
         ],
-        "colors": {
-            "primary": [
-                "royal_blue",
-                "gold",
-                "white"
-            ]
-        },
-        "style": "premium_luxury",
+        "colors": [
+            "navy blue",
+            "gold",
+            "white"
+        ],
+        "style": "premium gulf lifestyle",
         "communication": {
             "tone": "elegant",
             "message": "quality_home_furniture"

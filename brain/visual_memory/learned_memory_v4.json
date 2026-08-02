@@ -1,7 +1,24 @@
 [
     {
-        "id": 0,
+        "memory_id": "memory_90be228b0f2ea08a",
+        "created_at": null,
         "image": "outputs/Partition001\\mock_generated_image.png",
+        "product": {
+            "id": "Partition001",
+            "name": "Rattan Partition",
+            "category": "partition",
+            "material": {
+                "primary": "rattan",
+                "secondary": [
+                    "wood"
+                ]
+            },
+            "style": [
+                "bohemian",
+                "natural",
+                "luxury"
+            ]
+        },
         "visual": {
             "category": "partition",
             "material": "rattan",
@@ -99,11 +116,70 @@
                     "elegance"
                 ]
             }
+        },
+        "performance": {
+            "score": 0,
+            "used_count": 0,
+            "success_rate": 0
+        },
+        "embedding": {
+            "file": {
+                "filename": "mock_generated_image.png",
+                "suffix": ".png",
+                "size": 9423
+            },
+            "visual": {
+                "category": "partition",
+                "material": "rattan",
+                "style": "gulf_villa",
+                "scene": "luxury_villa",
+                "colors": [
+                    "beige",
+                    "brown"
+                ],
+                "composition": {
+                    "style": "luxury_minimal",
+                    "product_position": "center",
+                    "product_scale": "75%",
+                    "position": "center",
+                    "balance": "luxury_minimal",
+                    "focus": "product_first"
+                },
+                "lighting": {
+                    "type": "warm_daylight",
+                    "direction": "soft_side_light",
+                    "quality": "cinematic"
+                },
+                "camera": {
+                    "angle": "45_degree",
+                    "lens": "50mm",
+                    "shot": "premium_product_photography",
+                    "height": "eye_level"
+                },
+                "design_style": "Modern Gulf Natural Luxury"
+            }
         }
     },
     {
-        "id": 1,
+        "memory_id": "memory_90be228b0f2ea08a",
+        "created_at": null,
         "image": "outputs/Console001\\mock_generated_image.png",
+        "product": {
+            "id": "Console001",
+            "name": "Wooden Console",
+            "category": "console",
+            "material": {
+                "primary": "natural_wood",
+                "secondary": [
+                    "black_metal"
+                ]
+            },
+            "style": [
+                "modern",
+                "natural",
+                "premium"
+            ]
+        },
         "visual": {
             "category": "console",
             "material": "natural_wood",
@@ -190,11 +266,70 @@
                     "elegance"
                 ]
             }
+        },
+        "performance": {
+            "score": 0,
+            "used_count": 0,
+            "success_rate": 0
+        },
+        "embedding": {
+            "file": {
+                "filename": "mock_generated_image.png",
+                "suffix": ".png",
+                "size": 9423
+            },
+            "visual": {
+                "category": "console",
+                "material": "natural_wood",
+                "style": "modern_natural_home",
+                "scene": "modern",
+                "colors": [
+                    "natural_wood",
+                    "black"
+                ],
+                "composition": {
+                    "style": "luxury_minimal",
+                    "product_position": "center",
+                    "product_scale": "75%",
+                    "position": "center",
+                    "balance": "luxury_minimal",
+                    "focus": "product_first"
+                },
+                "lighting": {
+                    "type": "warm_daylight",
+                    "direction": "soft_side_light",
+                    "quality": "cinematic"
+                },
+                "camera": {
+                    "angle": "45_degree",
+                    "lens": "50mm",
+                    "shot": "premium_product_photography",
+                    "height": "eye_level"
+                },
+                "design_style": "Modern Gulf Natural Luxury"
+            }
         }
     },
     {
-        "id": 2,
+        "memory_id": "memory_90be228b0f2ea08a",
+        "created_at": null,
         "image": "outputs/TVCabinet001\\mock_generated_image.png",
+        "product": {
+            "id": "TVCabinet001",
+            "name": "TV Cabinet",
+            "category": "tv_cabinet",
+            "material": {
+                "primary": "natural_wood",
+                "secondary": [
+                    "black_metal"
+                ]
+            },
+            "style": [
+                "modern",
+                "luxury",
+                "natural"
+            ]
+        },
         "visual": {
             "category": "tv_cabinet",
             "material": "natural_wood",
@@ -281,11 +416,58 @@
                     "elegance"
                 ]
             }
+        },
+        "performance": {
+            "score": 0,
+            "used_count": 0,
+            "success_rate": 0
+        },
+        "embedding": {
+            "file": {
+                "filename": "mock_generated_image.png",
+                "suffix": ".png",
+                "size": 9423
+            },
+            "visual": {
+                "category": "tv_cabinet",
+                "material": "natural_wood",
+                "style": "modern_natural_home",
+                "scene": "modern",
+                "colors": [
+                    "natural_wood",
+                    "black"
+                ],
+                "composition": {
+                    "style": "luxury_minimal",
+                    "product_position": "center",
+                    "product_scale": "75%",
+                    "position": "center",
+                    "balance": "luxury_minimal",
+                    "focus": "product_first"
+                },
+                "lighting": {
+                    "type": "warm_daylight",
+                    "direction": "soft_side_light",
+                    "quality": "cinematic"
+                },
+                "camera": {
+                    "angle": "45_degree",
+                    "lens": "50mm",
+                    "shot": "premium_product_photography",
+                    "height": "eye_level"
+                },
+                "design_style": "Modern Gulf Natural Luxury"
+            }
         }
     },
     {
-        "id": 3,
+        "memory_id": "memory_90be228b0f2ea08a",
+        "created_at": null,
         "image": "outputs\\Partition001\\mock_generated_image.png",
+        "product": {
+            "id": "Partition001",
+            "name": "Rattan Partition"
+        },
         "visual": {
             "category": "furniture",
             "material": "unknown",
@@ -305,11 +487,38 @@
             "decision": {
                 "score": 95
             }
+        },
+        "performance": {
+            "score": 0,
+            "used_count": 0,
+            "success_rate": 0
+        },
+        "embedding": {
+            "file": {
+                "filename": "mock_generated_image.png",
+                "suffix": ".png",
+                "size": 9423
+            },
+            "visual": {
+                "category": "furniture",
+                "material": "unknown",
+                "style": "unknown",
+                "scene": "unknown",
+                "colors": [],
+                "composition": {},
+                "lighting": {},
+                "camera": {},
+                "design_style": ""
+            }
         }
     },
     {
-        "id": 4,
+        "memory_id": "memory_90be228b0f2ea08a",
+        "created_at": null,
         "image": "outputs\\Partition001\\mock_generated_image.png",
+        "product": {
+            "id": "Partition001"
+        },
         "visual": {
             "category": "furniture",
             "material": "unknown",
@@ -325,11 +534,38 @@
             "product": {
                 "id": "Partition001"
             }
+        },
+        "performance": {
+            "score": 0,
+            "used_count": 0,
+            "success_rate": 0
+        },
+        "embedding": {
+            "file": {
+                "filename": "mock_generated_image.png",
+                "suffix": ".png",
+                "size": 9423
+            },
+            "visual": {
+                "category": "furniture",
+                "material": "unknown",
+                "style": "unknown",
+                "scene": "unknown",
+                "colors": [],
+                "composition": {},
+                "lighting": {},
+                "camera": {},
+                "design_style": ""
+            }
         }
     },
     {
-        "id": 5,
+        "memory_id": "memory_90be228b0f2ea08a",
+        "created_at": null,
         "image": "outputs\\Partition001\\mock_generated_image.png",
+        "product": {
+            "id": "Partition001"
+        },
         "visual": {
             "category": "furniture",
             "material": "unknown",
@@ -344,6 +580,29 @@
         "metadata": {
             "product": {
                 "id": "Partition001"
+            }
+        },
+        "performance": {
+            "score": 0,
+            "used_count": 0,
+            "success_rate": 0
+        },
+        "embedding": {
+            "file": {
+                "filename": "mock_generated_image.png",
+                "suffix": ".png",
+                "size": 9423
+            },
+            "visual": {
+                "category": "furniture",
+                "material": "unknown",
+                "style": "unknown",
+                "scene": "unknown",
+                "colors": [],
+                "composition": {},
+                "lighting": {},
+                "camera": {},
+                "design_style": ""
             }
         }
     }

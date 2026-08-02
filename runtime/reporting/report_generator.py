@@ -6,6 +6,14 @@ class ReportGenerator:
 
     def generate(self, state):
 
+        trace_value = getattr(state, "trace", [])
+        if hasattr(trace_value, "export"):
+            trace_export = trace_value.export()
+        elif hasattr(trace_value, "events"):
+            trace_export = trace_value.events
+        else:
+            trace_export = trace_value
+
         report = {
 
             "product": state.product_id,
@@ -24,7 +32,11 @@ class ReportGenerator:
 
             "artifacts": state.artifacts,
 
-            "trace": state.trace
+            "trace": (
+                state.trace.export()
+                if hasattr(state.trace, "export")
+                else trace_export
+            )
 
         }
 

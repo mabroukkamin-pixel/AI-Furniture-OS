@@ -82,6 +82,18 @@ class ArtifactRegistry:
         version
     ):
 
+        trace_value = getattr(
+            state,
+            "trace",
+            []
+        )
+        if hasattr(trace_value, "export"):
+            trace_export = trace_value.export()
+        elif hasattr(trace_value, "events"):
+            trace_export = trace_value.events
+        else:
+            trace_export = trace_value
+
         manifest = {
 
             "artifact_version": version,
@@ -111,10 +123,10 @@ class ArtifactRegistry:
 
             "files": {},
 
-            "trace": getattr(
-                state,
-                "trace",
-                []
+            "trace": (
+                state.trace.export()
+                if hasattr(state.trace, "export")
+                else trace_export
             )
 
         }
