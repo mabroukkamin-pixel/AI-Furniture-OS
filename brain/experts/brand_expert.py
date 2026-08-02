@@ -5,49 +5,45 @@ class BrandExpert(BaseExpert):
 
     def analyze(self, state):
 
-        print(__file__)
-
         print("========================================")
         print("        BRAND EXPERT")
         print("========================================")
 
-        branding = state.branding
-
-        # compatibility fallback
-        if isinstance(branding, dict) and "branding" in branding:
-            branding = branding.get(
-                "branding",
-                {}
-            )
+        branding = state.branding or {}
 
         state.branding = {
-            "company": branding.get(
-                "company",
-                ""
-            ),
 
-            "arabic": branding.get(
-                "arabic",
-                ""
-            ),
+            "company":
+                branding.get(
+                    "company",
+                    state.product.get("brand", "")
+                ),
 
-            "style": "premium_luxury",
+            "arabic":
+                branding.get(
+                    "arabic",
+                    "السوق الصيني"
+                ),
 
-            "colors": branding.get(
-                "colors",
-                {}
-            )
+            "style":
+                branding.get(
+                    "style",
+                    "premium gulf lifestyle"
+                ),
+
+            "colors":
+                branding.get(
+                    "colors",
+                    [
+                        "navy blue",
+                        "gold",
+                        "white"
+                    ]
+                )
+
         }
 
-
-        print("DEBUG STATE BRANDING:")
+        print("BRAND RESULT:")
         print(state.branding)
-
-
-        state.log(
-            "BrandExpert",
-            "Brand analysis completed"
-        )
-
 
         return state

@@ -3,29 +3,13 @@
     "image": "outputs/Console001\\mock_generated_image.png",
     "design_dna": {
         "design_style": "Modern Gulf Natural Luxury",
-        "scene": "luxury_villa",
+        "scene": "modern",
         "material_story": "Handcrafted natural_wood furniture",
         "brand_language": "premium_luxury",
-        "architecture": [
-            "modern_gulf",
-            "japandi",
-            "beige_stone_wall",
-            "travertine",
-            "neutral_walls",
-            "warm_wood_floor",
-            "natural_stone"
-        ],
+        "architecture": [],
         "accessories": {
-            "recommended": [
-                "ceramic_vase",
-                "green_plant",
-                "books",
-                "gold_decor"
-            ],
-            "avoid": [
-                "plastic",
-                "colorful_objects"
-            ]
+            "recommended": {},
+            "avoid": []
         },
         "lighting_mood": {
             "type": "warm_daylight",
@@ -53,31 +37,91 @@
         ]
     },
     "decision": {
-        "selected_style": "gulf_villa",
-        "base_score": 0,
-        "memory_bonus": 5,
-        "score": 5,
-        "memory_used": true,
+        "selected_style": "modern_natural_home",
+        "score": 85,
+        "reasons": [
+            "wood compatibility",
+            "modern interior match"
+        ],
+        "rule": "wood_modern",
         "ranking": [
             {
-                "style": "gulf_villa",
-                "score": 5,
-                "base_score": 0,
-                "memory_bonus": 5
+                "style": "modern_natural_home",
+                "score": 85,
+                "reasons": [
+                    "wood compatibility",
+                    "modern interior match"
+                ],
+                "rule": "wood_modern",
+                "source": "decision_rule"
             },
             {
-                "style": "modern_luxury_home",
-                "score": 5,
-                "base_score": 0,
-                "memory_bonus": 5
+                "style": "modern",
+                "score": 50,
+                "reasons": [
+                    "material knowledge match"
+                ],
+                "rule": null,
+                "source": "knowledge_graph"
             },
             {
-                "style": "contemporary_interior",
-                "score": 5,
-                "base_score": 0,
-                "memory_bonus": 5
+                "style": "natural",
+                "score": 50,
+                "reasons": [
+                    "material knowledge match"
+                ],
+                "rule": null,
+                "source": "knowledge_graph"
+            },
+            {
+                "style": "premium",
+                "score": 50,
+                "reasons": [
+                    "material knowledge match"
+                ],
+                "rule": null,
+                "source": "knowledge_graph"
             }
-        ]
+        ],
+        "scenes": [
+            "luxury_villa",
+            "modern_entrance",
+            "warm_home",
+            "japandi"
+        ],
+        "engine_result": {
+            "decisions": [
+                {
+                    "style": "modern_natural_home",
+                    "score": 85,
+                    "reasons": [
+                        "wood compatibility",
+                        "modern interior match"
+                    ]
+                }
+            ],
+            "score": {
+                "score": 15,
+                "reasons": [
+                    "premium product"
+                ]
+            }
+        },
+        "source": "DecisionExpert V3",
+        "primary_style": "modern_natural_home",
+        "lighting": {
+            "type": "warm_daylight",
+            "direction": "soft_side_light",
+            "quality": "cinematic"
+        },
+        "confidence": {
+            "confidence": 85,
+            "reasons": [
+                "DecisionExpert V3 completed",
+                "knowledge graph matched",
+                "environment generated"
+            ]
+        }
     },
     "experience": {
         "score": 100,

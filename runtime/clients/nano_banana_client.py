@@ -1,262 +1,63 @@
-import mimetypes
-import os
-import traceback
-from pathlib import Path
+﻿from brain.core.brain_state import BrainState
 
-from google import genai
-from google.genai import types
-from PIL import Image
+from brain.runtime.executors.load_executor import LoadExecutor
+from brain.runtime.executors.product_executor import ProductExecutor
+from brain.runtime.executors.memory_executor import MemoryExecutor
+from brain.runtime.executors.decision_executor import DecisionExecutor
+from brain.runtime.executors.prompt_executor import PromptExecutor
+from brain.runtime.executors.output_executor import OutputExecutor
 
-from runtime.clients.base_client import BaseClient
-from runtime.config.settings import (
-    GEMINI_API_KEY,
-    GEMINI_MODEL,
-    is_gemini_configured,
-)
+from brain.services.memory_service import MemoryService
+from brain.services.fusion_service import FusionService
 
 
-class NanoBananaClient(BaseClient):
+class BrainRuntime:
+
 
     def __init__(self):
-        self.enabled = False
-        self.client = None
 
-        api_key = (
-            GEMINI_API_KEY or ""
-        ).strip()
+        self.state = BrainState()
 
-        model = (
-            GEMINI_MODEL or ""
-        ).strip()
+        self.memory = MemoryService()
 
-        if is_gemini_configured():
-            self.client = genai.Client(
-                api_key=api_key,
-                http_options=types.HttpOptions(
-                    timeout=300000
-                )
-            )
-            self.enabled = True
-        else:
-            print(
-                "GEMINI API KEY OR MODEL NOT CONFIGURED"
-            )
-            print(
-                "Running in LOCAL MODE"
-            )
+        self.fusion = FusionService()
 
-    def _detect_mime_type(self, image_path):
-        with Image.open(image_path) as image:
-            image_format = image.format
-            image.verify()
+        self.executors = [
 
-        mime_type = Image.MIME.get(
-            image_format
-        )
+            LoadExecutor(),
 
-        if not mime_type:
-            mime_type = mimetypes.guess_type(
-                image_path
-            )[0]
+            ProductExecutor(),
 
-        return mime_type or "image/png"
+            MemoryExecutor(
+                self.fusion,
+                self.memory
+            ),
 
-    def _save_inline_image(
-        self,
-        inline_data,
-        output_folder
-    ):
-        mime_type = getattr(
-            inline_data,
-            "mime_type",
-            "image/png"
-        )
+            DecisionExecutor(),
 
-        extensions = {
-            "image/png": ".png",
-            "image/jpeg": ".jpg",
-            "image/webp": ".webp",
-        }
+            PromptExecutor(),
 
-        extension = extensions.get(
-            mime_type,
-            ".png"
-        )
+            OutputExecutor(),
 
-        output_image_path = os.path.join(
-            output_folder,
-            f"generated{extension}"
-        )
+        ]
 
-        temporary_path = (
-            f"{output_image_path}.tmp"
-        )
 
-        with open(
-            temporary_path,
-            "wb"
-        ) as file:
-            file.write(
-                inline_data.data
-            )
+    def run(self):
 
-        os.replace(
-            temporary_path,
-            output_image_path
-        )
+        print("=" * 50)
+        print("            BRAIN RUNTIME")
+        print("=" * 50)
 
-        return output_image_path
 
-    def generate(
-        self,
-        prompt,
-        image_path,
-        output_folder
-    ):
-        print()
-        print("=" * 30)
-        print("NANO BANANA CLIENT")
-        print("=" * 30)
-
-        os.makedirs(
-            output_folder,
-            exist_ok=True
-        )
-
-        print(
-            "Model:",
-            GEMINI_MODEL
-        )
-
-        print(
-            "Prompt:",
-            len(prompt),
-            "characters"
-        )
-
-        if not self.enabled:
-            print(
-                "LOCAL IMAGE ENGINE MODE"
-            )
-
-            prompt_file = os.path.join(
-                output_folder,
-                "generated_prompt.txt"
-            )
-
-            with open(
-                prompt_file,
-                "w",
-                encoding="utf-8"
-            ) as file:
-                file.write(prompt)
-
-            return {
-                "status": "local_only",
-                "image_path": None,
-                "prompt_path": prompt_file,
-            }
-
-        try:
-            print(
-                "Loading reference image..."
-            )
-
-            mime_type = self._detect_mime_type(
-                image_path
-            )
-
-            image_bytes = Path(
-                image_path
-            ).read_bytes()
+        for executor in self.executors:
 
             print(
-                "Calling Gemini API..."
+                f">>> {executor.__class__.__name__}"
             )
 
-            response = (
-                self.client.models.generate_content(
-                    model=GEMINI_MODEL,
-                    contents=[
-                        types.Part.from_bytes(
-                            data=image_bytes,
-                            mime_type=mime_type
-                        ),
-                        prompt,
-                    ],
-                    config=types.GenerateContentConfig(
-                        response_modalities=[
-                            "TEXT",
-                            "IMAGE"
-                        ]
-                    ),
-                )
+            self.state = executor.execute(
+                self.state
             )
 
-            for candidate in (
-                response.candidates or []
-            ):
-                content = getattr(
-                    candidate,
-                    "content",
-                    None
-                )
 
-                for part in (
-                    getattr(
-                        content,
-                        "parts",
-                        []
-                    ) or []
-                ):
-                    inline_data = getattr(
-                        part,
-                        "inline_data",
-                        None
-                    )
-
-                    if (
-                        inline_data
-                        and inline_data.data
-                    ):
-                        output_image_path = (
-                            self._save_inline_image(
-                                inline_data,
-                                output_folder
-                            )
-                        )
-
-                        return {
-                            "status": "success",
-                            "image_path":
-                                output_image_path,
-                        }
-
-            return {
-                "status": "queued",
-                "image_path": None,
-                "prompt_ready": True,
-                "reason": "generation_unavailable",
-            }
-
-        except Exception as error:
-
-            print(
-                "GEMINI ERROR"
-            )
-
-            traceback.print_exc()
-
-            return {
-
-                "status": "failed",
-
-                "image_path": None,
-
-                "prompt_ready": True,
-
-                "reason": "api_error",
-
-                "error": str(error),
-
-            }
+        return self.state

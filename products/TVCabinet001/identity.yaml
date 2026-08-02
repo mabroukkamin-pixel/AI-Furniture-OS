@@ -1,0 +1,45 @@
+product:
+
+  id: TVCabinet001
+
+  name: TV Cabinet
+
+  category: tv_cabinet
+
+  family:
+    - furniture
+    - living_room
+    - entertainment_furniture
+
+  material:
+    primary: natural_wood
+    secondary:
+      - black_metal
+
+  style:
+    - modern
+    - luxury
+    - natural
+
+  usage:
+    - living_room
+    - villa
+    - apartment
+
+  size:
+    width: 160
+    height: 55
+    depth: 40
+
+  colors:
+    primary:
+      - natural_wood
+      - black
+
+  handmade: false
+
+  premium: true
+
+  transparent: false
+
+  movable: true

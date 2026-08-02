@@ -210,6 +210,30 @@ class OutputManager:
 
         self.save_json(
             brain,
+            "environment.json",
+            context.environment
+        )
+
+        self.save_json(
+            brain,
+            "lighting.json",
+            context.lighting
+        )
+
+        self.save_json(
+            brain,
+            "camera.json",
+            context.camera
+        )
+
+        self.save_json(
+            brain,
+            "composition.json",
+            context.composition
+        )
+
+        self.save_json(
+            brain,
             "preservation.json",
             getattr(
                 context,

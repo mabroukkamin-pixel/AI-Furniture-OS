@@ -1,0 +1,41 @@
+behavior:
+
+  preserve:
+    - dimensions
+    - proportions
+    - wood_texture
+    - original_design
+    - cabinet_structure
+    - color_tone
+
+  emphasize:
+    - natural_wood
+    - premium_material
+    - modern_design
+    - storage_function
+    - elegance
+
+  avoid:
+    - redesign
+    - changing_shape
+    - extra_objects
+    - plastic_look
+    - fake_material
+
+preferred_backgrounds:
+  - luxury_villa
+  - modern_living_room
+  - premium_home
+
+preferred_lighting:
+  - warm
+  - soft_daylight
+  - golden_hour
+
+preferred_camera:
+  - furniture_standard
+  - lifestyle_shot
+
+output:
+  feeling: premium
+  realism: maximum

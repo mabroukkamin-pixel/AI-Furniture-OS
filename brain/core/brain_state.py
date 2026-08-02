@@ -1,3 +1,4 @@
+﻿from brain.core.brain_trace import BrainTrace
 from dataclasses import dataclass, field
 from typing import Optional
 
@@ -33,6 +34,7 @@ class BrainState:
 
     graph: dict = field(default_factory=dict)
     graph_decision: dict = field(default_factory=dict)
+    graph_reasoning: dict = field(default_factory=dict)
 
     # reference memory
     reference: dict = field(default_factory=dict)
@@ -50,8 +52,14 @@ class BrainState:
     # prompt
     prompt: dict = field(default_factory=dict)
 
+    # execution
+    action_plan: dict = field(default_factory=dict)
+
     # compatibility alias for final prompt payload
     final_prompt: dict = field(default_factory=dict)
+
+    # execution
+    action_plan: dict = field(default_factory=dict)
 
     # generation result
     generation: dict = field(default_factory=dict)
@@ -100,13 +108,12 @@ class BrainState:
     artifacts: dict = field(default_factory=dict)
 
     # debug
-    trace: list = field(default_factory=list)
+    execution_plan: dict = field(default_factory=dict)
+    trace: BrainTrace = field(default_factory=BrainTrace)
 
     def log(self, engine, message):
 
-        self.trace.append(
-            {
-                "engine": engine,
-                "message": message
-            }
+        self.trace.record(
+            stage=engine,
+            output_data=message
         )

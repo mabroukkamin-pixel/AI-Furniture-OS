@@ -1,0 +1,842 @@
+[
+    {
+        "product_id": "Partition001",
+        "decision": {
+            "style": "gulf_villa",
+            "score": 95
+        },
+        "design_dna": {},
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-01T21:45:08.656759"
+    },
+    {
+        "product_id": "unknown",
+        "decision": {},
+        "design_dna": {},
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T01:21:42.874206"
+    },
+    {
+        "product_id": "unknown",
+        "decision": {},
+        "design_dna": {},
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T01:21:44.975282"
+    },
+    {
+        "product_id": "unknown",
+        "decision": {},
+        "design_dna": {},
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T01:21:47.849363"
+    },
+    {
+        "product_id": "unknown",
+        "decision": {},
+        "design_dna": {},
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T01:21:52.946420"
+    },
+    {
+        "product_id": "unknown",
+        "decision": {},
+        "design_dna": {},
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T01:24:12.031502"
+    },
+    {
+        "product_id": "unknown",
+        "decision": {},
+        "design_dna": {},
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T01:26:41.824673"
+    },
+    {
+        "product_id": "unknown",
+        "decision": {},
+        "design_dna": {},
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T01:31:12.408696"
+    },
+    {
+        "product_id": "unknown",
+        "decision": {},
+        "design_dna": {},
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T01:32:42.942085"
+    },
+    {
+        "product_id": "unknown",
+        "decision": {},
+        "design_dna": {
+            "product": "Rattan Partition",
+            "material": "Rattan",
+            "brand": "Chinese Market",
+            "target": "Kuwaiti women"
+        },
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T01:36:21.744444"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {
+            "product": "Rattan Partition",
+            "material": "Rattan",
+            "brand": "Chinese Market",
+            "target": "Kuwaiti women"
+        },
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T01:38:15.071597"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {
+            "product": "Rattan Partition",
+            "material": "Rattan",
+            "brand": "Chinese Market",
+            "target": "Kuwaiti women"
+        },
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T01:39:48.591297"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {
+            "product": "Rattan Partition",
+            "material": "Rattan",
+            "brand": "Chinese Market",
+            "target": "Kuwaiti women"
+        },
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T01:40:59.144050"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {
+            "product": "Rattan Partition",
+            "material": "Rattan",
+            "brand": "Chinese Market",
+            "target": "Kuwaiti women"
+        },
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T01:42:22.211208"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {
+            "product": "Rattan Partition",
+            "material": "Rattan",
+            "brand": "Chinese Market",
+            "target": "Kuwaiti women"
+        },
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T01:43:50.096498"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {
+            "product": "Rattan Partition",
+            "material": "Rattan",
+            "brand": "Chinese Market",
+            "target": "Kuwaiti women"
+        },
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T01:45:56.879933"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {
+            "product": "Rattan Partition",
+            "material": "Rattan",
+            "brand": "Chinese Market",
+            "target": "Kuwaiti women"
+        },
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T01:47:48.184924"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {
+            "product": "Rattan Partition",
+            "material": "Rattan",
+            "brand": "Chinese Market",
+            "target": "Kuwaiti women"
+        },
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T01:49:53.440143"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {
+            "product": "Rattan Partition",
+            "material": "Rattan",
+            "brand": "Chinese Market",
+            "target": "Kuwaiti women"
+        },
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T01:51:10.322269"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {
+            "product": "Rattan Partition",
+            "material": "Rattan",
+            "brand": "Chinese Market",
+            "target": "Kuwaiti women"
+        },
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T01:52:55.157358"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {
+            "product": "Rattan Partition",
+            "material": "Rattan",
+            "brand": "Chinese Market",
+            "target": "Kuwaiti women"
+        },
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T01:54:35.282244"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {
+            "product": "Rattan Partition",
+            "material": "Rattan",
+            "brand": "Chinese Market",
+            "target": "Kuwaiti women"
+        },
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T01:57:29.586323"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {
+            "product": "Rattan Partition",
+            "material": "Rattan",
+            "brand": "Chinese Market",
+            "target": "Kuwaiti women"
+        },
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T01:59:29.902444"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {
+            "product": "Rattan Partition",
+            "material": "Rattan",
+            "brand": "Chinese Market",
+            "target": "Kuwaiti women"
+        },
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T02:03:17.908702"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {
+            "product": "Rattan Partition",
+            "material": "Rattan",
+            "brand": "Chinese Market",
+            "target": "Kuwaiti women"
+        },
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T02:05:07.143882"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {
+            "product": "Rattan Partition",
+            "material": "Rattan",
+            "brand": "Chinese Market",
+            "target": "Kuwaiti women"
+        },
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T02:07:55.910700"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {
+            "product": "Rattan Partition",
+            "material": "Rattan",
+            "brand": "Chinese Market",
+            "target": "Kuwaiti women"
+        },
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T02:09:56.313755"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {
+            "product": "Rattan Partition",
+            "material": "Rattan",
+            "brand": "Chinese Market",
+            "target": "Kuwaiti women"
+        },
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T02:10:56.164095"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {
+            "product": "Rattan Partition",
+            "material": "Rattan",
+            "brand": "Chinese Market",
+            "target": "Kuwaiti women"
+        },
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T02:13:06.154721"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {
+            "product": "Rattan Partition",
+            "material": "Rattan",
+            "brand": "Chinese Market",
+            "target": "Kuwaiti women"
+        },
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T02:15:42.890948"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {
+            "product": "Rattan Partition",
+            "material": "Rattan",
+            "brand": "Chinese Market",
+            "target": "Kuwaiti women"
+        },
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T02:16:19.933278"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {
+            "product": "Rattan Partition",
+            "material": "Rattan",
+            "brand": "Chinese Market",
+            "target": "Kuwaiti women"
+        },
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T02:17:50.125850"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {
+            "product": "Rattan Partition",
+            "material": "Rattan",
+            "brand": "Chinese Market",
+            "target": "Kuwaiti women"
+        },
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T02:19:12.531373"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {
+            "product": "Rattan Partition",
+            "material": "Rattan",
+            "brand": "Chinese Market",
+            "target": "Kuwaiti women"
+        },
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T02:20:13.688239"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {
+            "product": "Rattan Partition",
+            "material": "Rattan",
+            "brand": "Chinese Market",
+            "target": "Kuwaiti women"
+        },
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T02:22:16.050745"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {
+            "product": "Rattan Partition",
+            "material": "Rattan",
+            "brand": "Chinese Market",
+            "target": "Kuwaiti women"
+        },
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T02:23:46.338645"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {
+            "product": "Rattan Partition",
+            "material": "Rattan",
+            "brand": "Chinese Market",
+            "target": "Kuwaiti women"
+        },
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T02:24:42.979096"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {
+            "product": "Rattan Partition",
+            "material": "Rattan",
+            "brand": "Chinese Market",
+            "target": "Kuwaiti women"
+        },
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T02:25:02.812717"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {
+            "product": "Rattan Partition",
+            "material": "Rattan",
+            "brand": "Chinese Market",
+            "target": "Kuwaiti women"
+        },
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T02:26:46.586774"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {
+            "product": "Rattan Partition",
+            "material": "Rattan",
+            "brand": "Chinese Market",
+            "target": "Kuwaiti women"
+        },
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T02:28:58.088882"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {
+            "product": "Rattan Partition",
+            "material": "Rattan",
+            "brand": "Chinese Market",
+            "target": "Kuwaiti women"
+        },
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T02:32:22.762720"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {
+            "product": "Rattan Partition",
+            "material": "Rattan",
+            "brand": "Chinese Market",
+            "target": "Kuwaiti women"
+        },
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T02:34:30.700788"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {
+            "product": "Rattan Partition",
+            "material": "Rattan",
+            "brand": "Chinese Market",
+            "target": "Kuwaiti women"
+        },
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T02:36:31.406819"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {
+            "design_style": "",
+            "scene": "luxury interior",
+            "material_story": "Natural Rattan\nmaterial with handcrafted premium texture",
+            "brand_language": "Chinese Market",
+            "architecture": {},
+            "lighting_mood": [],
+            "camera_language": {},
+            "composition": {},
+            "emotion": []
+        },
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T02:39:41.477177"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {
+            "product": "Rattan Partition",
+            "design_style": "",
+            "scene": "luxury gulf interior",
+            "material_story": "Natural Rattan \nmaterial with handcrafted premium texture",
+            "brand_language": "Chinese Market",
+            "architecture": {},
+            "lighting_mood": [],
+            "camera_language": {},
+            "composition": {},
+            "emotion": []
+        },
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T02:40:27.741433"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {
+            "product": "Rattan Partition",
+            "design_style": "",
+            "scene": "luxury gulf interior",
+            "material_story": "Natural Rattan \nmaterial with handcrafted premium texture",
+            "brand_language": "Chinese Market",
+            "architecture": {},
+            "lighting_mood": [],
+            "camera_language": {},
+            "composition": {},
+            "emotion": []
+        },
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T02:41:17.085798"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {
+            "product": "Rattan Partition",
+            "design_style": "",
+            "scene": "luxury gulf interior",
+            "material_story": "Natural Rattan \nmaterial with handcrafted premium texture",
+            "brand_language": "Chinese Market",
+            "architecture": {},
+            "lighting_mood": [],
+            "camera_language": {},
+            "composition": {},
+            "emotion": []
+        },
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T02:42:01.192292"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {},
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T02:43:09.003121"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {},
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T02:45:43.625395"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {},
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T02:47:51.698108"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {},
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T02:49:49.734949"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {},
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T02:51:26.289688"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {},
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T02:53:17.753886"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {},
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T02:56:11.925857"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {},
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T03:00:25.026368"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {},
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T03:02:19.695433"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {},
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T03:03:44.201856"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {},
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T03:06:42.177791"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {},
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T03:13:21.405958"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {},
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T03:14:55.026879"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {},
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T03:21:25.611923"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {},
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T03:28:54.336414"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {},
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T03:32:53.171291"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {},
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T03:34:34.949074"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {},
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T03:42:24.103736"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {},
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T03:45:45.538265"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {},
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T03:55:00.286262"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {},
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T04:05:14.638764"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {},
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T04:07:05.375104"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {},
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T04:07:46.891175"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {},
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T04:18:32.937030"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {},
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T04:46:35.060356"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {},
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T04:46:40.998326"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {},
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T04:47:16.462650"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {},
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T05:00:09.405505"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {},
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T05:02:49.617751"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {},
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T05:04:09.962861"
+    },
+    {
+        "product_id": "Rattan Partition",
+        "decision": {},
+        "design_dna": {},
+        "generation": {},
+        "evaluation": {},
+        "created_at": "2026-08-02T05:05:46.017465"
+    }
+]

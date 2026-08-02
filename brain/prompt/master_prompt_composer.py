@@ -13,6 +13,7 @@ from brain.prompt.quality_composer import QualityComposer
 from brain.prompt.negative_prompt_composer import NegativePromptComposer
 from brain.prompt.design_dna_composer import DesignDNAComposer
 from brain.prompt.creative_direction_composer import CreativeDirectionComposer
+from brain.prompt.decision_composer import DecisionComposer
 
 
 class MasterPromptComposer:
@@ -35,6 +36,7 @@ class MasterPromptComposer:
         self.negative = NegativePromptComposer()
         self.design_dna = DesignDNAComposer()
         self.creative_direction = CreativeDirectionComposer()
+        self.decision = DecisionComposer()
 
     def compose(self, context):
 
@@ -65,6 +67,8 @@ class MasterPromptComposer:
             self.quality.compose(context),
 
             self.design_dna.compose(context),
+
+            self.decision.compose(context),
 
             self.creative_direction.compose(context)
 

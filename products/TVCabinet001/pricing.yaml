@@ -1,0 +1,12 @@
+pricing:
+
+  currency: KWD
+
+  price: 75
+
+  category: premium_value
+
+  positioning:
+    - affordable_luxury
+    - home_upgrade
+    - living_room_investment

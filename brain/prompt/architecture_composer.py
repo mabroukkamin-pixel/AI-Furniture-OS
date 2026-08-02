@@ -10,29 +10,42 @@ class ArchitectureComposer:
         if not arch:
             return ""
 
-        architecture = arch.get(
-            "architecture",
-            []
-        )
+        materials = []
+        walls = []
+        floors = []
+        avoid = []
 
-        walls = arch.get(
-            "walls",
-            []
-        )
+        if isinstance(arch, dict):
 
-        floors = arch.get(
-            "floors",
-            []
-        )
+            materials = (
+                arch.get("materials")
+                or
+                arch.get("architecture")
+                or
+                []
+            )
 
-        avoid = arch.get(
-            "avoid",
-            []
-        )
+            walls = arch.get(
+                "walls",
+                []
+            )
 
+            floors = arch.get(
+                "floors",
+                []
+            )
 
-        if isinstance(architecture, list):
-            architecture = ", ".join(architecture)
+            avoid = arch.get(
+                "avoid",
+                []
+            )
+
+        elif isinstance(arch, list):
+
+            materials = arch
+
+        if isinstance(materials, list):
+            materials = ", ".join(materials)
 
         if isinstance(walls, list):
             walls = ", ".join(walls)
@@ -41,14 +54,17 @@ class ArchitectureComposer:
             floors = ", ".join(floors)
 
         if isinstance(avoid, list):
+
             avoid = ", ".join(avoid)
 
+            if not avoid:
+                avoid = "None"
 
         return f"""
 ARCHITECTURE DIRECTION
 
-Style:
-{architecture}
+Materials:
+{materials}
 
 Walls:
 {walls}
@@ -58,4 +74,5 @@ Floor:
 
 Avoid:
 {avoid}
+
 """.strip()

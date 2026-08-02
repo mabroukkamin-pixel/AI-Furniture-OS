@@ -3,10 +3,10 @@
     def __init__(self, output_manager):
         self.output_manager = output_manager
 
-    def execute(self, product_id, state):
+    def execute(self, state):
 
         self.output_manager.export(
-            product_id,
+            state.product_id,
             state
         )
 

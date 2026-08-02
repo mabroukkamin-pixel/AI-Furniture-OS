@@ -1,0 +1,136 @@
+{
+    "product": "TVCabinet001",
+    "image": "outputs/TVCabinet001\\mock_generated_image.png",
+    "design_dna": {
+        "design_style": "Modern Gulf Natural Luxury",
+        "scene": "modern",
+        "material_story": "Handcrafted natural_wood furniture",
+        "brand_language": "premium_luxury",
+        "architecture": [],
+        "accessories": {
+            "recommended": {},
+            "avoid": []
+        },
+        "lighting_mood": {
+            "type": "warm_daylight",
+            "direction": "soft_side_light",
+            "quality": "cinematic"
+        },
+        "camera_language": {
+            "angle": "45_degree",
+            "lens": "50mm",
+            "shot": "premium_product_photography",
+            "height": "eye_level"
+        },
+        "composition": {
+            "style": "luxury_minimal",
+            "product_position": "center",
+            "product_scale": "75%",
+            "position": "center",
+            "balance": "luxury_minimal",
+            "focus": "product_first"
+        },
+        "emotion": [
+            "luxury",
+            "comfort",
+            "elegance"
+        ]
+    },
+    "decision": {
+        "selected_style": "modern_natural_home",
+        "score": 85,
+        "reasons": [
+            "wood compatibility",
+            "modern interior match"
+        ],
+        "rule": "wood_modern",
+        "ranking": [
+            {
+                "style": "modern_natural_home",
+                "score": 85,
+                "reasons": [
+                    "wood compatibility",
+                    "modern interior match"
+                ],
+                "rule": "wood_modern",
+                "source": "decision_rule"
+            },
+            {
+                "style": "modern",
+                "score": 50,
+                "reasons": [
+                    "material knowledge match"
+                ],
+                "rule": null,
+                "source": "knowledge_graph"
+            },
+            {
+                "style": "natural",
+                "score": 50,
+                "reasons": [
+                    "material knowledge match"
+                ],
+                "rule": null,
+                "source": "knowledge_graph"
+            },
+            {
+                "style": "premium",
+                "score": 50,
+                "reasons": [
+                    "material knowledge match"
+                ],
+                "rule": null,
+                "source": "knowledge_graph"
+            }
+        ],
+        "scenes": [
+            "luxury_villa",
+            "modern_entrance",
+            "warm_home",
+            "japandi"
+        ],
+        "engine_result": {
+            "decisions": [
+                {
+                    "style": "modern_natural_home",
+                    "score": 85,
+                    "reasons": [
+                        "wood compatibility",
+                        "modern interior match"
+                    ]
+                }
+            ],
+            "score": {
+                "score": 15,
+                "reasons": [
+                    "premium product"
+                ]
+            }
+        },
+        "source": "DecisionExpert V3",
+        "primary_style": "modern_natural_home",
+        "lighting": {
+            "type": "warm_daylight",
+            "direction": "soft_side_light",
+            "quality": "cinematic"
+        },
+        "confidence": {
+            "confidence": 85,
+            "reasons": [
+                "DecisionExpert V3 completed",
+                "knowledge graph matched",
+                "environment generated"
+            ]
+        }
+    },
+    "experience": {
+        "score": 100,
+        "success": true,
+        "reasons": [
+            "decision_created",
+            "design_dna_created",
+            "prompt_audit_passed",
+            "generation_completed"
+        ]
+    }
+}

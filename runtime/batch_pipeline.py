@@ -1,13 +1,24 @@
-class BatchPipeline:
+﻿"""
+Batch Pipeline Runner
+"""
 
-    def process(self, product_id):
+from runtime.pipeline import FurniturePipeline
 
-        load product
 
-        run brain
+def run_batch(product_id):
+    pipeline = FurniturePipeline()
 
-        build prompt
+    return pipeline.run(
+        product_id=product_id
+    )
 
-        generate image
 
-        save output
+if __name__ == "__main__":
+
+    print("BATCH PIPELINE")
+
+    result = run_batch(
+        "Partition001"
+    )
+
+    print(result)
