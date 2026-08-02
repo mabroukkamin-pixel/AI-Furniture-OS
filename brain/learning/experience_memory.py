@@ -1,81 +1,65 @@
-
-import json
-import os
-from datetime import datetime
-
-
-class ExperienceMemory:
+﻿class ExperienceMemory:
 
 
     def __init__(self):
 
-        self.path = "brain/learning/experience_memory.json"
-        self.memory = []
-
-        self.load()
+        self.file = "brain/learning/data/experience_memory.json"
 
 
+    def save(self, experience):
 
-    def load(self):
+        import json
+        import os
 
-        if os.path.exists(self.path):
+
+        data = {
+            "experiences": []
+        }
+
+
+        if os.path.exists(self.file):
 
             with open(
-                self.path,
+                self.file,
                 "r",
                 encoding="utf-8"
             ) as f:
 
-                self.memory = json.load(f)
+                data = json.load(f)
 
 
-
-    def save(self):
-
-        os.makedirs(
-            os.path.dirname(self.path),
-            exist_ok=True
+        data["experiences"].append(
+            experience
         )
 
+
         with open(
-            self.path,
+            self.file,
             "w",
             encoding="utf-8"
         ) as f:
 
             json.dump(
-                self.memory,
+                data,
                 f,
                 indent=4,
                 ensure_ascii=False
             )
 
 
-
-    def store(self, state):
-
-        record = {
-
-            "time": str(datetime.now()),
-
-            "product":
-                getattr(
-                    state.product,
-                    "id",
-                    None
-                ),
-
-            "decision":
-                state.decision,
-
-            "experience":
-                state.experience
-
-        }
+        return True
 
 
-        self.memory.append(record)
 
-        self.save()
+    def load(self):
 
-        return record
+        import json
+
+
+        with open(
+            self.file,
+            "r",
+            encoding="utf-8"
+        ) as f:
+
+            return json.load(f)

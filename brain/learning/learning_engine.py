@@ -1,35 +1,27 @@
-
-class LearningEngine:
-
-
-    def improve(self, state):
-
-        experience = getattr(
-            state,
-            "experience",
-            {}
-        )
+﻿class LearningEngine:
 
 
-        if experience.get("score",0) >= 75:
-
-            state.learning = {
-
-                "status":"positive",
-
-                "message":
-                "Experience approved"
-
-            }
+    def learn(self, state):
 
 
-        else:
+        experience = {
 
-            state.learning = {
+            "product":
+                getattr(
+                    state.product,
+                    "id",
+                    None
+                ),
 
-                "status":"needs_improvement"
 
-            }
+            "decision":
+                state.decision,
 
 
-        return state
+            "experience":
+                state.experience
+
+        }
+
+
+        return experience

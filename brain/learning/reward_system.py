@@ -1,25 +1,32 @@
+﻿class RewardSystem:
 
-class RewardSystem:
+
+    def calculate(self, experience):
 
 
-    def calculate(self,state):
-
-        experience = getattr(
-            state,
-            "experience",
-            {}
-        )
+        reward = 0
 
 
         score = experience.get(
+            "experience",
+            {}
+        ).get(
             "score",
             0
         )
 
 
+        reward = score
+
+
         return {
 
             "reward":
-                score / 100
+                reward,
+
+            "quality":
+                "high"
+                if reward >= 75
+                else "low"
 
         }
