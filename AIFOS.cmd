@@ -45,6 +45,12 @@ goto END
 )
 
 
+if "%1"=="AUDIT" (
+python -m brain.system.final_audit
+goto END
+)
+
+
 echo.
 echo =================================
 echo AI FURNITURE OS V2 COMMAND CENTER
@@ -57,6 +63,7 @@ echo AIFOS PRODUCTION
 echo AIFOS LOOP
 echo AIFOS TEST
 echo AIFOS RELEASE
+echo AIFOS AUDIT
 echo.
 
 
