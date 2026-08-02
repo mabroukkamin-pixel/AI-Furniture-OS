@@ -1,0 +1,13 @@
+{
+    "modules":  {
+                    "brain\\core\\brain_state.py":  "OK",
+                    "brain\\learning":  "OK",
+                    "runtime\\run_pipeline.py":  "OK",
+                    "runtime\\pipeline.py":  "OK",
+                    "brain\\visual_memory":  "OK",
+                    "brain\\decision_graph":  "OK"
+                },
+    "time":  "20260802_110846",
+    "status":  "completed",
+    "decision":  true
+}

@@ -1,0 +1,31 @@
+references:
+
+  natural:
+
+    style_images:
+      - reference_library/styles/natural/01.jpg
+      - reference_library/styles/natural/02.jpg
+
+
+  gulf_luxury:
+
+    style_images:
+      - reference_library/styles/gulf_luxury/01.jpg
+
+
+  rattan:
+
+    material_images:
+      - reference_library/materials/rattan/01.jpg
+
+
+  luxury_villa:
+
+    scene_images:
+      - reference_library/scenes/luxury_villa/01.jpg
+
+
+  beige_stone_wall:
+
+    scene_images:
+      - reference_library/scenes/beige_stone_wall/01.jpg

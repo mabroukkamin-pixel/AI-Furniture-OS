@@ -1,0 +1,133 @@
+natural:
+
+  colors:
+
+    - beige
+    - cream
+    - oak
+
+  materials:
+
+    - wood
+    - rattan
+
+  lighting:
+
+    - warm
+
+  mood:
+
+    - peaceful
+
+luxury:
+
+  colors:
+
+    - gold
+
+    - white
+
+    - marble
+
+modern:
+
+  colors:
+
+    - black
+
+    - gray
+
+minimal:
+
+  colors:
+
+    - white
+
+bohemian:
+
+  colors:
+    - beige
+    - terracotta
+    - olive_green
+
+  lighting:
+    - warm_daylight
+
+  mood:
+    - relaxed
+    - handcrafted
+
+
+japandi:
+
+  colors:
+    - beige
+    - oak
+    - warm_white
+
+  lighting:
+    - soft_daylight
+
+  mood:
+    - calm
+    - balanced
+
+
+premium:
+
+  colors:
+    - ivory
+    - walnut
+    - gold
+
+  lighting:
+    - cinematic_soft_light
+
+  mood:
+    - refined
+    - exclusive
+
+
+gulf_villa:
+
+  colors:
+    - beige
+    - ivory
+    - gold
+
+  lighting:
+    - warm_daylight
+
+  mood:
+    - gulf_luxury
+    - refined
+
+
+luxury_resort:
+
+  colors:
+    - sand
+    - ivory
+    - turquoise
+
+  lighting:
+    - golden_hour
+
+  mood:
+    - relaxed_luxury
+    - hospitality
+
+
+modern_natural_home:
+
+  colors:
+    - natural_wood
+    - beige
+    - warm_white
+
+  lighting:
+    - soft_daylight
+
+  mood:
+    - modern
+    - natural

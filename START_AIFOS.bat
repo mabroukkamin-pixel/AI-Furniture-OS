@@ -1,0 +1,10 @@
+@echo off
+
+cd /d %~dp0
+
+call .venv\Scripts\activate
+
+python -m brain.autonomous.aifos_loop
+
+pause
+

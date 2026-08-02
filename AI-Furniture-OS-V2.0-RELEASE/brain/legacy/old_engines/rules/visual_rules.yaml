@@ -1,0 +1,71 @@
+materials:
+
+  rattan:
+
+    allow:
+      architecture:
+        - gulf_villa
+        - luxury_resort
+        - modern_natural_home
+
+      walls:
+        - travertine
+        - beige_stone
+        - lime_wash
+
+      floors:
+        - warm_oak
+        - natural_stone
+        - marble
+
+      lighting:
+        - golden_hour
+        - warm_daylight
+
+      accessories:
+        - olive_tree
+        - ceramic_vase
+        - woven_basket
+        - natural_fabric
+
+
+    forbid:
+
+      style:
+        - industrial
+        - futuristic
+        - cold_minimal
+
+      materials:
+        - chrome
+        - plastic
+        - acrylic
+
+      lighting:
+        - neon
+        - blue_light
+
+      environment:
+        - factory
+        - office
+        - warehouse
+
+
+
+  wood:
+
+    allow:
+      architecture:
+        - modern_home
+        - luxury_villa
+
+      lighting:
+        - warm_daylight
+        - golden_hour
+
+
+    forbid:
+
+      materials:
+        - plastic
+        - chrome

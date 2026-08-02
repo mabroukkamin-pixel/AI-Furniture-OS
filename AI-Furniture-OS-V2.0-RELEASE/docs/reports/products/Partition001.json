@@ -1,0 +1,44 @@
+{
+    "product": "Partition001",
+    "start": "2026-08-02 12:58:52.438537",
+    "pipeline": "STARTED",
+    "brain_result": {
+        "command": "AUTO",
+        "result": {
+            "experience": {
+                "product": "Partition001",
+                "material": "rattan",
+                "style": "gulf_villa",
+                "score": 95,
+                "success": true,
+                "date": "2026-08-02 12:58:52.442905"
+            },
+            "learning": {
+                "learning_status": "ACTIVE",
+                "experience": {
+                    "total_experiences": 58,
+                    "success": 58,
+                    "failed": 0,
+                    "patterns": {
+                        "gulf_villa": 58
+                    }
+                }
+            },
+            "evolution": {
+                "evolution_status": "ACTIVE",
+                "result": {
+                    "status": "EVOLVED",
+                    "time": "2026-08-02 12:58:52.446901",
+                    "weights": {
+                        "gulf_villa": {
+                            "runs": 870,
+                            "success": 870,
+                            "confidence": 100
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "status": "SUCCESS"
+}

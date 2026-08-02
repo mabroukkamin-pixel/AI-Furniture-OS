@@ -1,0 +1,28 @@
+partition:
+
+  story:
+    - luxury_privacy
+    - elegant_space_divider
+    - handcrafted_natural_living
+
+  mood:
+    - quiet_luxury
+    - peaceful
+    - warm_home
+
+  hero:
+    - natural_weaving
+    - handcrafted_texture
+
+  render:
+    - editorial
+    - commercial
+
+  camera:
+    - eye_level
+
+  lighting:
+    - warm_daylight
+
+  scene:
+    - luxury_villa

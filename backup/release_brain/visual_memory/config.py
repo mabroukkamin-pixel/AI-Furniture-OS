@@ -1,0 +1,1 @@
+ACTIVE_MEMORY = "brain/visual_memory/learned_memory_v4.json"

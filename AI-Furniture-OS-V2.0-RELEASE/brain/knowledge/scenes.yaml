@@ -1,0 +1,27 @@
+luxury_villa:
+
+  architecture:
+
+      - travertine
+      - limestone
+      - oak
+
+
+  suitable_styles:
+
+      - luxury
+      - natural
+      - premium
+
+
+  lighting:
+
+      - warm_daylight
+      - cinematic_soft_light
+
+
+  accessories:
+
+      - vase
+      - plant
+      - artwork

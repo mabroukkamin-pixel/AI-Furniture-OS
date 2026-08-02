@@ -1,0 +1,350 @@
+[
+    {
+        "id": 0,
+        "image": "outputs/Partition001\\mock_generated_image.png",
+        "visual": {
+            "category": "partition",
+            "material": "rattan",
+            "style": "gulf_villa",
+            "scene": "luxury_villa",
+            "colors": [
+                "beige",
+                "brown"
+            ],
+            "composition": {
+                "style": "luxury_minimal",
+                "product_position": "center",
+                "product_scale": "75%",
+                "position": "center",
+                "balance": "luxury_minimal",
+                "focus": "product_first"
+            },
+            "lighting": {
+                "type": "warm_daylight",
+                "direction": "soft_side_light",
+                "quality": "cinematic"
+            },
+            "camera": {
+                "angle": "45_degree",
+                "lens": "50mm",
+                "shot": "premium_product_photography",
+                "height": "eye_level"
+            },
+            "design_style": "Modern Gulf Natural Luxury"
+        },
+        "metadata": {
+            "product": {
+                "id": "Partition001",
+                "name": "Rattan Partition",
+                "category": "partition",
+                "material": {
+                    "primary": "rattan",
+                    "secondary": [
+                        "wood"
+                    ]
+                },
+                "style": [
+                    "bohemian",
+                    "natural",
+                    "luxury"
+                ]
+            },
+            "decision": {
+                "selected_style": "gulf_villa",
+                "score": 95
+            },
+            "design_dna": {
+                "design_style": "Modern Gulf Natural Luxury",
+                "scene": "luxury_villa",
+                "material_story": "Handcrafted rattan furniture",
+                "brand_language": "premium_luxury",
+                "architecture": [
+                    "resort",
+                    "bohemian",
+                    "white_plaster",
+                    "wood_floor"
+                ],
+                "accessories": {
+                    "recommended": [
+                        "ceramic_vase",
+                        "pampas",
+                        "books"
+                    ],
+                    "avoid": [
+                        "metal_heavy_objects"
+                    ]
+                },
+                "lighting_mood": {
+                    "type": "warm_daylight",
+                    "direction": "soft_side_light",
+                    "quality": "cinematic"
+                },
+                "camera_language": {
+                    "angle": "45_degree",
+                    "lens": "50mm",
+                    "shot": "premium_product_photography",
+                    "height": "eye_level"
+                },
+                "composition": {
+                    "style": "luxury_minimal",
+                    "product_position": "center",
+                    "product_scale": "75%",
+                    "position": "center",
+                    "balance": "luxury_minimal",
+                    "focus": "product_first"
+                },
+                "emotion": [
+                    "luxury",
+                    "comfort",
+                    "elegance"
+                ]
+            }
+        }
+    },
+    {
+        "id": 1,
+        "image": "outputs/Console001\\mock_generated_image.png",
+        "visual": {
+            "category": "console",
+            "material": "natural_wood",
+            "style": "modern_natural_home",
+            "scene": "modern",
+            "colors": [
+                "natural_wood",
+                "black"
+            ],
+            "composition": {
+                "style": "luxury_minimal",
+                "product_position": "center",
+                "product_scale": "75%",
+                "position": "center",
+                "balance": "luxury_minimal",
+                "focus": "product_first"
+            },
+            "lighting": {
+                "type": "warm_daylight",
+                "direction": "soft_side_light",
+                "quality": "cinematic"
+            },
+            "camera": {
+                "angle": "45_degree",
+                "lens": "50mm",
+                "shot": "premium_product_photography",
+                "height": "eye_level"
+            },
+            "design_style": "Modern Gulf Natural Luxury"
+        },
+        "metadata": {
+            "product": {
+                "id": "Console001",
+                "name": "Wooden Console",
+                "category": "console",
+                "material": {
+                    "primary": "natural_wood",
+                    "secondary": [
+                        "black_metal"
+                    ]
+                },
+                "style": [
+                    "modern",
+                    "natural",
+                    "premium"
+                ]
+            },
+            "decision": {
+                "selected_style": "modern_natural_home",
+                "score": 85
+            },
+            "design_dna": {
+                "design_style": "Modern Gulf Natural Luxury",
+                "scene": "modern",
+                "material_story": "Handcrafted natural_wood furniture",
+                "brand_language": "premium_luxury",
+                "architecture": [],
+                "accessories": {
+                    "recommended": {},
+                    "avoid": []
+                },
+                "lighting_mood": {
+                    "type": "warm_daylight",
+                    "direction": "soft_side_light",
+                    "quality": "cinematic"
+                },
+                "camera_language": {
+                    "angle": "45_degree",
+                    "lens": "50mm",
+                    "shot": "premium_product_photography",
+                    "height": "eye_level"
+                },
+                "composition": {
+                    "style": "luxury_minimal",
+                    "product_position": "center",
+                    "product_scale": "75%",
+                    "position": "center",
+                    "balance": "luxury_minimal",
+                    "focus": "product_first"
+                },
+                "emotion": [
+                    "luxury",
+                    "comfort",
+                    "elegance"
+                ]
+            }
+        }
+    },
+    {
+        "id": 2,
+        "image": "outputs/TVCabinet001\\mock_generated_image.png",
+        "visual": {
+            "category": "tv_cabinet",
+            "material": "natural_wood",
+            "style": "modern_natural_home",
+            "scene": "modern",
+            "colors": [
+                "natural_wood",
+                "black"
+            ],
+            "composition": {
+                "style": "luxury_minimal",
+                "product_position": "center",
+                "product_scale": "75%",
+                "position": "center",
+                "balance": "luxury_minimal",
+                "focus": "product_first"
+            },
+            "lighting": {
+                "type": "warm_daylight",
+                "direction": "soft_side_light",
+                "quality": "cinematic"
+            },
+            "camera": {
+                "angle": "45_degree",
+                "lens": "50mm",
+                "shot": "premium_product_photography",
+                "height": "eye_level"
+            },
+            "design_style": "Modern Gulf Natural Luxury"
+        },
+        "metadata": {
+            "product": {
+                "id": "TVCabinet001",
+                "name": "TV Cabinet",
+                "category": "tv_cabinet",
+                "material": {
+                    "primary": "natural_wood",
+                    "secondary": [
+                        "black_metal"
+                    ]
+                },
+                "style": [
+                    "modern",
+                    "luxury",
+                    "natural"
+                ]
+            },
+            "decision": {
+                "selected_style": "modern_natural_home",
+                "score": 85
+            },
+            "design_dna": {
+                "design_style": "Modern Gulf Natural Luxury",
+                "scene": "modern",
+                "material_story": "Handcrafted natural_wood furniture",
+                "brand_language": "premium_luxury",
+                "architecture": [],
+                "accessories": {
+                    "recommended": {},
+                    "avoid": []
+                },
+                "lighting_mood": {
+                    "type": "warm_daylight",
+                    "direction": "soft_side_light",
+                    "quality": "cinematic"
+                },
+                "camera_language": {
+                    "angle": "45_degree",
+                    "lens": "50mm",
+                    "shot": "premium_product_photography",
+                    "height": "eye_level"
+                },
+                "composition": {
+                    "style": "luxury_minimal",
+                    "product_position": "center",
+                    "product_scale": "75%",
+                    "position": "center",
+                    "balance": "luxury_minimal",
+                    "focus": "product_first"
+                },
+                "emotion": [
+                    "luxury",
+                    "comfort",
+                    "elegance"
+                ]
+            }
+        }
+    },
+    {
+        "id": 3,
+        "image": "outputs\\Partition001\\mock_generated_image.png",
+        "visual": {
+            "category": "furniture",
+            "material": "unknown",
+            "style": "unknown",
+            "scene": "unknown",
+            "colors": [],
+            "composition": {},
+            "lighting": {},
+            "camera": {},
+            "design_style": ""
+        },
+        "metadata": {
+            "product": {
+                "id": "Partition001",
+                "name": "Rattan Partition"
+            },
+            "decision": {
+                "score": 95
+            }
+        }
+    },
+    {
+        "id": 4,
+        "image": "outputs\\Partition001\\mock_generated_image.png",
+        "visual": {
+            "category": "furniture",
+            "material": "unknown",
+            "style": "unknown",
+            "scene": "unknown",
+            "colors": [],
+            "composition": {},
+            "lighting": {},
+            "camera": {},
+            "design_style": ""
+        },
+        "metadata": {
+            "product": {
+                "id": "Partition001"
+            }
+        }
+    },
+    {
+        "id": 5,
+        "image": "outputs\\Partition001\\mock_generated_image.png",
+        "visual": {
+            "category": "furniture",
+            "material": "unknown",
+            "style": "unknown",
+            "scene": "unknown",
+            "colors": [],
+            "composition": {},
+            "lighting": {},
+            "camera": {},
+            "design_style": ""
+        },
+        "metadata": {
+            "product": {
+                "id": "Partition001"
+            }
+        }
+    }
+]

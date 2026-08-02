@@ -1,0 +1,1298 @@
+[
+    {
+        "image": "outputs/Partition001\\mock_generated_image.png",
+        "embedding": {
+            "file": {
+                "filename": "mock_generated_image.png",
+                "suffix": ".png",
+                "size": 9423
+            },
+            "visual": {
+                "category": "partition",
+                "material": "rattan",
+                "style": "gulf_villa",
+                "scene": "luxury_villa",
+                "colors": [
+                    "beige",
+                    "brown"
+                ],
+                "composition": {
+                    "style": "luxury_minimal",
+                    "product_position": "center",
+                    "product_scale": "75%",
+                    "position": "center",
+                    "balance": "luxury_minimal",
+                    "focus": "product_first"
+                },
+                "lighting": {
+                    "type": "warm_daylight",
+                    "direction": "soft_side_light",
+                    "quality": "cinematic"
+                },
+                "camera": {
+                    "angle": "45_degree",
+                    "lens": "50mm",
+                    "shot": "premium_product_photography",
+                    "height": "eye_level"
+                },
+                "design_style": "Modern Gulf Natural Luxury"
+            }
+        },
+        "metadata": {
+            "product": {
+                "id": "Partition001",
+                "name": "Rattan Partition",
+                "category": "partition",
+                "material": {
+                    "primary": "rattan",
+                    "secondary": [
+                        "wood"
+                    ]
+                },
+                "style": [
+                    "bohemian",
+                    "natural",
+                    "luxury"
+                ]
+            },
+            "decision": {
+                "selected_style": "gulf_villa",
+                "score": 95
+            },
+            "design_dna": {
+                "design_style": "Modern Gulf Natural Luxury",
+                "scene": "luxury_villa",
+                "material_story": "Handcrafted rattan furniture",
+                "brand_language": "premium_luxury",
+                "architecture": [
+                    "resort",
+                    "bohemian",
+                    "white_plaster",
+                    "wood_floor"
+                ],
+                "accessories": {
+                    "recommended": [
+                        "ceramic_vase",
+                        "pampas",
+                        "books"
+                    ],
+                    "avoid": [
+                        "metal_heavy_objects"
+                    ]
+                },
+                "lighting_mood": {
+                    "type": "warm_daylight",
+                    "direction": "soft_side_light",
+                    "quality": "cinematic"
+                },
+                "camera_language": {
+                    "angle": "45_degree",
+                    "lens": "50mm",
+                    "shot": "premium_product_photography",
+                    "height": "eye_level"
+                },
+                "composition": {
+                    "style": "luxury_minimal",
+                    "product_position": "center",
+                    "product_scale": "75%",
+                    "position": "center",
+                    "balance": "luxury_minimal",
+                    "focus": "product_first"
+                },
+                "emotion": [
+                    "luxury",
+                    "comfort",
+                    "elegance"
+                ]
+            }
+        }
+    },
+    {
+        "image": "outputs/Partition001\\mock_generated_image.png",
+        "embedding": {
+            "file": {
+                "filename": "mock_generated_image.png",
+                "suffix": ".png",
+                "size": 9423
+            },
+            "visual": {
+                "category": "partition",
+                "material": "rattan",
+                "style": "gulf_villa",
+                "scene": "luxury_villa",
+                "colors": [
+                    "beige",
+                    "brown"
+                ],
+                "composition": {
+                    "style": "luxury_minimal",
+                    "product_position": "center",
+                    "product_scale": "75%",
+                    "position": "center",
+                    "balance": "luxury_minimal",
+                    "focus": "product_first"
+                },
+                "lighting": {
+                    "type": "warm_daylight",
+                    "direction": "soft_side_light",
+                    "quality": "cinematic"
+                },
+                "camera": {
+                    "angle": "45_degree",
+                    "lens": "50mm",
+                    "shot": "premium_product_photography",
+                    "height": "eye_level"
+                },
+                "design_style": "Modern Gulf Natural Luxury"
+            }
+        },
+        "metadata": {
+            "product": {
+                "id": "Partition001",
+                "name": "Rattan Partition",
+                "category": "partition",
+                "material": {
+                    "primary": "rattan",
+                    "secondary": [
+                        "wood"
+                    ]
+                },
+                "style": [
+                    "bohemian",
+                    "natural",
+                    "luxury"
+                ]
+            },
+            "decision": {
+                "selected_style": "gulf_villa",
+                "score": 95
+            },
+            "design_dna": {
+                "design_style": "Modern Gulf Natural Luxury",
+                "scene": "luxury_villa",
+                "material_story": "Handcrafted rattan furniture",
+                "brand_language": "premium_luxury",
+                "architecture": [
+                    "resort",
+                    "bohemian",
+                    "white_plaster",
+                    "wood_floor"
+                ],
+                "accessories": {
+                    "recommended": [
+                        "ceramic_vase",
+                        "pampas",
+                        "books"
+                    ],
+                    "avoid": [
+                        "metal_heavy_objects"
+                    ]
+                },
+                "lighting_mood": {
+                    "type": "warm_daylight",
+                    "direction": "soft_side_light",
+                    "quality": "cinematic"
+                },
+                "camera_language": {
+                    "angle": "45_degree",
+                    "lens": "50mm",
+                    "shot": "premium_product_photography",
+                    "height": "eye_level"
+                },
+                "composition": {
+                    "style": "luxury_minimal",
+                    "product_position": "center",
+                    "product_scale": "75%",
+                    "position": "center",
+                    "balance": "luxury_minimal",
+                    "focus": "product_first"
+                },
+                "emotion": [
+                    "luxury",
+                    "comfort",
+                    "elegance"
+                ]
+            }
+        }
+    },
+    {
+        "image": "outputs/Partition001\\mock_generated_image.png",
+        "embedding": {
+            "file": {
+                "filename": "mock_generated_image.png",
+                "suffix": ".png",
+                "size": 9423
+            },
+            "visual": {
+                "category": "partition",
+                "material": "rattan",
+                "style": "gulf_villa",
+                "scene": "luxury_villa",
+                "colors": [
+                    "beige",
+                    "brown"
+                ],
+                "composition": {
+                    "style": "luxury_minimal",
+                    "product_position": "center",
+                    "product_scale": "75%",
+                    "position": "center",
+                    "balance": "luxury_minimal",
+                    "focus": "product_first"
+                },
+                "lighting": {
+                    "type": "warm_daylight",
+                    "direction": "soft_side_light",
+                    "quality": "cinematic"
+                },
+                "camera": {
+                    "angle": "45_degree",
+                    "lens": "50mm",
+                    "shot": "premium_product_photography",
+                    "height": "eye_level"
+                },
+                "design_style": "Modern Gulf Natural Luxury"
+            }
+        },
+        "metadata": {
+            "product": {
+                "id": "Partition001",
+                "name": "Rattan Partition",
+                "category": "partition",
+                "material": {
+                    "primary": "rattan",
+                    "secondary": [
+                        "wood"
+                    ]
+                },
+                "style": [
+                    "bohemian",
+                    "natural",
+                    "luxury"
+                ]
+            },
+            "decision": {
+                "selected_style": "gulf_villa",
+                "score": 95
+            },
+            "design_dna": {
+                "design_style": "Modern Gulf Natural Luxury",
+                "scene": "luxury_villa",
+                "material_story": "Handcrafted rattan furniture",
+                "brand_language": "premium_luxury",
+                "architecture": [
+                    "resort",
+                    "bohemian",
+                    "white_plaster",
+                    "wood_floor"
+                ],
+                "accessories": {
+                    "recommended": [
+                        "ceramic_vase",
+                        "pampas",
+                        "books"
+                    ],
+                    "avoid": [
+                        "metal_heavy_objects"
+                    ]
+                },
+                "lighting_mood": {
+                    "type": "warm_daylight",
+                    "direction": "soft_side_light",
+                    "quality": "cinematic"
+                },
+                "camera_language": {
+                    "angle": "45_degree",
+                    "lens": "50mm",
+                    "shot": "premium_product_photography",
+                    "height": "eye_level"
+                },
+                "composition": {
+                    "style": "luxury_minimal",
+                    "product_position": "center",
+                    "product_scale": "75%",
+                    "position": "center",
+                    "balance": "luxury_minimal",
+                    "focus": "product_first"
+                },
+                "emotion": [
+                    "luxury",
+                    "comfort",
+                    "elegance"
+                ]
+            }
+        }
+    },
+    {
+        "image": "outputs/Partition001\\mock_generated_image.png",
+        "embedding": {
+            "file": {
+                "filename": "mock_generated_image.png",
+                "suffix": ".png",
+                "size": 9423
+            },
+            "visual": {
+                "category": "partition",
+                "material": "rattan",
+                "style": "gulf_villa",
+                "scene": "luxury_villa",
+                "colors": [
+                    "beige",
+                    "brown"
+                ],
+                "composition": {
+                    "style": "luxury_minimal",
+                    "product_position": "center",
+                    "product_scale": "75%",
+                    "position": "center",
+                    "balance": "luxury_minimal",
+                    "focus": "product_first"
+                },
+                "lighting": {
+                    "type": "warm_daylight",
+                    "direction": "soft_side_light",
+                    "quality": "cinematic"
+                },
+                "camera": {
+                    "angle": "45_degree",
+                    "lens": "50mm",
+                    "shot": "premium_product_photography",
+                    "height": "eye_level"
+                },
+                "design_style": "Modern Gulf Natural Luxury"
+            }
+        },
+        "metadata": {
+            "product": {
+                "id": "Partition001",
+                "name": "Rattan Partition",
+                "category": "partition",
+                "material": {
+                    "primary": "rattan",
+                    "secondary": [
+                        "wood"
+                    ]
+                },
+                "style": [
+                    "bohemian",
+                    "natural",
+                    "luxury"
+                ]
+            },
+            "decision": {
+                "selected_style": "gulf_villa",
+                "score": 95
+            },
+            "design_dna": {
+                "design_style": "Modern Gulf Natural Luxury",
+                "scene": "luxury_villa",
+                "material_story": "Handcrafted rattan furniture",
+                "brand_language": "premium_luxury",
+                "architecture": [
+                    "resort",
+                    "bohemian",
+                    "white_plaster",
+                    "wood_floor"
+                ],
+                "accessories": {
+                    "recommended": [
+                        "ceramic_vase",
+                        "pampas",
+                        "books"
+                    ],
+                    "avoid": [
+                        "metal_heavy_objects"
+                    ]
+                },
+                "lighting_mood": {
+                    "type": "warm_daylight",
+                    "direction": "soft_side_light",
+                    "quality": "cinematic"
+                },
+                "camera_language": {
+                    "angle": "45_degree",
+                    "lens": "50mm",
+                    "shot": "premium_product_photography",
+                    "height": "eye_level"
+                },
+                "composition": {
+                    "style": "luxury_minimal",
+                    "product_position": "center",
+                    "product_scale": "75%",
+                    "position": "center",
+                    "balance": "luxury_minimal",
+                    "focus": "product_first"
+                },
+                "emotion": [
+                    "luxury",
+                    "comfort",
+                    "elegance"
+                ]
+            }
+        }
+    },
+    {
+        "image": "outputs/Partition001\\mock_generated_image.png",
+        "embedding": {
+            "file": {
+                "filename": "mock_generated_image.png",
+                "suffix": ".png",
+                "size": 9423
+            },
+            "visual": {
+                "category": "partition",
+                "material": "rattan",
+                "style": "gulf_villa",
+                "scene": "luxury_villa",
+                "colors": [
+                    "beige",
+                    "brown"
+                ],
+                "composition": {
+                    "style": "luxury_minimal",
+                    "product_position": "center",
+                    "product_scale": "75%",
+                    "position": "center",
+                    "balance": "luxury_minimal",
+                    "focus": "product_first"
+                },
+                "lighting": {
+                    "type": "warm_daylight",
+                    "direction": "soft_side_light",
+                    "quality": "cinematic"
+                },
+                "camera": {
+                    "angle": "45_degree",
+                    "lens": "50mm",
+                    "shot": "premium_product_photography",
+                    "height": "eye_level"
+                },
+                "design_style": "Modern Gulf Natural Luxury"
+            }
+        },
+        "metadata": {
+            "product": {
+                "id": "Partition001",
+                "name": "Rattan Partition",
+                "category": "partition",
+                "material": {
+                    "primary": "rattan",
+                    "secondary": [
+                        "wood"
+                    ]
+                },
+                "style": [
+                    "bohemian",
+                    "natural",
+                    "luxury"
+                ]
+            },
+            "decision": {
+                "selected_style": "gulf_villa",
+                "score": 95
+            },
+            "design_dna": {
+                "design_style": "Modern Gulf Natural Luxury",
+                "scene": "luxury_villa",
+                "material_story": "Handcrafted rattan furniture",
+                "brand_language": "premium_luxury",
+                "architecture": [
+                    "resort",
+                    "bohemian",
+                    "white_plaster",
+                    "wood_floor"
+                ],
+                "accessories": {
+                    "recommended": [
+                        "ceramic_vase",
+                        "pampas",
+                        "books"
+                    ],
+                    "avoid": [
+                        "metal_heavy_objects"
+                    ]
+                },
+                "lighting_mood": {
+                    "type": "warm_daylight",
+                    "direction": "soft_side_light",
+                    "quality": "cinematic"
+                },
+                "camera_language": {
+                    "angle": "45_degree",
+                    "lens": "50mm",
+                    "shot": "premium_product_photography",
+                    "height": "eye_level"
+                },
+                "composition": {
+                    "style": "luxury_minimal",
+                    "product_position": "center",
+                    "product_scale": "75%",
+                    "position": "center",
+                    "balance": "luxury_minimal",
+                    "focus": "product_first"
+                },
+                "emotion": [
+                    "luxury",
+                    "comfort",
+                    "elegance"
+                ]
+            }
+        }
+    },
+    {
+        "image": "outputs/Partition001\\mock_generated_image.png",
+        "embedding": {
+            "file": {
+                "filename": "mock_generated_image.png",
+                "suffix": ".png",
+                "size": 9423
+            },
+            "visual": {
+                "category": "partition",
+                "material": "rattan",
+                "style": "gulf_villa",
+                "scene": "luxury_villa",
+                "colors": [
+                    "beige",
+                    "brown"
+                ],
+                "composition": {
+                    "style": "luxury_minimal",
+                    "product_position": "center",
+                    "product_scale": "75%",
+                    "position": "center",
+                    "balance": "luxury_minimal",
+                    "focus": "product_first"
+                },
+                "lighting": {
+                    "type": "warm_daylight",
+                    "direction": "soft_side_light",
+                    "quality": "cinematic"
+                },
+                "camera": {
+                    "angle": "45_degree",
+                    "lens": "50mm",
+                    "shot": "premium_product_photography",
+                    "height": "eye_level"
+                },
+                "design_style": "Modern Gulf Natural Luxury"
+            }
+        },
+        "metadata": {
+            "product": {
+                "id": "Partition001",
+                "name": "Rattan Partition",
+                "category": "partition",
+                "material": {
+                    "primary": "rattan",
+                    "secondary": [
+                        "wood"
+                    ]
+                },
+                "style": [
+                    "bohemian",
+                    "natural",
+                    "luxury"
+                ]
+            },
+            "decision": {
+                "selected_style": "gulf_villa",
+                "score": 95
+            },
+            "design_dna": {
+                "design_style": "Modern Gulf Natural Luxury",
+                "scene": "luxury_villa",
+                "material_story": "Handcrafted rattan furniture",
+                "brand_language": "premium_luxury",
+                "architecture": [
+                    "resort",
+                    "bohemian",
+                    "white_plaster",
+                    "wood_floor"
+                ],
+                "accessories": {
+                    "recommended": [
+                        "ceramic_vase",
+                        "pampas",
+                        "books"
+                    ],
+                    "avoid": [
+                        "metal_heavy_objects"
+                    ]
+                },
+                "lighting_mood": {
+                    "type": "warm_daylight",
+                    "direction": "soft_side_light",
+                    "quality": "cinematic"
+                },
+                "camera_language": {
+                    "angle": "45_degree",
+                    "lens": "50mm",
+                    "shot": "premium_product_photography",
+                    "height": "eye_level"
+                },
+                "composition": {
+                    "style": "luxury_minimal",
+                    "product_position": "center",
+                    "product_scale": "75%",
+                    "position": "center",
+                    "balance": "luxury_minimal",
+                    "focus": "product_first"
+                },
+                "emotion": [
+                    "luxury",
+                    "comfort",
+                    "elegance"
+                ]
+            }
+        }
+    },
+    {
+        "image": "outputs/Partition001\\mock_generated_image.png",
+        "embedding": {
+            "file": {
+                "filename": "mock_generated_image.png",
+                "suffix": ".png",
+                "size": 9423
+            },
+            "visual": {
+                "category": "partition",
+                "material": "rattan",
+                "style": "gulf_villa",
+                "scene": "luxury_villa",
+                "colors": [
+                    "beige",
+                    "brown"
+                ],
+                "composition": {
+                    "style": "luxury_minimal",
+                    "product_position": "center",
+                    "product_scale": "75%",
+                    "position": "center",
+                    "balance": "luxury_minimal",
+                    "focus": "product_first"
+                },
+                "lighting": {
+                    "type": "warm_daylight",
+                    "direction": "soft_side_light",
+                    "quality": "cinematic"
+                },
+                "camera": {
+                    "angle": "45_degree",
+                    "lens": "50mm",
+                    "shot": "premium_product_photography",
+                    "height": "eye_level"
+                },
+                "design_style": "Modern Gulf Natural Luxury"
+            }
+        },
+        "metadata": {
+            "product": {
+                "id": "Partition001",
+                "name": "Rattan Partition",
+                "category": "partition",
+                "material": {
+                    "primary": "rattan",
+                    "secondary": [
+                        "wood"
+                    ]
+                },
+                "style": [
+                    "bohemian",
+                    "natural",
+                    "luxury"
+                ]
+            },
+            "decision": {
+                "selected_style": "gulf_villa",
+                "score": 95
+            },
+            "design_dna": {
+                "design_style": "Modern Gulf Natural Luxury",
+                "scene": "luxury_villa",
+                "material_story": "Handcrafted rattan furniture",
+                "brand_language": "premium_luxury",
+                "architecture": [
+                    "resort",
+                    "bohemian",
+                    "white_plaster",
+                    "wood_floor"
+                ],
+                "accessories": {
+                    "recommended": [
+                        "ceramic_vase",
+                        "pampas",
+                        "books"
+                    ],
+                    "avoid": [
+                        "metal_heavy_objects"
+                    ]
+                },
+                "lighting_mood": {
+                    "type": "warm_daylight",
+                    "direction": "soft_side_light",
+                    "quality": "cinematic"
+                },
+                "camera_language": {
+                    "angle": "45_degree",
+                    "lens": "50mm",
+                    "shot": "premium_product_photography",
+                    "height": "eye_level"
+                },
+                "composition": {
+                    "style": "luxury_minimal",
+                    "product_position": "center",
+                    "product_scale": "75%",
+                    "position": "center",
+                    "balance": "luxury_minimal",
+                    "focus": "product_first"
+                },
+                "emotion": [
+                    "luxury",
+                    "comfort",
+                    "elegance"
+                ]
+            }
+        }
+    },
+    {
+        "image": "outputs/Partition001\\mock_generated_image.png",
+        "embedding": {
+            "file": {
+                "filename": "mock_generated_image.png",
+                "suffix": ".png",
+                "size": 9423
+            },
+            "visual": {
+                "category": "partition",
+                "material": "rattan",
+                "style": "gulf_villa",
+                "scene": "luxury_villa",
+                "colors": [
+                    "beige",
+                    "brown"
+                ],
+                "composition": {
+                    "style": "luxury_minimal",
+                    "product_position": "center",
+                    "product_scale": "75%",
+                    "position": "center",
+                    "balance": "luxury_minimal",
+                    "focus": "product_first"
+                },
+                "lighting": {
+                    "type": "warm_daylight",
+                    "direction": "soft_side_light",
+                    "quality": "cinematic"
+                },
+                "camera": {
+                    "angle": "45_degree",
+                    "lens": "50mm",
+                    "shot": "premium_product_photography",
+                    "height": "eye_level"
+                },
+                "design_style": "Modern Gulf Natural Luxury"
+            }
+        },
+        "metadata": {
+            "product": {
+                "id": "Partition001",
+                "name": "Rattan Partition",
+                "category": "partition",
+                "material": {
+                    "primary": "rattan",
+                    "secondary": [
+                        "wood"
+                    ]
+                },
+                "style": [
+                    "bohemian",
+                    "natural",
+                    "luxury"
+                ]
+            },
+            "decision": {
+                "selected_style": "gulf_villa",
+                "score": 95
+            },
+            "design_dna": {
+                "design_style": "Modern Gulf Natural Luxury",
+                "scene": "luxury_villa",
+                "material_story": "Handcrafted rattan furniture",
+                "brand_language": "premium_luxury",
+                "architecture": [
+                    "resort",
+                    "bohemian",
+                    "white_plaster",
+                    "wood_floor"
+                ],
+                "accessories": {
+                    "recommended": [
+                        "ceramic_vase",
+                        "pampas",
+                        "books"
+                    ],
+                    "avoid": [
+                        "metal_heavy_objects"
+                    ]
+                },
+                "lighting_mood": {
+                    "type": "warm_daylight",
+                    "direction": "soft_side_light",
+                    "quality": "cinematic"
+                },
+                "camera_language": {
+                    "angle": "45_degree",
+                    "lens": "50mm",
+                    "shot": "premium_product_photography",
+                    "height": "eye_level"
+                },
+                "composition": {
+                    "style": "luxury_minimal",
+                    "product_position": "center",
+                    "product_scale": "75%",
+                    "position": "center",
+                    "balance": "luxury_minimal",
+                    "focus": "product_first"
+                },
+                "emotion": [
+                    "luxury",
+                    "comfort",
+                    "elegance"
+                ]
+            }
+        }
+    },
+    {
+        "image": "outputs/Partition001\\mock_generated_image.png",
+        "embedding": {
+            "file": {
+                "filename": "mock_generated_image.png",
+                "suffix": ".png",
+                "size": 9423
+            },
+            "visual": {
+                "category": "partition",
+                "material": "rattan",
+                "style": "gulf_villa",
+                "scene": "luxury_villa",
+                "colors": [
+                    "beige",
+                    "brown"
+                ],
+                "composition": {
+                    "style": "luxury_minimal",
+                    "product_position": "center",
+                    "product_scale": "75%",
+                    "position": "center",
+                    "balance": "luxury_minimal",
+                    "focus": "product_first"
+                },
+                "lighting": {
+                    "type": "warm_daylight",
+                    "direction": "soft_side_light",
+                    "quality": "cinematic"
+                },
+                "camera": {
+                    "angle": "45_degree",
+                    "lens": "50mm",
+                    "shot": "premium_product_photography",
+                    "height": "eye_level"
+                },
+                "design_style": "Modern Gulf Natural Luxury"
+            }
+        },
+        "metadata": {
+            "product": {
+                "id": "Partition001",
+                "name": "Rattan Partition",
+                "category": "partition",
+                "material": {
+                    "primary": "rattan",
+                    "secondary": [
+                        "wood"
+                    ]
+                },
+                "style": [
+                    "bohemian",
+                    "natural",
+                    "luxury"
+                ]
+            },
+            "decision": {
+                "selected_style": "gulf_villa",
+                "score": 95
+            },
+            "design_dna": {
+                "design_style": "Modern Gulf Natural Luxury",
+                "scene": "luxury_villa",
+                "material_story": "Handcrafted rattan furniture",
+                "brand_language": "premium_luxury",
+                "architecture": [
+                    "resort",
+                    "bohemian",
+                    "white_plaster",
+                    "wood_floor"
+                ],
+                "accessories": {
+                    "recommended": [
+                        "ceramic_vase",
+                        "pampas",
+                        "books"
+                    ],
+                    "avoid": [
+                        "metal_heavy_objects"
+                    ]
+                },
+                "lighting_mood": {
+                    "type": "warm_daylight",
+                    "direction": "soft_side_light",
+                    "quality": "cinematic"
+                },
+                "camera_language": {
+                    "angle": "45_degree",
+                    "lens": "50mm",
+                    "shot": "premium_product_photography",
+                    "height": "eye_level"
+                },
+                "composition": {
+                    "style": "luxury_minimal",
+                    "product_position": "center",
+                    "product_scale": "75%",
+                    "position": "center",
+                    "balance": "luxury_minimal",
+                    "focus": "product_first"
+                },
+                "emotion": [
+                    "luxury",
+                    "comfort",
+                    "elegance"
+                ]
+            }
+        }
+    },
+    {
+        "image": "outputs/Partition001\\mock_generated_image.png",
+        "embedding": {
+            "file": {
+                "filename": "mock_generated_image.png",
+                "suffix": ".png",
+                "size": 9423
+            },
+            "visual": {
+                "category": "partition",
+                "material": "rattan",
+                "style": "gulf_villa",
+                "scene": "luxury_villa",
+                "colors": [
+                    "beige",
+                    "brown"
+                ],
+                "composition": {
+                    "style": "luxury_minimal",
+                    "product_position": "center",
+                    "product_scale": "75%",
+                    "position": "center",
+                    "balance": "luxury_minimal",
+                    "focus": "product_first"
+                },
+                "lighting": {
+                    "type": "warm_daylight",
+                    "direction": "soft_side_light",
+                    "quality": "cinematic"
+                },
+                "camera": {
+                    "angle": "45_degree",
+                    "lens": "50mm",
+                    "shot": "premium_product_photography",
+                    "height": "eye_level"
+                },
+                "design_style": "Modern Gulf Natural Luxury"
+            }
+        },
+        "metadata": {
+            "product": {
+                "id": "Partition001",
+                "name": "Rattan Partition",
+                "category": "partition",
+                "material": {
+                    "primary": "rattan",
+                    "secondary": [
+                        "wood"
+                    ]
+                },
+                "style": [
+                    "bohemian",
+                    "natural",
+                    "luxury"
+                ]
+            },
+            "decision": {
+                "selected_style": "gulf_villa",
+                "score": 95
+            },
+            "design_dna": {
+                "design_style": "Modern Gulf Natural Luxury",
+                "scene": "luxury_villa",
+                "material_story": "Handcrafted rattan furniture",
+                "brand_language": "premium_luxury",
+                "architecture": [
+                    "resort",
+                    "bohemian",
+                    "white_plaster",
+                    "wood_floor"
+                ],
+                "accessories": {
+                    "recommended": [
+                        "ceramic_vase",
+                        "pampas",
+                        "books"
+                    ],
+                    "avoid": [
+                        "metal_heavy_objects"
+                    ]
+                },
+                "lighting_mood": {
+                    "type": "warm_daylight",
+                    "direction": "soft_side_light",
+                    "quality": "cinematic"
+                },
+                "camera_language": {
+                    "angle": "45_degree",
+                    "lens": "50mm",
+                    "shot": "premium_product_photography",
+                    "height": "eye_level"
+                },
+                "composition": {
+                    "style": "luxury_minimal",
+                    "product_position": "center",
+                    "product_scale": "75%",
+                    "position": "center",
+                    "balance": "luxury_minimal",
+                    "focus": "product_first"
+                },
+                "emotion": [
+                    "luxury",
+                    "comfort",
+                    "elegance"
+                ]
+            }
+        }
+    },
+    {
+        "image": "outputs/Partition001\\mock_generated_image.png",
+        "embedding": {
+            "file": {
+                "filename": "mock_generated_image.png",
+                "suffix": ".png",
+                "size": 9423
+            },
+            "visual": {
+                "category": "partition",
+                "material": "rattan",
+                "style": "gulf_villa",
+                "scene": "luxury_villa",
+                "colors": [
+                    "beige",
+                    "brown"
+                ],
+                "composition": {
+                    "style": "luxury_minimal",
+                    "product_position": "center",
+                    "product_scale": "75%",
+                    "position": "center",
+                    "balance": "luxury_minimal",
+                    "focus": "product_first"
+                },
+                "lighting": {
+                    "type": "warm_daylight",
+                    "direction": "soft_side_light",
+                    "quality": "cinematic"
+                },
+                "camera": {
+                    "angle": "45_degree",
+                    "lens": "50mm",
+                    "shot": "premium_product_photography",
+                    "height": "eye_level"
+                },
+                "design_style": "Modern Gulf Natural Luxury"
+            }
+        },
+        "metadata": {
+            "product": {
+                "id": "Partition001",
+                "name": "Rattan Partition",
+                "category": "partition",
+                "material": {
+                    "primary": "rattan",
+                    "secondary": [
+                        "wood"
+                    ]
+                },
+                "style": [
+                    "bohemian",
+                    "natural",
+                    "luxury"
+                ]
+            },
+            "decision": {
+                "selected_style": "gulf_villa",
+                "score": 101
+            },
+            "design_dna": {
+                "design_style": "Modern Gulf Natural Luxury",
+                "scene": "luxury_villa",
+                "material_story": "Handcrafted rattan furniture",
+                "brand_language": "premium_luxury",
+                "architecture": [
+                    "resort",
+                    "bohemian",
+                    "white_plaster",
+                    "wood_floor"
+                ],
+                "accessories": {
+                    "recommended": [
+                        "ceramic_vase",
+                        "pampas",
+                        "books"
+                    ],
+                    "avoid": [
+                        "metal_heavy_objects"
+                    ]
+                },
+                "lighting_mood": {
+                    "type": "warm_daylight",
+                    "direction": "soft_side_light",
+                    "quality": "cinematic"
+                },
+                "camera_language": {
+                    "angle": "45_degree",
+                    "lens": "50mm",
+                    "shot": "premium_product_photography",
+                    "height": "eye_level"
+                },
+                "composition": {
+                    "style": "luxury_minimal",
+                    "product_position": "center",
+                    "product_scale": "75%",
+                    "position": "center",
+                    "balance": "luxury_minimal",
+                    "focus": "product_first"
+                },
+                "emotion": [
+                    "luxury",
+                    "comfort",
+                    "elegance"
+                ]
+            }
+        }
+    },
+    {
+        "image": "outputs/Partition001\\mock_generated_image.png",
+        "embedding": {
+            "file": {
+                "filename": "mock_generated_image.png",
+                "suffix": ".png",
+                "size": 9423
+            },
+            "visual": {
+                "category": "partition",
+                "material": "rattan",
+                "style": "gulf_villa",
+                "scene": "luxury_villa",
+                "colors": [
+                    "beige",
+                    "brown"
+                ],
+                "composition": {
+                    "style": "luxury_minimal",
+                    "product_position": "center",
+                    "product_scale": "75%",
+                    "position": "center",
+                    "balance": "luxury_minimal",
+                    "focus": "product_first"
+                },
+                "lighting": {
+                    "type": "warm_daylight",
+                    "direction": "soft_side_light",
+                    "quality": "cinematic"
+                },
+                "camera": {
+                    "angle": "45_degree",
+                    "lens": "50mm",
+                    "shot": "premium_product_photography",
+                    "height": "eye_level"
+                },
+                "design_style": "Modern Gulf Natural Luxury"
+            }
+        },
+        "metadata": {
+            "product": {
+                "id": "Partition001",
+                "name": "Rattan Partition",
+                "category": "partition",
+                "material": {
+                    "primary": "rattan",
+                    "secondary": [
+                        "wood"
+                    ]
+                },
+                "style": [
+                    "bohemian",
+                    "natural",
+                    "luxury"
+                ]
+            },
+            "decision": {
+                "selected_style": "gulf_villa",
+                "score": 101
+            },
+            "design_dna": {
+                "design_style": "Modern Gulf Natural Luxury",
+                "scene": "luxury_villa",
+                "material_story": "Handcrafted rattan furniture",
+                "brand_language": "premium_luxury",
+                "architecture": [
+                    "resort",
+                    "bohemian",
+                    "white_plaster",
+                    "wood_floor"
+                ],
+                "accessories": {
+                    "recommended": [
+                        "ceramic_vase",
+                        "pampas",
+                        "books"
+                    ],
+                    "avoid": [
+                        "metal_heavy_objects"
+                    ]
+                },
+                "lighting_mood": {
+                    "type": "warm_daylight",
+                    "direction": "soft_side_light",
+                    "quality": "cinematic"
+                },
+                "camera_language": {
+                    "angle": "45_degree",
+                    "lens": "50mm",
+                    "shot": "premium_product_photography",
+                    "height": "eye_level"
+                },
+                "composition": {
+                    "style": "luxury_minimal",
+                    "product_position": "center",
+                    "product_scale": "75%",
+                    "position": "center",
+                    "balance": "luxury_minimal",
+                    "focus": "product_first"
+                },
+                "emotion": [
+                    "luxury",
+                    "comfort",
+                    "elegance"
+                ]
+            }
+        }
+    }
+]

@@ -1,0 +1,18 @@
+[
+    {
+        "file": "brain/core/brain_state.py",
+        "status": "OK"
+    },
+    {
+        "file": "brain/decision_graph",
+        "status": "OK"
+    },
+    {
+        "file": "brain/visual_memory",
+        "status": "OK"
+    },
+    {
+        "file": "brain/fusion",
+        "status": "OK"
+    }
+]

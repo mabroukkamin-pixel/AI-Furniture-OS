@@ -1,0 +1,39 @@
+villa:
+
+  description: >
+    Modern Gulf luxury villa,
+    premium travertine walls,
+    warm oak flooring,
+    elegant architecture,
+    luxurious residential atmosphere.
+
+  architecture:
+    - travertine
+    - limestone
+    - oak
+    - floor_to_ceiling_windows
+
+  colors:
+    - warm_beige
+    - ivory
+    - sand
+    - walnut
+
+  lighting:
+    - natural_daylight
+    - golden_hour
+
+  mood:
+    - luxury
+    - calm
+    - premium
+
+  compatible_materials:
+    - wood
+    - rattan
+    - marble
+
+  accessories:
+    - vase
+    - olive_tree
+    - carpet

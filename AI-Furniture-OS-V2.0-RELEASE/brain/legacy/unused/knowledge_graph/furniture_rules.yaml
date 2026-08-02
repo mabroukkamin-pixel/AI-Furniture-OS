@@ -1,0 +1,79 @@
+materials:
+
+  natural_wood:
+
+    styles:
+      - modern
+      - natural
+      - japandi
+      - premium
+
+    scenes:
+      - luxury_villa
+      - modern_entrance
+      - warm_home
+
+    lighting:
+      - golden_hour
+      - warm_daylight
+
+
+  rattan:
+
+    styles:
+      - natural
+      - resort
+      - boho
+      - luxury
+
+    scenes:
+      - villa
+      - resort
+      - summer_home
+
+    lighting:
+      - golden_hour
+      - soft_daylight
+
+
+  black_metal:
+
+    styles:
+      - modern
+      - industrial_luxury
+      - premium
+
+    scenes:
+      - modern_villa
+      - luxury_entrance
+
+    lighting:
+      - dramatic_light
+      - warm_light
+
+
+
+categories:
+
+  console:
+
+    scenes:
+      - entrance
+      - hallway
+      - villa
+
+    styles:
+      - modern
+      - premium
+
+
+  partition:
+
+    scenes:
+      - living_room
+      - villa
+      - resort
+
+    styles:
+      - natural
+      - luxury

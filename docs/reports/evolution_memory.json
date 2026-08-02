@@ -1,0 +1,39 @@
+{
+    "time": "2026-08-02 12:12:35.926112",
+    "modules": {
+        "brain": {
+            "exists": true,
+            "path": "brain/core"
+        },
+        "decision_graph": {
+            "exists": true,
+            "path": "brain/decision_graph"
+        },
+        "fusion": {
+            "exists": true,
+            "path": "brain/fusion"
+        },
+        "visual_memory": {
+            "exists": true,
+            "path": "brain/visual_memory"
+        },
+        "learning": {
+            "exists": true,
+            "path": "brain/learning"
+        },
+        "self_healing": {
+            "exists": true,
+            "path": "brain/self_healing"
+        },
+        "runtime": {
+            "exists": true,
+            "path": "runtime"
+        },
+        "knowledge": {
+            "exists": true,
+            "path": "brain/knowledge"
+        }
+    },
+    "score": 80,
+    "status": "HEALTHY"
+}

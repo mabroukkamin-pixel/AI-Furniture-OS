@@ -1,0 +1,71 @@
+﻿{
+    "system": "AI Furniture OS V2",
+
+    "modules": [
+
+        {
+            "name": "Core Brain",
+            "path": "brain/core",
+            "type": "core",
+            "priority": 5,
+            "required": true
+        },
+
+        {
+            "name": "Decision Graph",
+            "path": "brain/decision_graph",
+            "type": "decision",
+            "priority": 5,
+            "required": true
+        },
+
+        {
+            "name": "Knowledge Layer",
+            "path": "brain/knowledge",
+            "type": "knowledge",
+            "priority": 5,
+            "required": true
+        },
+
+        {
+            "name": "Fusion Engine",
+            "path": "brain/fusion",
+            "type": "fusion",
+            "priority": 5,
+            "required": true
+        },
+
+        {
+            "name": "Visual Memory",
+            "path": "brain/visual_memory",
+            "type": "memory",
+            "priority": 5,
+            "required": true
+        },
+
+        {
+            "name": "Learning Layer",
+            "path": "brain/learning",
+            "type": "learning",
+            "priority": 4,
+            "required": true
+        },
+
+        {
+            "name": "Self Healing",
+            "path": "brain/self_healing",
+            "type": "system",
+            "priority": 5,
+            "required": true
+        },
+
+        {
+            "name": "Runtime",
+            "path": "runtime",
+            "type": "execution",
+            "priority": 5,
+            "required": true
+        }
+
+    ]
+}

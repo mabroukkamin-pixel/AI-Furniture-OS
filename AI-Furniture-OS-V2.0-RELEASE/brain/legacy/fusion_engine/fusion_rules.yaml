@@ -1,0 +1,32 @@
+weights:
+
+  knowledge_graph: 8
+
+  reference_memory: 7
+
+  brand: 6
+
+  rules: 10
+
+
+style_fusion:
+
+  natural:
+    supports:
+      - warm_home
+      - gulf_luxury
+
+  gulf_luxury:
+    supports:
+      - premium
+      - natural
+
+  premium:
+    supports:
+      - modern_luxury
+      - natural
+
+
+limits:
+
+  max_supporting_styles: 2

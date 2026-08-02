@@ -1,0 +1,45 @@
+materials:
+
+
+  natural_wood:
+
+    recommended:
+
+      - ceramic_vase
+      - green_plant
+      - books
+      - gold_decor
+
+
+    avoid:
+
+      - plastic
+      - colorful_objects
+
+
+
+  rattan:
+
+    recommended:
+
+      - ceramic_vase
+      - pampas
+      - books
+
+
+    avoid:
+
+      - metal_heavy_objects
+
+
+
+  marble:
+
+    recommended:
+
+      - sculpture
+
+
+    avoid:
+
+      - cheap_decor

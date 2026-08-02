@@ -1,0 +1,153 @@
+materials:
+
+  rattan:
+
+    styles:
+      - natural
+      - bohemian
+      - japandi
+
+    scenes:
+      - luxury_villa
+      - resort
+      - living_room
+
+    lighting:
+      - golden_hour
+      - warm_daylight
+
+    architecture:
+      - gulf_villa
+      - luxury_resort
+      - modern_natural_home
+
+    walls:
+      - travertine
+      - beige_stone
+      - lime_wash
+
+    floors:
+      - warm_oak
+      - natural_stone
+      - marble
+
+    colors:
+      primary:
+        - beige
+        - sand
+        - ivory
+
+      secondary:
+        - walnut
+        - olive_green
+
+      accent:
+        - gold
+        - bronze
+
+    accessories:
+      furniture:
+        - linen_sofa
+        - wooden_table
+
+      decor:
+        - olive_tree
+        - ceramic_vase
+        - woven_basket
+        - natural_fabric
+
+    avoid:
+      - industrial
+      - neon
+      - plastic
+
+
+
+  natural_wood:
+
+    styles:
+      - modern
+      - natural
+      - premium
+
+    scenes:
+      - luxury_villa
+      - modern_entrance
+      - warm_home
+      - japandi
+
+    lighting:
+      - warm_daylight
+      - golden_hour
+      - soft_shadow
+
+    architecture:
+      - gulf_villa
+      - modern_luxury_home
+      - contemporary_interior
+
+    walls:
+      - beige_stone
+      - travertine
+      - neutral_walls
+      - lime_wash
+
+    floors:
+      - warm_oak
+      - natural_stone
+      - marble
+
+    colors:
+
+      primary:
+        - natural_wood
+        - walnut
+        - beige
+
+      secondary:
+        - black
+        - ivory
+
+      accent:
+        - gold
+        - bronze
+
+    accessories:
+
+      furniture:
+        - linen_sofa
+        - leather_chair
+        - wooden_table
+
+      decor:
+        - ceramic_vase
+        - olive_tree
+        - natural_fabric
+        - books
+
+    avoid:
+      - warehouse
+      - office
+      - industrial_background
+      - plastic
+      - glossy_finish
+
+  wood:
+
+    styles: []
+
+    scenes: []
+
+    lighting:
+      - warm_daylight
+      - soft_shadow
+
+    colors:
+      primary:
+        - natural_wood
+        - oak
+        - walnut
+
+    avoid:
+      - plastic
+      - neon
