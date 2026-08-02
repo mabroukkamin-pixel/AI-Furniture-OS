@@ -25,3 +25,6 @@ logs/
 
 # Archived products
 product_archive/
+
+# Runtime generated artifacts
+artifacts/products/*/versions/

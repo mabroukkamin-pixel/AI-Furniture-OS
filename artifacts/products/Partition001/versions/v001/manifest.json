@@ -1,9 +1,0 @@
-{
-    "artifact_version": "v001",
-    "product_id": "Partition001",
-    "status": "success",
-    "engine": "mock",
-    "created_at": "2026-08-01T02:30:40.040535Z",
-    "files": {},
-    "trace": []
-}
