@@ -241,3 +241,17 @@ Write-Host ""
 
 Write-Host "REPORT:"
 Write-Host "docs\reports\aifos_master_report.json"
+
+
+Write-Host ""
+Write-Host "---------------------------------"
+Write-Host "COMMANDER CORE"
+Write-Host "---------------------------------"
+
+
+python brain\commander\commander.py
+
+
+Write-Host ""
+Write-Host "COMMANDER ACTIVE"
+
