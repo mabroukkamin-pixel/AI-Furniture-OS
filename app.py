@@ -26,19 +26,26 @@ with tab1:
     with st.form("order_form", clear_on_submit=True):
         client_name = st.text_input("اسم العميل")
         phone = st.text_input("رقم الهاتف")
-        if st.form_submit_button("حفظ الطلب"):
+        
+        submitted = st.form_submit_button("حفظ الطلب في النظام")
+        
+        if submitted:
             if client_name and phone:
-                order_data = {
-                    "client_name": client_name,
-                    "phone": phone,
-                    "product_name": product_name,
-                    "price": str(product_details['Price'])
-                }
-                response = requests.post(WEB_APP_URL, json=order_data)
-                if response.status_code == 200:
-                    st.success("تم تسجيل الطلب وإرساله للشيت بنجاح!")
-                else:
-                    st.error("خطأ في الاتصال.")
+                with st.spinner('جاري إرسال الطلب للسحابة...'):
+                    order_data = {
+                        "client_name": client_name,
+                        "phone": phone,
+                        "product_name": product_name,
+                        "price": str(product_details['Price'])
+                    }
+                    try:
+                        response = requests.post(WEB_APP_URL, json=order_data)
+                        if response.status_code == 200:
+                            st.success(f"تم تسجيل طلب العميل {client_name} بنجاح!")
+                        else:
+                            st.error("خطأ في الاتصال بقاعدة البيانات.")
+                    except Exception as e:
+                        st.error(f"خطأ في الإرسال: {e}")
             else:
                 st.error("الرجاء إدخال اسم العميل ورقم الهاتف.")
 
@@ -47,7 +54,6 @@ with tab2:
     if not df_orders.empty:
         col1, col2 = st.columns(2)
         col1.metric("إجمالي عدد الطلبات", len(df_orders))
-        # التعامل مع عمود الإجمالي أو السعر حسب المتاح
         price_col = 'الإجالى' if 'الإجالى' in df_orders.columns else df_orders.columns[-1]
         total_revenue = pd.to_numeric(df_orders[price_col], errors='coerce').sum()
         col2.metric("إجمالي المبيعات", f"{total_revenue} دينار")
