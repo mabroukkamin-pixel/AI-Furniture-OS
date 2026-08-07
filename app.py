@@ -1,14 +1,13 @@
 import streamlit as st
 import pandas as pd
-import gspread
-from oauth2client.service_account import ServiceAccountCredentials
+import requests
 
-# إعدادات الاتصال بالسحابة
 SHEET_ID = '1hyWigWYiVsRPQH3tYz2Oxyilo9yDs4p_Q0R0AHk_SGU'
+# ضع رابط الويب الذي نسخته هنا بين القوسين
+WEB_APP_URL = 'ضع_رابط_تطبيق_الويب_هنا'
 
 st.title("👑 النظام العالمي لإدارة العمليات")
 
-# تحميل البيانات للعرض
 @st.cache_data
 def load_data():
     url = f'https://docs.google.com/spreadsheets/d/{SHEET_ID}/gviz/tq?tqx=out:csv&sheet=Products'
@@ -16,7 +15,6 @@ def load_data():
 
 df = load_data()
 
-# واجهة اختيار المنتج
 product_name = st.selectbox("اختر المنتج:", df['Product_Name'].unique())
 product_details = df[df['Product_Name'] == product_name].iloc[0]
 
@@ -25,7 +23,6 @@ st.write(f"- **السعر:** {product_details['Price']} دينار")
 st.write(f"- **المقاسات:** {product_details['Dimensions']}")
 st.write(f"- **اللون:** {product_details['Color']}")
 
-# قسم تسجيل الطلب
 st.write("---")
 st.subheader("إصدار فاتورة جديدة")
 
@@ -33,11 +30,22 @@ with st.form("order_form", clear_on_submit=True):
     client_name = st.text_input("اسم العميل")
     phone = st.text_input("رقم الهاتف")
     
-    if st.form_submit_button("حفظ الطلب"):
+    if st.form_submit_button("حفظ الطلب في النظام"):
         if client_name and phone:
-            # هنا الكود المنطقي للترحيل
-            # ملاحظة: في بيئة العمل السحابية، يفضل استخدام ملف credentials.json للربط
-            # سأقوم بتجهيزك للخطوة القادمة (ربط الـ API)
-            st.success(f"تم إرسال طلب العميل {client_name} بنجاح إلى قاعدة البيانات!")
+            # تجهيز بيانات الطلب لإرسالها لملف الشيت
+            order_data = {
+                "client_name": client_name,
+                "phone": phone,
+                "product_name": product_name,
+                "price": str(product_details['Price'])
+            }
+            try:
+                response = requests.post(WEB_APP_URL, json=order_data)
+                if response.status_code == 200:
+                    st.success(f"تم تسجيل طلب العميل {client_name} بنجاح وترحيله إلى قاعدة البيانات!")
+                else:
+                    st.error("حدث خطأ أثناء الاتصال بقاعدة البيانات.")
+            except Exception as e:
+                st.error(f"خطأ في الإرسال: {e}")
         else:
             st.error("يرجى ملء جميع البيانات.")
