@@ -3,8 +3,7 @@ import pandas as pd
 import requests
 
 SHEET_ID = '1hyWigWYiVsRPQH3tYz2Oxyilo9yDs4p_Q0R0AHk_SGU'
-# ضع رابط الويب الذي نسخته هنا بين القوسين
-WEB_APP_URL = 'ضع_رابط_تطبيق_الويب_هنا'
+WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxQJ4VEzVOaChGCrRP9fdFlQjcCH41By2VrTWPt_jdgh9Tq26UGBQO7RVXDmL8PAVJA/exec'
 
 st.title("👑 النظام العالمي لإدارة العمليات")
 
@@ -32,7 +31,6 @@ with st.form("order_form", clear_on_submit=True):
     
     if st.form_submit_button("حفظ الطلب في النظام"):
         if client_name and phone:
-            # تجهيز بيانات الطلب لإرسالها لملف الشيت
             order_data = {
                 "client_name": client_name,
                 "phone": phone,
