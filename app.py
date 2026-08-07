@@ -1,34 +1,32 @@
 import streamlit as st
 import pandas as pd
 
-# إعدادات النظام العالمي
-st.set_page_config(page_title="النظام العالمي لأمين مبروك", layout="wide")
+# رابط ملفك السحابي
+SHEET_ID = '1hyWigWYiVsRPQH3tYz2Oxyilo9yDs4p_Q0R0AHk_SGU'
+SHEET_URL = f'https://docs.google.com/spreadsheets/d/{SHEET_ID}/gviz/tq?tqx=out:csv&sheet=Products'
 
+st.set_page_config(page_title="النظام العالمي لإدارة العمليات", layout="wide")
 st.title("👑 النظام العالمي لإدارة العمليات")
 
-# ملاحظة: سنقوم لاحقاً بتفعيل الربط المباشر مع Google Sheets
-# حالياً النظام يقرأ من البيانات التي أدخلتها يدوياً للسرعة
-products_db = {"طرابيزة تلفزيون": 60, "خزانة 4 رفوف": 85}
+@st.cache_data
+def load_data():
+    return pd.read_csv(SHEET_URL)
+
+try:
+    df = load_data()
+    products_db = dict(zip(df['Product_Name'], df['Price']))
+except:
+    products_db = {"خطأ في تحميل البيانات": 0}
 
 menu = st.sidebar.selectbox("اختر القسم:", ["إدارة التصميم", "إدارة الحسابات", "دليل حل المشكلات"])
 
 if menu == "إدارة الحسابات":
-    st.header("إدارة الحسابات (البيانات المحدثة)")
-    
-    # اختيار المنتج من القائمة الثابتة
+    st.header("إدارة الحسابات (قراءة مباشرة من السحابة)")
     selected_product = st.selectbox("اختر المنتج:", list(products_db.keys()))
-    price = products_db[selected_product]
-    
-    st.write(f"السعر المعتمد: **{price} دينار**")
-    
-    # تسجيل الطلبات
+    st.write(f"السعر المعتمد: **{products_db[selected_product]} دينار**")
+
     with st.form("order_form"):
         client_name = st.text_input("اسم العميل")
         phone = st.text_input("رقم الهاتف")
-        submit = st.form_submit_button("إصدار الفاتورة")
-        
-        if submit:
+        if st.form_submit_button("إصدار الفاتورة"):
             st.success(f"تم تسجيل طلب {client_name} بنجاح!")
-            # هنا سنربط لاحقاً بملف Google Sheets ليحفظ البيانات فيه
-
-st.sidebar.write("إصدار النظام: 2.1 (جاهز للربط السحابي)")
