@@ -3,8 +3,7 @@ import sqlite3
 import pandas as pd
 from datetime import datetime
 import os
-import barcode
-from barcode.writer import ImageWriter
+import qrcode
 
 st.set_page_config(page_title="سوق المروة - نظام متكامل", layout="wide")
 
@@ -29,7 +28,7 @@ def init_db():
 init_db()
 
 st.title("🛒 سوق المروة للأثاث والديكور")
-tabs = st.tabs(["📊 المؤشرات", "📦 المخزون", "🖨️ طباعة الباركود", "👥 العملاء", "📈 الصفقات", "📊 التقارير", "💰 الديون", "💸 المصروفات", "🏗️ المشاريع", "🏅 الموظفين"])
+tabs = st.tabs(["📊 المؤشرات", "📦 المخزون", "🖨️ توليد QR Code", "👥 العملاء", "📈 الصفقات", "📊 التقارير", "💰 الديون", "💸 المصروفات", "🏗️ المشاريع", "🏅 الموظفين"])
 
 # 1. المؤشرات
 with tabs[0]:
@@ -49,7 +48,7 @@ with tabs[0]:
 with tabs[1]:
     st.subheader("📦 إدارة المخزون")
     conn = sqlite3.connect(DB_PATH)
-    barcode_search = st.text_input("🔍 مسح الباركود:")
+    barcode_search = st.text_input("🔍 مسح أو البحث بالكود:")
     if barcode_search:
         prod = pd.read_sql(f"SELECT * FROM products_catalog WHERE barcode = '{barcode_search}'", conn)
         if not prod.empty:
@@ -64,7 +63,7 @@ with tabs[1]:
             n = st.text_input("اسم المنتج")
             p = st.number_input("السعر", min_value=0.0)
             q = st.number_input("الكمية", min_value=0)
-            b = st.text_input("الباركود (أرقام أو حروف إنجليزية)")
+            b = st.text_input("كود المنتج (مثال: AMIN1995)")
             if st.form_submit_button("حفظ"):
                 conn.execute("INSERT INTO products_catalog (name, price, quantity, barcode) VALUES (?,?,?,?)", (n, p, q, b))
                 conn.commit(); st.rerun()
@@ -73,22 +72,22 @@ with tabs[1]:
     st.dataframe(df_p, use_container_width=True)
     conn.close()
 
-# 3. طباعة الباركود (تم التحديث ليعمل بكفاءة مع code39)
+# 3. توليد QR Code (بديل الباركود التقليدي - مضمون 100%)
 with tabs[2]:
-    st.subheader("🖨️ توليد وطباعة الباركود")
-    b_code = st.text_input("أدخل رقم أو كود المنتج (حروف وأرقام إنجليزية):", value="AMIN1995")
-    if st.button("توليد الباركود"):
-        if b_code.strip() != "":
+    st.subheader("🖨️ توليد وطباعة QR Code للاستيكر")
+    q_text = st.text_input("أدخل كود المنتج أو الاسم لتوليد الاستيكر:", value="AMIN1995")
+    if st.button("توليد QR Code"):
+        if q_text.strip() != "":
             try:
-                # استخدام code39 لأنه مرن جداً ويقبل الحروف والأرقام
-                code = barcode.get('code39', b_code, writer=ImageWriter(), add_checksum=False)
-                filename = code.save('barcode_gen')
-                st.image(f"{filename}.png")
-                st.success("تم توليد الاستيكر بنجاح!")
+                # إنشاء صورة QR Code
+                img = qrcode.make(q_text)
+                img.save("qrcode_gen.png")
+                st.image("qrcode_gen.png", width=250)
+                st.success("تم توليد الـ QR Code بنجاح! جاهز للطباعة واللزق.")
             except Exception as e:
-                st.error(f"تأكد من استخدام أحرف إنجليزية أو أرقام صحيحة.")
+                st.error("حدث خطأ أثناء التوليد.")
         else:
-                    st.warning("⚠️ الرجاء إدخال كود أولاً.")
+            st.warning("⚠️ الرجاء إدخال نص أو كود أولاً.")
 
 # 4. العملاء
 with tabs[3]:
