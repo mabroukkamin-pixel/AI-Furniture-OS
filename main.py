@@ -8,7 +8,7 @@ import os
 st.set_page_config(page_title="سوق المروة للأثاث والديكور", layout="wide")
 
 # ======================================================================
-# 💡 CSS مخصص لتثبيت شريط الـ Tabs وتنسيق كاردات المنتجات (Cards)
+# 💡 CSS لتثبيت شريط الـ Tabs وتنسيق خطوط الفصل النظيفة بين المنتجات
 # ======================================================================
 st.markdown("""
     <style>
@@ -27,19 +27,12 @@ st.markdown("""
         padding-top: 70px !important; 
     }
     
-    /* تصميم كارد المنتج بشكل احترافي */
-    .product-card {
-        background-color: #ffffff;
-        border: 1px solid #e0e0e0;
-        border-radius: 12px;
-        padding: 15px;
-        margin-bottom: 15px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-        transition: all 0.3s ease;
-    }
-    .product-card:hover {
-        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-        border-color: #d0d0d0;
+    /* خط فاصل أنيق بين المنتجات */
+    .product-divider {
+        margin: 20px 0;
+        border: none;
+        height: 1px;
+        background-color: #e0e0e0;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -173,7 +166,6 @@ with tabs[1]:
             
         for index, row in filtered_df.iterrows():
             with st.container():
-                st.markdown('<div class="product-card">', unsafe_allow_html=True)
                 cols = st.columns([1, 4, 2])
                 with cols[0]:
                     img_p = row.get('image_path', '')
@@ -210,7 +202,7 @@ with tabs[1]:
                             conn.close()
                             st.success("🗑️ تم الحذف بنجاح!")
                             st.rerun()
-                st.markdown('</div>', unsafe_allow_html=True)
+                st.markdown('<hr class="product-divider">', unsafe_allow_html=True)
     else:
         st.info("⚠️ لا توجد منتجات مسجلة في المخزون حتى الآن.")
 
