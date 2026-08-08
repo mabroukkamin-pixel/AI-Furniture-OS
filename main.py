@@ -4,33 +4,39 @@ import pandas as pd
 from datetime import datetime
 import os
 
-# إعداد الصفحة لتكون دائمًا مفتوحة (expanded)
-st.set_page_config(page_title="سوق المروة للأثاث والديكور", layout="wide", initial_sidebar_state="expanded")
+# 1. إعداد الصفحة (يجب أن يكون أول أمر)
+st.set_page_config(page_title="سوق المروة", layout="wide", initial_sidebar_state="expanded")
 
-# تنسيق CSS عشان القائمة تبقى "شيك" زي تطبيقات الذكاء الاصطناعي
+# 2. تنسيق الـ CSS (لضمان ظهور القائمة وشكل احترافي)
 st.markdown("""
     <style>
-    /* تغيير عرض القائمة الجانبية */
     [data-testid="stSidebar"] {
-        min-width: 280px;
-        max-width: 280px;
-        background-color: #f8f9fa; /* لون خلفية هادي */
-        border-right: 1px solid #ddd;
+        min-width: 250px;
+        background-color: #f0f2f6;
     }
-    /* جعل الأزرار تبدو مثل قوائم الدردشة */
-    div.stRadio > label {
-        font-weight: bold;
-        font-size: 16px;
-        padding: 10px;
-    }
-    /* إضافة لمسة احترافية للزرار */
-    .stButton > button {
-        width: 100%;
-        border-radius: 5px;
-        background-color: #007bff;
-        color: white;
+    .main {
+        background-color: #ffffff;
     }
     </style>
     """, unsafe_allow_html=True)
 
-# باقي الكود البرمجي بتاعك هنا...
+# 3. القائمة الجانبية (شكل ChatGPT)
+with st.sidebar:
+    st.title("🛒 سوق المروة")
+    st.write("نظام الإدارة المتكامل")
+    st.divider()
+    page = st.radio("القائمة الرئيسية:", ["📊 لوحة التحكم", "📦 المخزون", "📈 الصفقات"])
+
+# 4. محتوى الصفحات
+if page == "📊 لوحة التحكم":
+    st.header("أهلاً بك يا أمين")
+    st.write("هنا تجد ملخص العمليات اليومية.")
+    
+elif page == "📦 المخزون":
+    st.header("إدارة المخزون")
+    # هنا تقدر تكمل كود عرض الجدول بتاعك
+
+elif page == "📈 الصفقات":
+    st.header("الصفقات الجديدة")
+
+# ملاحظة: إذا ظهرت صفحة بيضاء، معناه إن فيه مكتبة مش موجودة أو مسار قاعدة البيانات فيه مشكلة.
