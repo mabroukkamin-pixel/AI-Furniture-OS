@@ -56,7 +56,12 @@ def init_db():
     for table, schema in tables.items():
         c.execute(f"CREATE TABLE IF NOT EXISTS {table} ({schema})")
     
-    # التأكد من الأعمدة
+    # التأكد من وجود كافة الأعمدة المطلوبة تفادياً لأي خطأ
+    c.execute("PRAGMA table_info(products_catalog)")
+    p_columns = [col[1] for col in c.fetchall()]
+    if 'image_path' not in p_columns:
+        c.execute("ALTER TABLE products_catalog ADD COLUMN image_path TEXT DEFAULT ''")
+
     c.execute("PRAGMA table_info(sales)")
     columns = [col[1] for col in c.fetchall()]
     if 'status' not in columns:
@@ -152,13 +157,13 @@ with tabs[1]:
         else:
             filtered_df = df_all_prod
             
-        # عرض المنتجات مع صورها وأزرار التحكم
         for index, row in filtered_df.iterrows():
             with st.container():
                 cols = st.columns([1, 3, 2])
                 with cols[0]:
-                    if row['image_path'] and os.path.exists(row['image_path']):
-                        st.image(row['image_path'], width=100)
+                    img_p = row.get('image_path', '')
+                    if img_p and isinstance(img_p, str) and os.path.exists(img_p):
+                        st.image(img_p, width=100)
                     else:
                         st.info("لا توجد صورة")
                 with cols[1]:
@@ -166,7 +171,6 @@ with tabs[1]:
                     st.markdown(f"**الفئة:** {row['category']} | **اللون:** {row['color']} | **المقاس:** {row['dims']}")
                     st.markdown(f"**السعر:** {row['price']} د.ك | **الكمية:** {row['quantity']} | **الفرع:** {row['location']}")
                 with cols[2]:
-                    # أزرار التعديل والحذف
                     with st.expander(f"⚙️ إدارة المنتج (#{row['id']})"):
                         with st.form(f"edit_prod_{row['id']}"):
                             new_name = st.text_input("اسم المنتج:", value=row['name'])
