@@ -4,41 +4,10 @@ import pandas as pd
 from datetime import datetime
 import os
 
-# 1. إعداد الصفحة (يجب أن يكون أول أمر يخص streamlit)
-st.set_page_config(page_title="سوق المروة للأثاث والديكور", layout="wide", initial_sidebar_state="expanded")
+# 1. إعداد الصفحة
+st.set_page_config(page_title="سوق المروة للأثاث والديكور", layout="wide")
 
-# 2. تنسيق الـ CSS لتثبيت القائمة الجانبية وإلغاء زر الإخفاء
-st.markdown("""
-    <style>
-    /* إجبار القائمة الجانبية على الثبات والظهور الدائم */
-    [data-testid="stSidebar"] {
-        display: flex !important;
-        flex-direction: column !important;
-        position: fixed !important;
-        top: 0;
-        left: 0;
-        height: 100vh;
-        width: 280px !important;
-        background-color: #f8f9fa !important;
-        z-index: 9999;
-        border-right: 1px solid #e0e0e0;
-        padding-top: 20px;
-    }
-    
-    /* إزاحة المحتوى الرئيسي لليمين لكي لا يختفي خلف القائمة الثابتة */
-    section[data-testid="stSidebar"] + div {
-        margin-left: 280px !important;
-        width: calc(100% - 280px) !important;
-    }
-
-    /* إخفاء زرار طي أو إغلاق القائمة */
-    button[data-testid="stSidebarCollapseButton"] {
-        display: none !important;
-    }
-    </style>
-    """, unsafe_allow_html=True)
-
-# 3. إعداد قاعدة البيانات
+# 2. إعداد قاعدة البيانات
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(BASE_DIR, "sovereign_100_matrix.db")
 UPLOAD_FOLDER = os.path.join(BASE_DIR, "project_assets")
@@ -87,31 +56,28 @@ main_categories = [
     "منوعات ومواسم"
 ]
 
-# 4. القائمة الجانبية الثابتة
-with st.sidebar:
-    st.title("🛒 سوق المروة للأثاث")
-    st.divider()
-    current_page = st.radio(
-        "القائمة الرئيسية:",
-        [
-            "📊 المؤشرات",
-            "📦 المخزون",
-            "👥 العملاء",
-            "📈 الصفقات",
-            "📊 التقارير",
-            "💰 دفتر الآجل والديون",
-            "💸 المصروفات",
-            "🧾 الفواتير",
-            "🏗️ المشاريع",
-            "🏅 الموظفين"
-        ]
-    )
-
-st.title(f"{current_page}")
+# 3. العنوان الرئيسي للبرنامج في الواجهة
+st.title("🛒 سوق المروة للأثاث والديكور - النظام المتكامل")
+st.write("أهلاً بك يا أمين، نظام الإدارة والتشغيل السريع.")
 st.divider()
 
+# 4. شريط التنقل العلوي الاحترافي (Tabs) - ظاهر قدام الكل وثابت 100%
+tabs = st.tabs([
+    "📊 المؤشرات",
+    "📦 المخزون",
+    "👥 العملاء",
+    "📈 الصفقات",
+    "📊 التقارير",
+    "💰 الآجل والديون",
+    "💸 المصروفات",
+    "🧾 الفواتير",
+    "🏗️ المشاريع",
+    "🏅 الموظفين"
+])
+
 # ----------------- 1. المؤشرات -----------------
-if current_page == "📊 المؤشرات":
+with tabs[0]:
+    st.subheader("📊 مؤشرات الأداء والأموال العامة")
     conn = sqlite3.connect(DB_PATH)
     try: df_s = pd.read_sql("SELECT * FROM sales", conn)
     except: df_s = pd.DataFrame()
@@ -141,7 +107,7 @@ if current_page == "📊 المؤشرات":
     c4.metric("⚠️ إجمالي الديون المستحقة", f"{total_debts:,.1f} د.ك")
 
 # ----------------- 2. المخزون -----------------
-elif current_page == "📦 المخزون":
+with tabs[1]:
     st.subheader("📦 إدارة المخزون والفئات المنظمة للمنتجات")
     conn = sqlite3.connect(DB_PATH)
     try:
@@ -180,8 +146,8 @@ elif current_page == "📦 المخزون":
                 st.success("✅ تم حفظ المنتج بنجاح!")
                 st.rerun()
 
-# ----------------- باقي الصفحات -----------------
-elif current_page == "👥 العملاء":
+# ----------------- 3. العملاء -----------------
+with tabs[2]:
     st.subheader("👥 إدارة العملاء وعلاقاتهم (CRM)")
     with st.form("add_client", clear_on_submit=True):
         c_name = st.text_input("اسم العميل:")
@@ -200,7 +166,8 @@ elif current_page == "👥 العملاء":
     except: pass
     conn.close()
 
-elif current_page == "📈 الصفقات":
+# ----------------- 4. الصفقات -----------------
+with tabs[3]:
     st.subheader("📈 تسجيل صفقة بيع جديدة")
     conn = sqlite3.connect(DB_PATH)
     try: products_list = pd.read_sql("SELECT id, name, quantity, price FROM products_catalog WHERE quantity > 0", conn)
@@ -250,7 +217,8 @@ elif current_page == "📈 الصفقات":
     else:
         st.warning("⚠️ يرجى إضافة موظفين ومنتجات متوفرة بالمخزون أولاً.")
 
-elif current_page == "📊 التقارير":
+# ----------------- 5. التقارير -----------------
+with tabs[4]:
     st.subheader("📊 تقارير المبيعات والأداء")
     conn = sqlite3.connect(DB_PATH)
     try: df_sales_rep = pd.read_sql("SELECT * FROM sales", conn)
@@ -262,7 +230,8 @@ elif current_page == "📊 التقارير":
     else:
         st.info("لا توجد مبيعات مسجلة حالياً.")
 
-elif current_page == "💰 دفتر الآجل والديون":
+# ----------------- 6. دفتر الآجل والديون -----------------
+with tabs[5]:
     st.subheader("💰 إدارة الديون والآجل وعربون العملاء")
     conn = sqlite3.connect(DB_PATH)
     try: df_debts_all = pd.read_sql("SELECT * FROM debts", conn)
@@ -270,7 +239,8 @@ elif current_page == "💰 دفتر الآجل والديون":
     conn.close()
     st.dataframe(df_debts_all, use_container_width=True)
 
-elif current_page == "💸 المصروفات":
+# ----------------- 7. المصروفات -----------------
+with tabs[6]:
     st.subheader("💸 إدارة المصروفات")
     with st.form("expense_form", clear_on_submit=True):
         reason = st.text_input("بيان المصروف:")
@@ -289,7 +259,8 @@ elif current_page == "💸 المصروفات":
     except: pass
     conn.close()
 
-elif current_page == "🧾 الفواتير":
+# ----------------- 8. الفواتير -----------------
+with tabs[7]:
     st.subheader("🧾 طباعة الفواتير")
     conn = sqlite3.connect(DB_PATH)
     try: sales_invoices = pd.read_sql("SELECT * FROM sales", conn)
@@ -302,14 +273,16 @@ elif current_page == "🧾 الفواتير":
     else:
         st.info("لا توجد فواتير.")
 
-elif current_page == "🏗️ المشاريع":
+# ----------------- 9. المشاريع -----------------
+with tabs[8]:
     st.subheader("🏗️ إدارة المشاريع")
     conn = sqlite3.connect(DB_PATH)
     try: st.dataframe(pd.read_sql("SELECT * FROM projects", conn), use_container_width=True)
     except: pass
     conn.close()
 
-elif current_page == "🏅 الموظفين":
+# ----------------- 10. الموظفين -----------------
+with tabs[9]:
     st.subheader("🏅 إدارة الموظفين")
     conn = sqlite3.connect(DB_PATH)
     try: st.dataframe(pd.read_sql("SELECT * FROM employees", conn), use_container_width=True)
