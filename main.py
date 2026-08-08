@@ -14,6 +14,7 @@ def init_db():
     conn = sqlite3.connect(DB_PATH)
     tables = {
         "products_catalog": "id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, price REAL, quantity INTEGER, barcode TEXT",
+        "clients": "id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, phone TEXT",
         "sales": "id INTEGER PRIMARY KEY AUTOINCREMENT, product_name TEXT, quantity_sold INTEGER, price REAL, date TEXT",
         "expenses": "id INTEGER PRIMARY KEY AUTOINCREMENT, reason TEXT, amount REAL, date TEXT",
         "debts": "id INTEGER PRIMARY KEY AUTOINCREMENT, client_name TEXT, remaining REAL",
@@ -28,13 +29,26 @@ def init_db():
 init_db()
 
 st.title("🛒 سوق المروة للأثاث والديكور")
-tabs = st.tabs(["📊 المؤشرات", "📦 المخزون", "🖨️ طباعة الباركود", "📈 الصفقات", "📊 التقارير", "💰 الديون", "💸 المصروفات", "🏗️ المشاريع", "🏅 الموظفين"])
+tabs = st.tabs(["📊 المؤشرات", "📦 المخزون", "🖨️ طباعة الباركود", "👥 العملاء", "📈 الصفقات", "📊 التقارير", "💰 الديون", "💸 المصروفات", "🏗️ المشاريع", "🏅 الموظفين"])
 
-# 1. المخزون (بالبحث والباركود)
+# 1. المؤشرات
+with tabs[0]:
+    st.subheader("📊 مؤشرات الأداء العامة")
+    conn = sqlite3.connect(DB_PATH)
+    df_s = pd.read_sql("SELECT * FROM sales", conn)
+    df_e = pd.read_sql("SELECT * FROM expenses", conn)
+    conn.close()
+    tot_sales = df_s['price'].sum() if not df_s.empty else 0
+    tot_exp = df_e['amount'].sum() if not df_e.empty else 0
+    c1, c2, c3 = st.columns(3)
+    c1.metric("💰 المبيعات", f"{tot_sales:,.1f}")
+    c2.metric("💸 المصروفات", f"{tot_exp:,.1f}")
+    c3.metric("📈 صافي الربح", f"{tot_sales - tot_exp:,.1f}")
+
+# 2. المخزون
 with tabs[1]:
     st.subheader("📦 إدارة المخزون")
     conn = sqlite3.connect(DB_PATH)
-    
     barcode_search = st.text_input("🔍 مسح الباركود:")
     if barcode_search:
         prod = pd.read_sql(f"SELECT * FROM products_catalog WHERE barcode = '{barcode_search}'", conn)
@@ -45,35 +59,130 @@ with tabs[1]:
         else:
             st.warning("⚠️ المنتج غير موجود.")
 
-    with st.expander("➕ إضافة منتج"):
-        with st.form("add_prod"):
-            n, p, q, b = st.text_input("الاسم"), st.number_input("السعر"), st.number_input("الكمية"), st.text_input("الباركود")
+    with st.expander("➕ إضافة منتج جديد"):
+        with st.form("add_prod", clear_on_submit=True):
+            n = st.text_input("اسم المنتج")
+            p = st.number_input("السعر", min_value=0.0)
+            q = st.number_input("الكمية", min_value=0)
+            b = st.text_input("الباركود (أرقام أو حروف إنجليزية)")
             if st.form_submit_button("حفظ"):
                 conn.execute("INSERT INTO products_catalog (name, price, quantity, barcode) VALUES (?,?,?,?)", (n, p, q, b))
                 conn.commit(); st.rerun()
+    
+    df_p = pd.read_sql("SELECT * FROM products_catalog", conn)
+    st.dataframe(df_p, use_container_width=True)
     conn.close()
 
-# 2. طباعة الباركود (الاستيكر) - مع الحماية من الأخطاء
+# 3. طباعة الباركود (تم التحديث ليعمل بكفاءة مع code39)
 with tabs[2]:
     st.subheader("🖨️ توليد وطباعة الباركود")
-    b_code = st.text_input("أدخل رقم الباركود للمنتج (أرقام أو حروف إنجليزية):")
+    b_code = st.text_input("أدخل رقم أو كود المنتج (حروف وأرقام إنجليزية):", value="AMIN1995")
     if st.button("توليد الباركود"):
         if b_code.strip() != "":
             try:
-                code = barcode.get('code128', b_code, writer=ImageWriter())
+                # استخدام code39 لأنه مرن جداً ويقبل الحروف والأرقام
+                code = barcode.get('code39', b_code, writer=ImageWriter(), add_checksum=False)
                 filename = code.save('barcode_gen')
                 st.image(f"{filename}.png")
-                st.success("تم توليد الاستيكر بنجاح! يمكنك طباعته الآن.")
+                st.success("تم توليد الاستيكر بنجاح!")
             except Exception as e:
-                st.error(f"خطأ في توليد الباركود: تأكد من إدخال أحرف أو أرقام إنجليزية صحيحة.")
+                st.error(f"تأكد من استخدام أحرف إنجليزية أو أرقام صحيحة.")
         else:
-            st.warning("⚠️ الرجاء إدخال رقم أو كود صحيح أولاً.")
+                    st.warning("⚠️ الرجاء إدخال كود أولاً.")
 
-# 3. باقي الأقسام
-with tabs[0]: st.subheader("📊 مؤشرات الأداء")
-with tabs[3]: st.subheader("📈 الصفقات")
-with tabs[4]: st.subheader("📊 التقارير")
-with tabs[5]: st.subheader("💰 الديون")
-with tabs[6]: st.subheader("💸 المصروفات")
-with tabs[7]: st.subheader("🏗️ المشاريع")
-with tabs[8]: st.subheader("🏅 الموظفين")
+# 4. العملاء
+with tabs[3]:
+    st.subheader("👥 إدارة العملاء")
+    conn = sqlite3.connect(DB_PATH)
+    with st.form("add_client", clear_on_submit=True):
+        c_name = st.text_input("اسم العميل")
+        c_phone = st.text_input("رقم الهاتف")
+        if st.form_submit_button("حفظ العميل"):
+            conn.execute("INSERT INTO clients (name, phone) VALUES (?,?)", (c_name, c_phone))
+            conn.commit(); st.rerun()
+    df_c = pd.read_sql("SELECT * FROM clients", conn)
+    st.dataframe(df_c, use_container_width=True)
+    conn.close()
+
+# 5. الصفقات
+with tabs[4]:
+    st.subheader("📈 تسجيل الصفقات والمبيعات")
+    with st.form("add_sale", clear_on_submit=True):
+        prod = st.text_input("اسم المنتج المباع")
+        qty = st.number_input("الكمية المباعة", min_value=1)
+        price = st.number_input("السعر الإجمالي")
+        if st.form_submit_button("إتمام البيع"):
+            conn = sqlite3.connect(DB_PATH)
+            conn.execute("INSERT INTO sales (product_name, quantity_sold, price, date) VALUES (?,?,?,?)", (prod, qty, price, datetime.now().strftime("%Y-%m-%d")))
+            conn.commit(); conn.close()
+            st.success("تم تسجيل البيع بنجاح!")
+
+# 6. التقارير
+with tabs[5]:
+    st.subheader("📊 تقارير الأداء والمبيعات")
+    conn = sqlite3.connect(DB_PATH)
+    df_sales = pd.read_sql("SELECT * FROM sales", conn)
+    if not df_sales.empty:
+        st.write("🏆 أكثر المنتجات مبيعاً:")
+        st.bar_chart(df_sales.groupby('product_name')['quantity_sold'].sum())
+        st.dataframe(df_sales, use_container_width=True)
+    else:
+        st.info("لا توجد مبيعات مسجلة حتى الآن.")
+    conn.close()
+
+# 7. الديون
+with tabs[6]:
+    st.subheader("💰 إدارة الديون والآجل")
+    conn = sqlite3.connect(DB_PATH)
+    with st.form("add_debt", clear_on_submit=True):
+        d_client = st.text_input("اسم العميل المدين")
+        d_amount = st.number_input("المبلغ المتبقي", min_value=0.0)
+        if st.form_submit_button("حفظ الدين"):
+            conn.execute("INSERT INTO debts (client_name, remaining) VALUES (?,?)", (d_client, d_amount))
+            conn.commit(); st.rerun()
+    df_d = pd.read_sql("SELECT * FROM debts", conn)
+    st.dataframe(df_d, use_container_width=True)
+    conn.close()
+
+# 8. المصروفات
+with tabs[7]:
+    st.subheader("💸 إدارة المصروفات")
+    conn = sqlite3.connect(DB_PATH)
+    with st.form("add_exp", clear_on_submit=True):
+        reason = st.text_input("سبب المصروف")
+        amount = st.number_input("المبلغ", min_value=0.0)
+        if st.form_submit_button("تسجيل المصروف"):
+            conn.execute("INSERT INTO expenses (reason, amount, date) VALUES (?,?,?)", (reason, amount, datetime.now().strftime("%Y-%m-%d")))
+            conn.commit(); st.rerun()
+    df_ex = pd.read_sql("SELECT * FROM expenses", conn)
+    st.dataframe(df_ex, use_container_width=True)
+    conn.close()
+
+# 9. المشاريع
+with tabs[8]:
+    st.subheader("🏗️ متابعة المشاريع والديكور")
+    conn = sqlite3.connect(DB_PATH)
+    with st.form("add_proj", clear_on_submit=True):
+        p_name = st.text_input("اسم المشروع أو العميل")
+        p_status = st.selectbox("حالة المشروع", ["جاري التنفيذ", "مكتمل", "مؤجل"])
+        if st.form_submit_button("حفظ المشروع"):
+            conn.execute("INSERT INTO projects (project_name, status) VALUES (?,?)", (p_name, p_status))
+            conn.commit(); st.rerun()
+    df_pr = pd.read_sql("SELECT * FROM projects", conn)
+    st.dataframe(df_pr, use_container_width=True)
+    conn.close()
+
+# 10. الموظفين
+with tabs[9]:
+    st.subheader("🏅 إدارة الموظفين والفريق")
+    conn = sqlite3.connect(DB_PATH)
+    with st.form("add_emp", clear_on_submit=True):
+        e_name = st.text_input("اسم الموظف")
+        e_role = st.text_input("التخصص / الوظيفة")
+        e_salary = st.number_input("الراتب", min_value=0.0)
+        if st.form_submit_button("حفظ الموظف"):
+            conn.execute("INSERT INTO employees (name, role, salary) VALUES (?,?,?)", (e_name, e_role, e_salary))
+            conn.commit(); st.rerun()
+    df_em = pd.read_sql("SELECT * FROM employees", conn)
+    st.dataframe(df_em, use_container_width=True)
+    conn.close()
