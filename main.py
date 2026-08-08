@@ -30,6 +30,24 @@ def init_db():
     }
     for table, schema in tables.items():
         conn.execute(f"CREATE TABLE IF NOT EXISTS {table} ({schema})")
+    
+    # التأكد من وجود الأعمدة الحديثة لو الجدول القديم موجود
+    cursor = conn.cursor()
+    cursor.execute("PRAGMA table_info(products_catalog)")
+    columns = [col[1] for col in cursor.fetchall()]
+    if "barcode" not in columns:
+        cursor.execute("ALTER TABLE products_catalog ADD COLUMN barcode TEXT")
+    if "image_path" not in columns:
+        cursor.execute("ALTER TABLE products_catalog ADD COLUMN image_path TEXT")
+    if "category" not in columns:
+        cursor.execute("ALTER TABLE products_catalog ADD COLUMN category TEXT")
+    if "color" not in columns:
+        cursor.execute("ALTER TABLE products_catalog ADD COLUMN color TEXT")
+    if "dims" not in columns:
+        cursor.execute("ALTER TABLE products_catalog ADD COLUMN dims TEXT")
+    if "location" not in columns:
+        cursor.execute("ALTER TABLE products_catalog ADD COLUMN location TEXT")
+        
     conn.commit()
     conn.close()
 
@@ -61,12 +79,11 @@ with tabs[0]:
     c3.metric("📈 صافي الربح", f"{tot_sales - tot_exp:,.1f}")
     c4.metric("⚠️ الديون الآجلة", f"{tot_debts:,.1f}")
 
-# 2. المخزون (مع رفع الصور وزرار التعديل والحذف)
+# 2. المخزون
 with tabs[1]:
     st.subheader("📦 إدارة المخزون والمنتجات")
     conn = sqlite3.connect(DB_PATH)
     
-    # تنبيه المخزون المنخفض
     low_stock = pd.read_sql("SELECT name, quantity FROM products_catalog WHERE quantity <= 3", conn)
     if not low_stock.empty:
         st.error("⚠️ تنبيه: المنتجات التالية قاربت على النفاد!")
@@ -80,7 +97,6 @@ with tabs[1]:
         
     st.dataframe(df_p, use_container_width=True)
     
-    # قسم إضافة منتج جديد مع رفع الصورة
     with st.expander("➕ إضافة منتج جديد بالتفاصيل والصورة"):
         with st.form("add_prod_orig", clear_on_submit=True):
             cat = st.text_input("التصنيف (مثال: غرف نوم، طاولات):")
@@ -90,8 +106,7 @@ with tabs[1]:
             price = st.number_input("السعر:", min_value=0.0)
             quantity = st.number_input("الكمية:", min_value=0, step=1)
             location = st.text_input("الموقع (المعرض أو المخزن):")
-            barcode = st.text_input("كود الباركود / QR (مثال: AMIN1995):")
-            
+            barcode = st.text_input("كود الباركود / QR (مثل: AMIN1995):")
             img_file = st.file_uploader("رفـع صورة المنتج:", type=["png", "jpg", "jpeg"])
             
             if st.form_submit_button("حفظ المنتج"):
@@ -110,21 +125,20 @@ with tabs[1]:
                 st.success("تم إضافة المنتج بنجاح!")
                 st.rerun()
 
-    # قسم تعديل بيانات منتج موجود
     if not df_p.empty:
         with st.expander("✏️ تعديل بيانات منتج موجود"):
             edit_id = st.selectbox("اختر رقم معرف المنتج (ID) للتعديل:", df_p['id'].tolist(), key="edit_sel")
             prod_row = df_p[df_p['id'] == edit_id].iloc[0]
             
             with st.form("edit_prod_form"):
-                e_cat = st.text_input("التصنيف:", value=str(prod_row['category']))
-                e_name = st.text_input("اسم المنتج:", value=str(prod_row['name']))
-                e_color = st.text_input("اللون:", value=str(prod_row['color']))
-                e_dims = st.text_input("المقاسات:", value=str(prod_row['dims']))
-                e_price = st.number_input("السعر:", min_value=0.0, value=float(prod_row['price']))
-                e_qty = st.number_input("الكمية:", min_value=0, step=1, value=int(prod_row['quantity']))
-                e_loc = st.text_input("الموقع:", value=str(prod_row['location']))
-                e_bar = st.text_input("الباركود:", value=str(prod_row['barcode']))
+                e_cat = st.text_input("التصنيف:", value=str(prod_row.get('category', '')))
+                e_name = st.text_input("اسم المنتج:", value=str(prod_row.get('name', '')))
+                e_color = st.text_input("اللون:", value=str(prod_row.get('color', '')))
+                e_dims = st.text_input("المقاسات:", value=str(prod_row.get('dims', '')))
+                e_price = st.number_input("السعر:", min_value=0.0, value=float(prod_row.get('price', 0.0)))
+                e_qty = st.number_input("الكمية:", min_value=0, step=1, value=int(prod_row.get('quantity', 0)))
+                e_loc = st.text_input("الموقع:", value=str(prod_row.get('location', '')))
+                e_bar = st.text_input("الباركود:", value=str(prod_row.get('barcode', '')))
                 
                 if st.form_submit_button("تحديث بيانات المنتج"):
                     conn.execute("""
@@ -136,7 +150,6 @@ with tabs[1]:
                     st.success("تم التحديث بنجاح!")
                     st.rerun()
 
-        # قسم حذف منتج
         with st.expander("🗑️ حذف منتج من المخزون"):
             del_id = st.selectbox("اختر رقم معرف المنتج (ID) للحذف:", df_p['id'].tolist(), key="del_sel")
             if st.button("تأكيد الحذف"):
