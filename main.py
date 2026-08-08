@@ -3,7 +3,6 @@ import sqlite3
 import pandas as pd
 from datetime import datetime
 import os
-# مكتبة لطباعة الباركود
 import barcode
 from barcode.writer import ImageWriter
 
@@ -36,13 +35,11 @@ with tabs[1]:
     st.subheader("📦 إدارة المخزون")
     conn = sqlite3.connect(DB_PATH)
     
-    # البحث بالمسح الضوئي (مع صوت بسيط)
     barcode_search = st.text_input("🔍 مسح الباركود:")
     if barcode_search:
         prod = pd.read_sql(f"SELECT * FROM products_catalog WHERE barcode = '{barcode_search}'", conn)
         if not prod.empty:
             st.success(f"✅ تم العثور على: {prod['name'].iloc[0]}")
-            # كود بسيط للنطق
             st.write(f'<audio autoplay><source src="https://translate.google.com/translate_tts?ie=UTF-8&tl=ar&q={prod["name"].iloc[0]}" type="audio/mpeg"></audio>', unsafe_allow_html=True)
             st.dataframe(prod)
         else:
@@ -56,18 +53,23 @@ with tabs[1]:
                 conn.commit(); st.rerun()
     conn.close()
 
-# 2. طباعة الباركود (الاستيكر)
+# 2. طباعة الباركود (الاستيكر) - مع الحماية من الأخطاء
 with tabs[2]:
     st.subheader("🖨️ توليد وطباعة الباركود")
-    b_code = st.text_input("أدخل رقم الباركود للمنتج:")
+    b_code = st.text_input("أدخل رقم الباركود للمنتج (أرقام أو حروف إنجليزية):")
     if st.button("توليد الباركود"):
-        # توليد صورة الباركود
-        code = barcode.get('code128', b_code, writer=ImageWriter())
-        filename = code.save('barcode_gen')
-        st.image(filename)
-        st.success("تم توليد الاستيكر! يمكنك طباعته الآن.")
+        if b_code.strip() != "":
+            try:
+                code = barcode.get('code128', b_code, writer=ImageWriter())
+                filename = code.save('barcode_gen')
+                st.image(f"{filename}.png")
+                st.success("تم توليد الاستيكر بنجاح! يمكنك طباعته الآن.")
+            except Exception as e:
+                st.error(f"خطأ في توليد الباركود: تأكد من إدخال أحرف أو أرقام إنجليزية صحيحة.")
+        else:
+            st.warning("⚠️ الرجاء إدخال رقم أو كود صحيح أولاً.")
 
-# 3. باقي الأقسام الأساسية (كما كانت تماماً)
+# 3. باقي الأقسام
 with tabs[0]: st.subheader("📊 مؤشرات الأداء")
 with tabs[3]: st.subheader("📈 الصفقات")
 with tabs[4]: st.subheader("📊 التقارير")
