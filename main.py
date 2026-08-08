@@ -137,14 +137,14 @@ with tabs[1]:
             prod_row = df_p[df_p['id'] == edit_id].iloc[0]
             
             with st.form("edit_prod_form"):
-                e_cat = st.text_input("التصنيف:", value=str(prod_row.get('category', '')))
-                e_name = st.text_input("اسم المنتج:", value=str(prod_row.get('name', '')))
-                e_color = st.text_input("اللون:", value=str(prod_row.get('color', '')))
-                e_dims = st.text_input("المقاسات:", value=str(prod_row.get('dims', '')))
-                e_price = st.number_input("السعر:", min_value=0.0, value=float(prod_row.get('price', 0.0)))
-                e_qty = st.number_input("الكمية:", min_value=0, step=1, value=int(prod_row.get('quantity', 0)))
-                e_loc = st.text_input("الموقع:", value=str(prod_row.get('location', '')))
-                e_bar = st.text_input("الباركود:", value=str(prod_row.get('barcode', '')))
+                e_cat = st.text_input("التصنيف:", value=str(prod_row['category']) if 'category' in prod_row and pd.notna(prod_row['category']) else '')
+                e_name = st.text_input("اسم المنتج:", value=str(prod_row['name']) if 'name' in prod_row and pd.notna(prod_row['name']) else '')
+                e_color = st.text_input("اللون:", value=str(prod_row['color']) if 'color' in prod_row and pd.notna(prod_row['color']) else '')
+                e_dims = st.text_input("المقاسات:", value=str(prod_row['dims']) if 'dims' in prod_row and pd.notna(prod_row['dims']) else '')
+                e_price = st.number_input("السعر:", min_value=0.0, value=float(prod_row['price']) if 'price' in prod_row and pd.notna(prod_row['price']) else 0.0)
+                e_qty = st.number_input("الكمية:", min_value=0, step=1, value=int(prod_row['quantity']) if 'quantity' in prod_row and pd.notna(prod_row['quantity']) else 0)
+                e_loc = st.text_input("الموقع:", value=str(prod_row['location']) if 'location' in prod_row and pd.notna(prod_row['location']) else '')
+                e_bar = st.text_input("الباركود:", value=str(prod_row['barcode']) if 'barcode' in prod_row and pd.notna(prod_row['barcode']) else '')
                 
                 if st.form_submit_button("تحديث بيانات المنتج"):
                     conn.execute("""
@@ -309,10 +309,10 @@ with tabs[9]:
             emp_row = df_em[df_em['id'] == edit_emp_id].iloc[0]
             
             with st.form("edit_emp_form"):
-                e_name = st.text_input("اسم الموظف:", value=str(emp_row.get('name', '')))
-                e_role = st.text_input("التخصص / الوظيفة:", value=str(emp_row.get('role', '')))
-                e_sal = st.number_input("الراتب:", min_value=0.0, value=float(emp_row.get('salary', 0.0)))
-                e_phone = st.text_input("رقم الهاتف:", value=str(emp_row.get('phone', '')))
+                e_name = st.text_input("اسم الموظف:", value=str(emp_row['name']) if 'name' in emp_row and pd.notna(emp_row['name']) else '')
+                e_role = st.text_input("التخصص / الوظيفة:", value=str(emp_row['role']) if 'role' in emp_row and pd.notna(emp_row['role']) else '')
+                e_sal = st.number_input("الراتب:", min_value=0.0, value=float(emp_row['salary']) if 'salary' in emp_row and pd.notna(emp_row['salary']) else 0.0)
+                e_phone = st.text_input("رقم الهاتف:", value=str(emp_row['phone']) if 'phone' in emp_row and pd.notna(emp_row['phone']) else '')
                 
                 if st.form_submit_button("تحديث بيانات الموظف"):
                     conn.execute("""
