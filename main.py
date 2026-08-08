@@ -61,8 +61,8 @@ st.title("🛒 سوق المروة للأثاث والديكور - النظام 
 st.write("أهلاً بك يا أمين، نظام الإدارة والتشغيل السريع.")
 st.divider()
 
-# 4. شريط التنقل العلوي الاحترافي (Tabs) - ظاهر قدام الكل وثابت 100%
-tabs = st.tabs([
+# 4. قائمة الأقسام المتاحة
+pages_list = [
     "📊 المؤشرات",
     "📦 المخزون",
     "👥 العملاء",
@@ -73,10 +73,31 @@ tabs = st.tabs([
     "🧾 الفواتير",
     "🏗️ المشاريع",
     "🏅 الموظفين"
-])
+]
+
+# استخدام نظام القائمة المنسدلة الذكية أو الاختيار المرن لتناسب الموبايل والشاشات الصغيرة تماماً بدلاً من شريط الأزرار المزدحم
+st.markdown("### 📌 لوحة التحكم السريعة - اختر القسم المطلوب:")
+
+# تقسيم الأقسام على أزرار مرتبة بصفوف (Grid) لسهولة الضغط عليها من الموبايل
+cols_per_row = 3
+rows = [pages_list[i:i + cols_per_row] for i in range(0, len(pages_list), cols_per_row)]
+
+# حفظ القسم الحالي في جلسة التصفح
+if 'current_page' not in st.session_state:
+    st.session_state.current_page = "📊 المؤشرات"
+
+for row in rows:
+    cols = st.columns(len(row))
+    for idx, page_name in enumerate(row):
+        with cols[idx]:
+            if st.button(page_name, use_container_width=True):
+                st.session_state.current_page = page_name
+
+current_page = st.session_state.current_page
+st.markdown(f"--- \n ## 📂 القسم الحالي: {current_page}")
 
 # ----------------- 1. المؤشرات -----------------
-with tabs[0]:
+if current_page == "📊 المؤشرات":
     st.subheader("📊 مؤشرات الأداء والأموال العامة")
     conn = sqlite3.connect(DB_PATH)
     try: df_s = pd.read_sql("SELECT * FROM sales", conn)
@@ -107,7 +128,7 @@ with tabs[0]:
     c4.metric("⚠️ إجمالي الديون المستحقة", f"{total_debts:,.1f} د.ك")
 
 # ----------------- 2. المخزون -----------------
-with tabs[1]:
+elif current_page == "📦 المخزون":
     st.subheader("📦 إدارة المخزون والفئات المنظمة للمنتجات")
     conn = sqlite3.connect(DB_PATH)
     try:
@@ -147,7 +168,7 @@ with tabs[1]:
                 st.rerun()
 
 # ----------------- 3. العملاء -----------------
-with tabs[2]:
+elif current_page == "👥 العملاء":
     st.subheader("👥 إدارة العملاء وعلاقاتهم (CRM)")
     with st.form("add_client", clear_on_submit=True):
         c_name = st.text_input("اسم العميل:")
@@ -167,7 +188,7 @@ with tabs[2]:
     conn.close()
 
 # ----------------- 4. الصفقات -----------------
-with tabs[3]:
+elif current_page == "📈 الصفقات":
     st.subheader("📈 تسجيل صفقة بيع جديدة")
     conn = sqlite3.connect(DB_PATH)
     try: products_list = pd.read_sql("SELECT id, name, quantity, price FROM products_catalog WHERE quantity > 0", conn)
@@ -218,7 +239,7 @@ with tabs[3]:
         st.warning("⚠️ يرجى إضافة موظفين ومنتجات متوفرة بالمخزون أولاً.")
 
 # ----------------- 5. التقارير -----------------
-with tabs[4]:
+elif current_page == "📊 التقارير":
     st.subheader("📊 تقارير المبيعات والأداء")
     conn = sqlite3.connect(DB_PATH)
     try: df_sales_rep = pd.read_sql("SELECT * FROM sales", conn)
@@ -231,7 +252,7 @@ with tabs[4]:
         st.info("لا توجد مبيعات مسجلة حالياً.")
 
 # ----------------- 6. دفتر الآجل والديون -----------------
-with tabs[5]:
+elif current_page == "💰 الآجل والديون":
     st.subheader("💰 إدارة الديون والآجل وعربون العملاء")
     conn = sqlite3.connect(DB_PATH)
     try: df_debts_all = pd.read_sql("SELECT * FROM debts", conn)
@@ -240,7 +261,7 @@ with tabs[5]:
     st.dataframe(df_debts_all, use_container_width=True)
 
 # ----------------- 7. المصروفات -----------------
-with tabs[6]:
+elif current_page == "💸 المصروفات":
     st.subheader("💸 إدارة المصروفات")
     with st.form("expense_form", clear_on_submit=True):
         reason = st.text_input("بيان المصروف:")
@@ -260,7 +281,7 @@ with tabs[6]:
     conn.close()
 
 # ----------------- 8. الفواتير -----------------
-with tabs[7]:
+elif current_page == "🧾 الفواتير":
     st.subheader("🧾 طباعة الفواتير")
     conn = sqlite3.connect(DB_PATH)
     try: sales_invoices = pd.read_sql("SELECT * FROM sales", conn)
@@ -274,7 +295,7 @@ with tabs[7]:
         st.info("لا توجد فواتير.")
 
 # ----------------- 9. المشاريع -----------------
-with tabs[8]:
+elif current_page == "🏗️ المشاريع":
     st.subheader("🏗️ إدارة المشاريع")
     conn = sqlite3.connect(DB_PATH)
     try: st.dataframe(pd.read_sql("SELECT * FROM projects", conn), use_container_width=True)
@@ -282,7 +303,7 @@ with tabs[8]:
     conn.close()
 
 # ----------------- 10. الموظفين -----------------
-with tabs[9]:
+elif current_page == "🏅 الموظفين":
     st.subheader("🏅 إدارة الموظفين")
     conn = sqlite3.connect(DB_PATH)
     try: st.dataframe(pd.read_sql("SELECT * FROM employees", conn), use_container_width=True)
