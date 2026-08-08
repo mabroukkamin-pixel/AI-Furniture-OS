@@ -138,7 +138,6 @@ with tabs[0]:
 with tabs[1]:
     st.subheader("📦 إدارة المخزون والفئات المنظمة للمنتجات")
     
-    # جلب المنتجات المتاحة من قاعدة البيانات
     conn = sqlite3.connect(DB_PATH)
     try:
         df_all_prod = pd.read_sql("SELECT * FROM products_catalog", conn)
@@ -147,30 +146,55 @@ with tabs[1]:
     conn.close()
 
     if not df_all_prod.empty:
-        # إعادة تسمية الأعمدة لعرضها بشكل احترافي وجميل
-        display_df = df_all_prod.rename(columns={
-            'id': 'رقم ID',
-            'category': 'الفئة',
-            'name': 'المنتج',
-            'color': 'اللون',
-            'dims': 'المقاسات',
-            'price': 'السعر',
-            'quantity': 'الكمية',
-            'location': 'الفرع',
-            'barcode': 'الباركود'
-        })
-        
         selected_filter_cat = st.selectbox("🔍 تصفية الجدول حسب الفئة:", ["الكل (عرض كل الفئات)"] + main_categories)
         if selected_filter_cat != "الكل (عرض كل الفئات)":
-            filtered_df = display_df[display_df['الفئة'] == selected_filter_cat]
+            filtered_df = df_all_prod[df_all_prod['category'] == selected_filter_cat]
         else:
-            filtered_df = display_df
+            filtered_df = df_all_prod
             
-        st.dataframe(filtered_df, use_container_width=True)
+        # عرض المنتجات مع صورها وأزرار التحكم
+        for index, row in filtered_df.iterrows():
+            with st.container():
+                cols = st.columns([1, 3, 2])
+                with cols[0]:
+                    if row['image_path'] and os.path.exists(row['image_path']):
+                        st.image(row['image_path'], width=100)
+                    else:
+                        st.info("لا توجد صورة")
+                with cols[1]:
+                    st.markdown(f"**المنتج:** {row['name']}")
+                    st.markdown(f"**الفئة:** {row['category']} | **اللون:** {row['color']} | **المقاس:** {row['dims']}")
+                    st.markdown(f"**السعر:** {row['price']} د.ك | **الكمية:** {row['quantity']} | **الفرع:** {row['location']}")
+                with cols[2]:
+                    # أزرار التعديل والحذف
+                    with st.expander(f"⚙️ إدارة المنتج (#{row['id']})"):
+                        with st.form(f"edit_prod_{row['id']}"):
+                            new_name = st.text_input("اسم المنتج:", value=row['name'])
+                            new_price = st.number_input("السعر:", value=float(row['price']), min_value=0.0)
+                            new_qty = st.number_input("الكمية:", value=int(row['quantity']), min_value=0, step=1)
+                            new_loc = st.selectbox("الفرع:", ["سوق المروة", "السوق الصيني"], index=0 if row['location']=="سوق المروة" else 1)
+                            
+                            update_btn = st.form_submit_button("💾 تحديث المنتج")
+                            if update_btn:
+                                conn = sqlite3.connect(DB_PATH)
+                                conn.execute("UPDATE products_catalog SET name = ?, price = ?, quantity = ?, location = ? WHERE id = ?", 
+                                           (new_name, new_price, new_qty, new_loc, row['id']))
+                                conn.commit()
+                                conn.close()
+                                st.success("✅ تم التحديث بنجاح!")
+                                st.rerun()
+                        
+                        if st.button(f"🗑️ حذف المنتج نهائياً", key=f"del_{row['id']}"):
+                            conn = sqlite3.connect(DB_PATH)
+                            conn.execute("DELETE FROM products_catalog WHERE id = ?", (row['id'],))
+                            conn.commit()
+                            conn.close()
+                            st.success("🗑️ تم الحذف بنجاح!")
+                            st.rerun()
+                st.markdown("---")
     else:
-        st.info("⚠️ لا توجد منتجات مسجلة في المخزون حتى الآن. يمكنك إضافة منتج جديد باستخدام النمط أدناه.")
+        st.info("⚠️ لا توجد منتجات مسجلة في المخزون حتى الآن.")
 
-    st.markdown("---")
     st.subheader("➕ إضافة منتج جديد بالمخزون")
     with st.form("add_prod", clear_on_submit=True):
         category = st.selectbox("الفئة الرئيسية:", main_categories)
@@ -181,17 +205,24 @@ with tabs[1]:
         quantity = st.number_input("العدد المتوفر:", value=1, step=1, min_value=0)
         location = st.selectbox("الفرع:", ["سوق المروة", "السوق الصيني"])
         barcode = st.text_input("كود الباركود (اختياري):")
+        uploaded_image = st.file_uploader("🖼️ تحميل صورة المنتج:", type=["jpg", "png", "jpeg"])
         
         if st.form_submit_button("حفظ المنتج بالكامل"):
             if name.strip() == "":
                 st.error("⚠️ يرجى كتابة اسم المنتج على الأقل.")
             else:
+                img_path = ""
+                if uploaded_image is not None:
+                    img_path = os.path.join(UPLOAD_FOLDER, f"{datetime.now().strftime('%Y%m%d%H%M%S')}_{uploaded_image.name}")
+                    with open(img_path, "wb") as f:
+                        f.write(uploaded_image.getbuffer())
+
                 conn = sqlite3.connect(DB_PATH)
-                conn.execute("INSERT INTO products_catalog (category, name, color, dims, price, quantity, location, barcode) VALUES (?,?,?,?,?,?,?,?)", 
-                           (category, name, color, dims, price, quantity, location, barcode))
+                conn.execute("INSERT INTO products_catalog (category, name, color, dims, price, quantity, location, barcode, image_path) VALUES (?,?,?,?,?,?,?,?,?)", 
+                           (category, name, color, dims, price, quantity, location, barcode, img_path))
                 conn.commit()
                 conn.close()
-                st.success("✅ تم حفظ المنتج بنجاح!")
+                st.success("✅ تم حفظ المنتج مع صورته بنجاح!")
                 st.rerun()
 
 # ----------------- 3. العملاء -----------------
