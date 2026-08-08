@@ -80,7 +80,7 @@ main_categories = [
 
 # 3. العنوان الرئيسي
 st.title("🛒 سوق المروة للأثاث والديكور")
-st.write("أهلاً بك يا أمين، نظام الإدارة والتشغيل السريع.")
+st.write("أهلاً بك يا أمين، نظام الإدارة والتشغيل الشامل.")
 
 # 4. شريط الأقسام العلوي الثابت
 tabs = st.tabs([
@@ -189,12 +189,14 @@ with tabs[2]:
 
 # ----------------- 4. الصفقات -----------------
 with tabs[3]:
-    st.subheader("📈 تسجيل صفقة بيع جديدة")
+    st.subheader("📈 تسجيل صفقة بيع جديدة وإدارتها")
     conn = sqlite3.connect(DB_PATH)
     try: products_list = pd.read_sql("SELECT id, name, quantity, price FROM products_catalog WHERE quantity > 0", conn)
     except: products_list = pd.DataFrame()
     try: emps_list = pd.read_sql("SELECT name FROM employees", conn)['name'].tolist()
     except: emps_list = []
+    try: df_sales_manage = pd.read_sql("SELECT * FROM sales", conn)
+    except: df_sales_manage = pd.DataFrame()
     conn.close()
 
     if not products_list.empty and emps_list:
@@ -238,6 +240,13 @@ with tabs[3]:
     else:
         st.warning("⚠️ يرجى إضافة موظفين ومنتجات متوفرة بالمخزون أولاً.")
 
+    st.markdown("---")
+    st.subheader("📋 سجل الصفقات وإلغائها عند الضرورة")
+    if not df_sales_manage.empty:
+        st.dataframe(df_sales_manage, use_container_width=True)
+    else:
+        st.info("لا توجد صفقات مسجلة.")
+
 # ----------------- 5. التقارير -----------------
 with tabs[4]:
     st.subheader("📊 تقارير المبيعات والأداء")
@@ -247,7 +256,7 @@ with tabs[4]:
     conn.close()
     if not df_sales_rep.empty:
         st.dataframe(df_sales_rep, use_container_width=True)
-        st.download_button("📥 تحميل تقرير المبيعات", df_sales_rep.to_csv(index=False).encode('utf-8-sig'), "sales_report.csv", "text/csv")
+        st.download_button("📥 تحميل تقرير المبيعات (CSV)", df_sales_rep.to_csv(index=False).encode('utf-8-sig'), "sales_report.csv", "text/csv")
     else:
         st.info("لا توجد مبيعات مسجلة حالياً.")
 
@@ -258,7 +267,27 @@ with tabs[5]:
     try: df_debts_all = pd.read_sql("SELECT * FROM debts", conn)
     except: df_debts_all = pd.DataFrame()
     conn.close()
-    st.dataframe(df_debts_all, use_container_width=True)
+    
+    if not df_debts_all.empty:
+        st.dataframe(df_debts_all, use_container_width=True)
+        with st.form("pay_debt_form"):
+            debt_id = st.selectbox("اختر رقم الدين لتسجيل سداد:", df_debts_all['id'].tolist())
+            pay_add = st.number_input("المبلغ المراد سداده الآن (د.ك):", min_value=0.0)
+            if st.form_submit_button("تحديث السداد"):
+                conn = sqlite3.connect(DB_PATH)
+                cur = conn.cursor()
+                row = cur.execute("SELECT paid_amount, total_amount FROM debts WHERE id = ?", (debt_id,)).fetchone()
+                if row:
+                    new_paid = row[0] + pay_add
+                    new_rem = row[1] - new_paid
+                    status = "مخلص" if new_rem <= 0 else "متبقي"
+                    cur.execute("UPDATE debts SET paid_amount = ?, remaining = ?, status = ? WHERE id = ?", (new_paid, max(0.0, new_rem), status, debt_id))
+                    conn.commit()
+                conn.close()
+                st.success("✅ تم تحديث الدين بنجاح!")
+                st.rerun()
+    else:
+        st.info("لا توجد ديون مسجلة.")
 
 # ----------------- 7. المصروفات -----------------
 with tabs[6]:
@@ -282,21 +311,50 @@ with tabs[6]:
 
 # ----------------- 8. الفواتير -----------------
 with tabs[7]:
-    st.subheader("🧾 طباعة الفواتير")
+    st.subheader("🧾 طباعة وعرض الفواتير الرسمية")
     conn = sqlite3.connect(DB_PATH)
     try: sales_invoices = pd.read_sql("SELECT * FROM sales", conn)
     except: sales_invoices = pd.DataFrame()
     conn.close()
     if not sales_invoices.empty:
-        sel_inv_id = st.selectbox("اختر رقم الفاتورة:", sales_invoices['id'].tolist())
+        sel_inv_id = st.selectbox("اختر رقم الفاتورة للطباعة:", sales_invoices['id'].tolist())
         inv_data = sales_invoices[sales_invoices['id'] == sel_inv_id].iloc[0]
-        st.write(f"فاتورة رقم: #{inv_data['id']} - العميل: {inv_data['client_name']} - الإجمالي: {inv_data['price']} د.ك")
+        
+        st.markdown(f"""
+        <div style="border: 2px dashed #333; padding: 20px; border-radius: 10px; background-color: #fafafa; color: #000;">
+            <h2 style="text-align: center;">سوق المروة للأثاث والديكور</h2>
+            <p style="text-align: center;">فرع الكويت - الفاتورة الرسمية</p>
+            <hr>
+            <p><b>رقم الفاتورة:</b> #{inv_data['id']}</p>
+            <p><b>التاريخ:</b> {inv_data['date']}</p>
+            <p><b>اسم العميل:</b> {inv_data['client_name']}</p>
+            <p><b>المنتج:</b> {inv_data['product_name']}</p>
+            <p><b>الكمية:</b> {inv_data['quantity_sold']}</p>
+            <p><b>طريقة الدفع:</b> {inv_data['payment_method']}</p>
+            <h3 style="text-align: left;">الإجمالي: {inv_data['price']} د.ك</h3>
+        </div>
+        """, unsafe_allow_html=True)
     else:
-        st.info("لا توجد فواتير.")
+        st.info("لا توجد فواتير متاحة.")
 
 # ----------------- 9. المشاريع -----------------
 with tabs[8]:
-    st.subheader("🏗️ إدارة المشاريع")
+    st.subheader("🏗️ إدارة المشاريع والديكورات")
+    with st.form("add_project", clear_on_submit=True):
+        p_name = st.text_input("اسم المشروع:")
+        p_client = st.text_input("اسم العميل:")
+        p_cost = st.number_input("تكلفة المشروع الإجمالية:", min_value=0.0)
+        p_paid = st.number_input("المبلغ المدفوع مقدماً:", min_value=0.0)
+        p_team = st.text_input("فريق العمل المنفذ:")
+        p_notes = st.text_area("ملاحظات المشروع:")
+        if st.form_submit_button("حفظ المشروع"):
+            conn = sqlite3.connect(DB_PATH)
+            conn.execute("INSERT INTO projects (project_name, client_name, status, total_cost, paid_cost, notes, team, deadline) VALUES (?,?,?,?,?,?,?,?)",
+                         (p_name, p_client, "قيد التنفيذ", p_cost, p_paid, p_notes, p_team, datetime.now().strftime("%Y-%m-%d")))
+            conn.commit()
+            conn.close()
+            st.success("✅ تم حفظ المشروع بنجاح!")
+            st.rerun()
     conn = sqlite3.connect(DB_PATH)
     try: st.dataframe(pd.read_sql("SELECT * FROM projects", conn), use_container_width=True)
     except: pass
@@ -304,8 +362,50 @@ with tabs[8]:
 
 # ----------------- 10. الموظفين -----------------
 with tabs[9]:
-    st.subheader("🏅 إدارة الموظفين")
-    conn = sqlite3.connect(DB_PATH)
-    try: st.dataframe(pd.read_sql("SELECT * FROM employees", conn), use_container_width=True)
-    except: pass
-    conn.close()
+    st.subheader("🏅 إدارة الموظفين والشؤون الداخلية")
+    emp_sub_tab1, emp_sub_tab2 = st.tabs(["بيانات الموظفين والرواتب", "حضور وسلف الموظفين"])
+    
+    with emp_sub_tab1:
+        with st.form("add_emp", clear_on_submit=True):
+            e_name = st.text_input("اسم الموظف الكامل:")
+            e_phone = st.text_input("رقم الهاتف:")
+            e_role = st.text_input("الوظيفة / التخصص:")
+            e_salary = st.number_input("الراتب الأساسي:", min_value=0.0)
+            if st.form_submit_button("حفظ الموظف"):
+                conn = sqlite3.connect(DB_PATH)
+                conn.execute("INSERT INTO employees (name, phone, address, hire_date, role, salary) VALUES (?,?,?,?,?,?)",
+                             (e_name, e_phone, "الكويت", datetime.now().strftime("%Y-%m-%d"), e_role, e_salary))
+                conn.commit()
+                conn.close()
+                st.success("✅ تم تسجيل الموظف!")
+                st.rerun()
+        conn = sqlite3.connect(DB_PATH)
+        try: st.dataframe(pd.read_sql("SELECT * FROM employees", conn), use_container_width=True)
+        except: pass
+        conn.close()
+
+    with emp_sub_tab2:
+        conn = sqlite3.connect(DB_PATH)
+        try: emps_names = pd.read_sql("SELECT name FROM employees", conn)['name'].tolist()
+        except: emps_names = []
+        conn.close()
+
+        if emps_names:
+            with st.form("bonus_form", clear_on_submit=True):
+                b_emp = st.selectbox("الموظف:", emps_names)
+                b_amt = st.number_input("قيمة المكافأة أو السلفة:", min_value=0.0)
+                b_reason = st.text_input("السبب:")
+                if st.form_submit_button("تسجيل مكافأة / سلفة"):
+                    conn = sqlite3.connect(DB_PATH)
+                    conn.execute("INSERT INTO employee_bonuses (employee_name, amount, reason, date) VALUES (?,?,?,?)",
+                                 (b_emp, b_amt, b_reason, datetime.now().strftime("%Y-%m-%d")))
+                    conn.commit()
+                    conn.close()
+                    st.success("✅ تمت الإضافة!")
+                    st.rerun()
+            conn = sqlite3.connect(DB_PATH)
+            try: st.dataframe(pd.read_sql("SELECT * FROM employee_bonuses", conn), use_container_width=True)
+            except: pass
+            conn.close()
+        else:
+            st.info("الرجاء إضافة موظفين أولاً.")
