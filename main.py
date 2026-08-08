@@ -44,7 +44,6 @@ init_db()
 
 st.set_page_config(page_title="سوق المروة للأثاث والديكور", layout="wide")
 
-# تعديل CSS عشان القائمة الجانبية تفضل ظاهرة وما تختفيش على الموبايل
 st.markdown("""
     <style>
     [data-testid="stSidebar"] {
