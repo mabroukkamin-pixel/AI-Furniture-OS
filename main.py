@@ -85,7 +85,7 @@ with tabs[0]:
     c3.metric("📈 صافي الربح", f"{tot_sales - tot_exp:,.1f}")
     c4.metric("⚠️ الديون الآجلة", f"{tot_debts:,.1f}")
 
-# 2. المخزون والمنتجات الناطقة والتعديل
+# 2. المخزون والمنتجات الناطقة والتعديل (الجدول أولاً - والإضافة والتعديل في الأسفل)
 with tabs[1]:
     st.subheader("📦 إدارة المخزون وتفعيل خاصية 'المنتج الناطق' بدقة فائقة")
     conn = sqlite3.connect(DB_PATH)
@@ -130,6 +130,9 @@ with tabs[1]:
             conn.commit()
             st.success("تم توليد السكريبت والصوت النقي بنجاح!")
 
+    st.markdown("---")
+    st.markdown("### ⚙️ عمليات الإضافة، التعديل، والحذف (أسفل الصفحة)")
+
     with st.expander("➕ إضافة منتج جديد بالتفاصيل والصورة"):
         with st.form("add_prod_orig", clear_on_submit=True):
             cat = st.text_input("التصنيف (مثال: غرف نوم، طاولات):")
@@ -158,7 +161,6 @@ with tabs[1]:
                 st.success("تم إضافة المنتج بنجاح!")
                 st.rerun()
 
-    # قسم تعديل وحذف المنتجات
     if not df_p.empty:
         with st.expander("✏️ تعديل بيانات منتج موجود"):
             edit_p_id = st.selectbox("اختر رقم معرف المنتج (ID) للتعديل:", df_p['id'].tolist(), key="edit_prod_sel")
