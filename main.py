@@ -30,7 +30,6 @@ def init_db():
     for table, schema in tables.items():
         c.execute(f"CREATE TABLE IF NOT EXISTS {table} ({schema})")
     
-    # التأكد من وجود أعمدة جدول المبيعات لو الجدول قديم
     c.execute("PRAGMA table_info(sales)")
     columns = [col[1] for col in c.fetchall()]
     if 'status' not in columns:
@@ -44,6 +43,16 @@ def init_db():
 init_db()
 
 st.set_page_config(page_title="سوق المروة للأثاث والديكور", layout="wide")
+
+# تعديل CSS عشان القائمة الجانبية تفضل ظاهرة وما تختفيش على الموبايل
+st.markdown("""
+    <style>
+    [data-testid="stSidebar"] {
+        display: block !important;
+        position: relative !important;
+    }
+    </style>
+    """, unsafe_allow_html=True)
 
 main_categories = [
     "أثاث التخزين (كبتات وخزانات)",
@@ -215,7 +224,7 @@ elif current_page == "📈 الصفقات":
                     st.error("⚠️ الكمية المطلوبة غير متوفرة.")
                     conn.close()
     else:
-        st.warning("⚠️ يرجى إضافة موظفين وprodukte متوفرة بالمخزون أولاً.")
+        st.warning("⚠️ يرجى إضافة موظفين ومنتجات متوفرة بالمخزون أولاً.")
 
 elif current_page == "📊 التقارير":
     st.subheader("📊 تقارير المبيعات والأداء")
