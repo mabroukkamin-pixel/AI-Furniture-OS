@@ -20,7 +20,7 @@ DB_PATH = "sovereign_100_matrix.db"
 def init_db():
     conn = sqlite3.connect(DB_PATH)
     tables = {
-        "products_catalog": "id INTEGER PRIMARY KEY AUTOINCREMENT, category TEXT, name TEXT, color TEXT, dims TEXT, price REAL, quantity INTEGER, location TEXT, barcode TEXT",
+        "products_catalog": "id INTEGER PRIMARY KEY AUTOINCREMENT, category TEXT, name TEXT, color TEXT, dims TEXT, price REAL, quantity INTEGER, location TEXT, barcode TEXT, image_path TEXT",
         "clients": "id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, phone TEXT, address TEXT, interest TEXT",
         "sales": "id INTEGER PRIMARY KEY AUTOINCREMENT, client_name TEXT, product_name TEXT, price REAL, quantity_sold INTEGER, date TEXT, employee_name TEXT",
         "expenses": "id INTEGER PRIMARY KEY AUTOINCREMENT, reason TEXT, amount REAL, category TEXT, date TEXT",
@@ -61,7 +61,7 @@ with tabs[0]:
     c3.metric("📈 صافي الربح", f"{tot_sales - tot_exp:,.1f}")
     c4.metric("⚠️ الديون الآجلة", f"{tot_debts:,.1f}")
 
-# 2. المخزون (الشكل الأصلي المتكامل)
+# 2. المخزون (مع رفع الصور وزرار التعديل والحذف)
 with tabs[1]:
     st.subheader("📦 إدارة المخزون والمنتجات")
     conn = sqlite3.connect(DB_PATH)
@@ -80,7 +80,8 @@ with tabs[1]:
         
     st.dataframe(df_p, use_container_width=True)
     
-    with st.expander("➕ إضافة منتج جديد بالتفاصيل الكاملة"):
+    # قسم إضافة منتج جديد مع رفع الصورة
+    with st.expander("➕ إضافة منتج جديد بالتفاصيل والصورة"):
         with st.form("add_prod_orig", clear_on_submit=True):
             cat = st.text_input("التصنيف (مثال: غرف نوم، طاولات):")
             name = st.text_input("اسم المنتج:")
@@ -91,21 +92,58 @@ with tabs[1]:
             location = st.text_input("الموقع (المعرض أو المخزن):")
             barcode = st.text_input("كود الباركود / QR (مثال: AMIN1995):")
             
+            img_file = st.file_uploader("رفـع صورة المنتج:", type=["png", "jpg", "jpeg"])
+            
             if st.form_submit_button("حفظ المنتج"):
+                img_path = ""
+                if img_file is not None:
+                    os.makedirs("uploads", exist_ok=True)
+                    img_path = os.path.join("uploads", img_file.name)
+                    with open(img_path, "wb") as f:
+                        f.write(img_file.getbuffer())
+                        
                 conn.execute("""
-                    INSERT INTO products_catalog (category, name, color, dims, price, quantity, location, barcode) 
-                    VALUES (?,?,?,?,?,?,?,?)
-                """, (cat, name, color, dims, price, quantity, location, barcode))
+                    INSERT INTO products_catalog (category, name, color, dims, price, quantity, location, barcode, image_path) 
+                    VALUES (?,?,?,?,?,?,?,?,?)
+                """, (cat, name, color, dims, price, quantity, location, barcode, img_path))
                 conn.commit()
+                st.success("تم إضافة المنتج بنجاح!")
                 st.rerun()
-                
+
+    # قسم تعديل بيانات منتج موجود
     if not df_p.empty:
+        with st.expander("✏️ تعديل بيانات منتج موجود"):
+            edit_id = st.selectbox("اختر رقم معرف المنتج (ID) للتعديل:", df_p['id'].tolist(), key="edit_sel")
+            prod_row = df_p[df_p['id'] == edit_id].iloc[0]
+            
+            with st.form("edit_prod_form"):
+                e_cat = st.text_input("التصنيف:", value=str(prod_row['category']))
+                e_name = st.text_input("اسم المنتج:", value=str(prod_row['name']))
+                e_color = st.text_input("اللون:", value=str(prod_row['color']))
+                e_dims = st.text_input("المقاسات:", value=str(prod_row['dims']))
+                e_price = st.number_input("السعر:", min_value=0.0, value=float(prod_row['price']))
+                e_qty = st.number_input("الكمية:", min_value=0, step=1, value=int(prod_row['quantity']))
+                e_loc = st.text_input("الموقع:", value=str(prod_row['location']))
+                e_bar = st.text_input("الباركود:", value=str(prod_row['barcode']))
+                
+                if st.form_submit_button("تحديث بيانات المنتج"):
+                    conn.execute("""
+                        UPDATE products_catalog 
+                        SET category=?, name=?, color=?, dims=?, price=?, quantity=?, location=?, barcode=? 
+                        WHERE id=?
+                    """, (e_cat, e_name, e_color, e_dims, e_price, e_qty, e_loc, e_bar, edit_id))
+                    conn.commit()
+                    st.success("تم التحديث بنجاح!")
+                    st.rerun()
+
+        # قسم حذف منتج
         with st.expander("🗑️ حذف منتج من المخزون"):
-            del_id = st.selectbox("اختر رقم معرف المنتج (ID) للحذف:", df_p['id'].tolist())
+            del_id = st.selectbox("اختر رقم معرف المنتج (ID) للحذف:", df_p['id'].tolist(), key="del_sel")
             if st.button("تأكيد الحذف"):
                 conn.execute("DELETE FROM products_catalog WHERE id = ?", (del_id,))
                 conn.commit()
                 st.rerun()
+                
     conn.close()
 
 # 3. توليد QR Code
