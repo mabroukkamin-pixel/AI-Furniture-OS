@@ -4,6 +4,7 @@ import pandas as pd
 from datetime import datetime
 import os
 import qrcode
+from gtts import gTTS
 
 st.set_page_config(page_title="سوق المروة للأثاث والديكور", layout="wide")
 
@@ -27,7 +28,7 @@ def init_db():
         "debts": "id INTEGER PRIMARY KEY AUTOINCREMENT, client_name TEXT, remaining REAL, notes TEXT",
         "employees": "id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, role TEXT, salary REAL, phone TEXT",
         "projects": "id INTEGER PRIMARY KEY AUTOINCREMENT, project_name TEXT, client_name TEXT, status TEXT, budget REAL",
-        "product_scripts": "id INTEGER PRIMARY KEY AUTOINCREMENT, product_id INTEGER, script_text TEXT"
+        "product_scripts": "id INTEGER PRIMARY KEY AUTOINCREMENT, product_id INTEGER, script_text TEXT, audio_path TEXT"
     }
     for table, schema in tables.items():
         conn.execute(f"CREATE TABLE IF NOT EXISTS {table} ({schema})")
@@ -98,29 +99,38 @@ with tabs[1]:
     
     if not df_p.empty:
         st.markdown("---")
-        st.subheader("🎙️ توليد شخصية وخطاب المنتج (المنتج الناطق)")
+        st.subheader("🎙️ توليد شخصية وخطاب وصوت المنتج الناطق")
         sel_prod_id = st.selectbox("اختر المنتج لتوليد شخصيته وكلامه التفاعلي:", df_p['id'].tolist(), key="talk_prod")
         selected_row = df_p[df_p['id'] == sel_prod_id].iloc[0]
         
-        if st.button("✨ توليد السكريبت التفاعلي للمنتج"):
+        if st.button("✨ توليد السكريبت والصوت التفاعلي"):
             p_name = selected_row.get('name', 'المنتج')
             p_dims = selected_row.get('dims', 'غير محدد')
             p_color = selected_row.get('color', 'طبيعي')
             p_price = selected_row.get('price', 0)
             
-            # بناء السكريبت الذكي المستوحى من الاختبار
+            # السكريبت العبقري المطور
             generated_script = f"""
 أهلاً بيك يا غالي.. أنا {p_name}.
 عارف إنك واقف قدامي وبتسأل نفسك: 'هل دي اللي هتستاهل فلوسي؟'. 
 لونى {p_color} ومقاساتي محسوبة بدقة ({p_dims}) عشان متضيقش غرفتك ولا تضيع فيها. 
-متفصلة لإنسان بيفهم يعني إيه خامة تعيش العمر. السعر قدامك، والقيمة في متانتي.. ها.. لسه بتفكر ولا تاخدني أنور بيتك؟
+متفصلة لإنسان بيفهم يعني إيه خامة تعيش العمر. السعر {p_price}، والقيمة في متانتي.. ها.. لسه بتفكر ولا تاخدني أنور بيتك؟
             """
-            st.info(generated_script)
             
-            # حفظ السكريبت في القاعدة
-            conn.execute("INSERT OR REPLACE INTO product_scripts (product_id, script_text) VALUES (?, ?)", (sel_prod_id, generated_script))
+            # تحويل النص لصوت حقيقي باستخدام gTTS
+            os.makedirs("audio_outputs", exist_ok=True)
+            audio_filename = f"audio_outputs/product_{sel_prod_id}.mp3"
+            tts = gTTS(text=generated_script, lang='ar', slow=False)
+            tts.save(audio_filename)
+            
+            st.info(generated_script)
+            st.audio(audio_filename, format='audio/mp3')
+            
+            # حفظ السكريبت ومسار الصوت في القاعدة
+            conn.execute("INSERT OR REPLACE INTO product_scripts (product_id, script_text, audio_path) VALUES (?, ?, ?)", 
+                         (sel_prod_id, generated_script, audio_filename))
             conn.commit()
-            st.success("تم توليد وحفظ سكريبت المنتج الناطق بنجاح وجاهز للربط بالباركود!")
+            st.success("تم توليد السكريبت والصوت الناطق بنجاح!")
 
     with st.expander("➕ إضافة منتج جديد بالتفاصيل والصورة"):
         with st.form("add_prod_orig", clear_on_submit=True):
