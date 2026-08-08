@@ -56,7 +56,6 @@ def init_db():
     for table, schema in tables.items():
         c.execute(f"CREATE TABLE IF NOT EXISTS {table} ({schema})")
     
-    # التأكد من وجود كافة الأعمدة المطلوبة تفادياً لأي خطأ
     c.execute("PRAGMA table_info(products_catalog)")
     p_columns = [col[1] for col in c.fetchall()]
     if 'image_path' not in p_columns:
@@ -159,7 +158,7 @@ with tabs[1]:
             
         for index, row in filtered_df.iterrows():
             with st.container():
-                cols = st.columns([1, 3, 2])
+                cols = st.columns([1, 4, 2])
                 with cols[0]:
                     img_p = row.get('image_path', '')
                     if img_p and isinstance(img_p, str) and os.path.exists(img_p):
