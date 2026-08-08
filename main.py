@@ -26,7 +26,8 @@ def init_db():
         "expenses": "id INTEGER PRIMARY KEY AUTOINCREMENT, reason TEXT, amount REAL, category TEXT, date TEXT",
         "debts": "id INTEGER PRIMARY KEY AUTOINCREMENT, client_name TEXT, remaining REAL, notes TEXT",
         "employees": "id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, role TEXT, salary REAL, phone TEXT",
-        "projects": "id INTEGER PRIMARY KEY AUTOINCREMENT, project_name TEXT, client_name TEXT, status TEXT, budget REAL"
+        "projects": "id INTEGER PRIMARY KEY AUTOINCREMENT, project_name TEXT, client_name TEXT, status TEXT, budget REAL",
+        "product_scripts": "id INTEGER PRIMARY KEY AUTOINCREMENT, product_id INTEGER, script_text TEXT"
     }
     for table, schema in tables.items():
         conn.execute(f"CREATE TABLE IF NOT EXISTS {table} ({schema})")
@@ -56,9 +57,9 @@ def init_db():
 
 init_db()
 
-st.title("🛒 سوق المروة للأثاث والديكور")
+st.title("🛒 سوق المروة للأثاث والديكور - (نظام المنتجات الناطقة الذكي)")
 tabs = st.tabs([
-    "📊 المؤشرات", "📦 المخزون", "🖨️ QR Code", "👥 العملاء", 
+    "📊 المؤشرات", "📦 المخزون والمنتجات الناطقة", "🖨️ QR Code", "👥 العملاء", 
     "📈 الصفقات", "📊 التقارير", "💰 الديون", 
     "💸 المصروفات", "🏗️ المشاريع", "🏅 الموظفين"
 ])
@@ -82,18 +83,10 @@ with tabs[0]:
     c3.metric("📈 صافي الربح", f"{tot_sales - tot_exp:,.1f}")
     c4.metric("⚠️ الديون الآجلة", f"{tot_debts:,.1f}")
 
-# 2. المخزون
+# 2. المخزون والمنتجات الناطقة
 with tabs[1]:
-    st.subheader("📦 إدارة المخزون والمنتجات")
+    st.subheader("📦 إدارة المخزون وتفعيل خاصية 'المنتج الناطق'")
     conn = sqlite3.connect(DB_PATH)
-    
-    try:
-        low_stock = pd.read_sql("SELECT name, quantity FROM products_catalog WHERE quantity <= 3", conn)
-        if not low_stock.empty:
-            st.error("⚠️ تنبيه: المنتجات التالية قاربت على النفاد!")
-            st.table(low_stock)
-    except:
-        pass
     
     search_q = st.text_input("🔍 بحث سريع في المخزون (بالاسم أو الباركود):")
     if search_q:
@@ -103,6 +96,32 @@ with tabs[1]:
         
     st.dataframe(df_p, use_container_width=True)
     
+    if not df_p.empty:
+        st.markdown("---")
+        st.subheader("🎙️ توليد شخصية وخطاب المنتج (المنتج الناطق)")
+        sel_prod_id = st.selectbox("اختر المنتج لتوليد شخصيته وكلامه التفاعلي:", df_p['id'].tolist(), key="talk_prod")
+        selected_row = df_p[df_p['id'] == sel_prod_id].iloc[0]
+        
+        if st.button("✨ توليد السكريبت التفاعلي للمنتج"):
+            p_name = selected_row.get('name', 'المنتج')
+            p_dims = selected_row.get('dims', 'غير محدد')
+            p_color = selected_row.get('color', 'طبيعي')
+            p_price = selected_row.get('price', 0)
+            
+            # بناء السكريبت الذكي المستوحى من الاختبار
+            generated_script = f"""
+أهلاً بيك يا غالي.. أنا {p_name}.
+عارف إنك واقف قدامي وبتسأل نفسك: 'هل دي اللي هتستاهل فلوسي؟'. 
+لونى {p_color} ومقاساتي محسوبة بدقة ({p_dims}) عشان متضيقش غرفتك ولا تضيع فيها. 
+متفصلة لإنسان بيفهم يعني إيه خامة تعيش العمر. السعر قدامك، والقيمة في متانتي.. ها.. لسه بتفكر ولا تاخدني أنور بيتك؟
+            """
+            st.info(generated_script)
+            
+            # حفظ السكريبت في القاعدة
+            conn.execute("INSERT OR REPLACE INTO product_scripts (product_id, script_text) VALUES (?, ?)", (sel_prod_id, generated_script))
+            conn.commit()
+            st.success("تم توليد وحفظ سكريبت المنتج الناطق بنجاح وجاهز للربط بالباركود!")
+
     with st.expander("➕ إضافة منتج جديد بالتفاصيل والصورة"):
         with st.form("add_prod_orig", clear_on_submit=True):
             cat = st.text_input("التصنيف (مثال: غرف نوم، طاولات):")
@@ -130,51 +149,19 @@ with tabs[1]:
                 conn.commit()
                 st.success("تم إضافة المنتج بنجاح!")
                 st.rerun()
-
-    if not df_p.empty:
-        with st.expander("✏️ تعديل بيانات منتج موجود"):
-            edit_id = st.selectbox("اختر رقم معرف المنتج (ID) للتعديل:", df_p['id'].tolist(), key="edit_sel")
-            prod_row = df_p[df_p['id'] == edit_id].iloc[0]
-            
-            with st.form("edit_prod_form"):
-                e_cat = st.text_input("التصنيف:", value=str(prod_row['category']) if 'category' in prod_row and pd.notna(prod_row['category']) else '')
-                e_name = st.text_input("اسم المنتج:", value=str(prod_row['name']) if 'name' in prod_row and pd.notna(prod_row['name']) else '')
-                e_color = st.text_input("اللون:", value=str(prod_row['color']) if 'color' in prod_row and pd.notna(prod_row['color']) else '')
-                e_dims = st.text_input("المقاسات:", value=str(prod_row['dims']) if 'dims' in prod_row and pd.notna(prod_row['dims']) else '')
-                e_price = st.number_input("السعر:", min_value=0.0, value=float(prod_row['price']) if 'price' in prod_row and pd.notna(prod_row['price']) else 0.0)
-                e_qty = st.number_input("الكمية:", min_value=0, step=1, value=int(prod_row['quantity']) if 'quantity' in prod_row and pd.notna(prod_row['quantity']) else 0)
-                e_loc = st.text_input("الموقع:", value=str(prod_row['location']) if 'location' in prod_row and pd.notna(prod_row['location']) else '')
-                e_bar = st.text_input("الباركود:", value=str(prod_row['barcode']) if 'barcode' in prod_row and pd.notna(prod_row['barcode']) else '')
-                
-                if st.form_submit_button("تحديث بيانات المنتج"):
-                    conn.execute("""
-                        UPDATE products_catalog 
-                        SET category=?, name=?, color=?, dims=?, price=?, quantity=?, location=?, barcode=? 
-                        WHERE id=?
-                    """, (e_cat, e_name, e_color, e_dims, e_price, e_qty, e_loc, e_bar, edit_id))
-                    conn.commit()
-                    st.success("تم التحديث بنجاح!")
-                    st.rerun()
-
-        with st.expander("🗑️ حذف منتج من المخزون"):
-            del_id = st.selectbox("اختر رقم معرف المنتج (ID) للحذف:", df_p['id'].tolist(), key="del_sel")
-            if st.button("تأكيد الحذف"):
-                conn.execute("DELETE FROM products_catalog WHERE id = ?", (del_id,))
-                conn.commit()
-                st.rerun()
                 
     conn.close()
 
 # 3. توليد QR Code
 with tabs[2]:
-    st.subheader("🖨️ توليد وطباعة QR Code للاستيكر")
-    q_text = st.text_input("أدخل الكود أو النص للطباعة:", value="AMIN1995")
+    st.subheader("🖨️ توليد وطباعة QR Code للاستيكر الناطق")
+    q_text = st.text_input("أدخل كود الباركود للربط مع المنتج الناطق:", value="AMIN1995")
     if st.button("إنشاء الاستيكر"):
         if q_text.strip() != "":
             img = qrcode.make(q_text)
             img.save("qrcode_gen.png")
             st.image("qrcode_gen.png", width=250)
-            st.success("تم توليد الـ QR Code بنجاح وجاهز للطباعة واللزق.")
+            st.success("تم توليد الـ QR Code الناطق بنجاح وجاهز للطباعة واللزق على القطعة.")
         else:
             st.warning("الرجاء إدخال الكود أولاً.")
 
