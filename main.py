@@ -21,36 +21,26 @@ DB_PATH = "sovereign_100_matrix.db"
 
 def init_db():
     conn = sqlite3.connect(DB_PATH)
-    tables = {
-        "products_catalog": "id INTEGER PRIMARY KEY AUTOINCREMENT, category TEXT, name TEXT, color TEXT, dims TEXT, price REAL, quantity INTEGER, location TEXT, barcode TEXT, image_path TEXT",
-        "clients": "id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, phone TEXT, address TEXT, interest TEXT",
-        "sales": "id INTEGER PRIMARY KEY AUTOINCREMENT, client_name TEXT, product_name TEXT, price REAL, quantity_sold INTEGER, date TEXT, employee_name TEXT",
-        "expenses": "id INTEGER PRIMARY KEY AUTOINCREMENT, reason TEXT, amount REAL, category TEXT, date TEXT",
-        "debts": "id INTEGER PRIMARY KEY AUTOINCREMENT, client_name TEXT, remaining REAL, notes TEXT",
-        "employees": "id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, role TEXT, salary REAL, phone TEXT",
-        "projects": "id INTEGER PRIMARY KEY AUTOINCREMENT, project_name TEXT, client_name TEXT, status TEXT, budget REAL",
-        "product_scripts": "id INTEGER PRIMARY KEY AUTOINCREMENT, product_id INTEGER, script_text TEXT, audio_path TEXT"
-    }
-    for table, schema in tables.items():
-        conn.execute(f"CREATE TABLE IF NOT EXISTS {table} ({schema})")
-    
     cursor = conn.cursor()
-    cursor.execute("PRAGMA table_info(products_catalog)")
-    p_columns = [col[1] for col in cursor.fetchall()]
-    if "barcode" not in p_columns: cursor.execute("ALTER TABLE products_catalog ADD COLUMN barcode TEXT")
-    if "image_path" not in p_columns: cursor.execute("ALTER TABLE products_catalog ADD COLUMN image_path TEXT")
-    if "category" not in p_columns: cursor.execute("ALTER TABLE products_catalog ADD COLUMN category TEXT")
-    if "color" not in p_columns: cursor.execute("ALTER TABLE products_catalog ADD COLUMN color TEXT")
-    if "dims" not in p_columns: cursor.execute("ALTER TABLE products_catalog ADD COLUMN dims TEXT")
-    if "location" not in p_columns: cursor.execute("ALTER TABLE products_catalog ADD COLUMN location TEXT")
+    
+    # إنشاء الجداول الأساسية إذا لم تكن موجودة
+    cursor.execute("CREATE TABLE IF NOT EXISTS products_catalog (id INTEGER PRIMARY KEY AUTOINCREMENT, category TEXT, name TEXT, color TEXT, dims TEXT, price REAL, quantity INTEGER, location TEXT, barcode TEXT, image_path TEXT)")
+    cursor.execute("CREATE TABLE IF NOT EXISTS clients (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, phone TEXT, address TEXT, interest TEXT)")
+    cursor.execute("CREATE TABLE IF NOT EXISTS sales (id INTEGER PRIMARY KEY AUTOINCREMENT, client_name TEXT, product_name TEXT, price REAL, quantity_sold INTEGER, date TEXT, employee_name TEXT)")
+    cursor.execute("CREATE TABLE IF NOT EXISTS expenses (id INTEGER PRIMARY KEY AUTOINCREMENT, reason TEXT, amount REAL, category TEXT, date TEXT)")
+    cursor.execute("CREATE TABLE IF NOT EXISTS debts (id INTEGER PRIMARY KEY AUTOINCREMENT, client_name TEXT, remaining REAL, notes TEXT)")
+    cursor.execute("CREATE TABLE IF NOT EXISTS employees (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, role TEXT, salary REAL, phone TEXT)")
+    cursor.execute("CREATE TABLE IF NOT EXISTS projects (id INTEGER PRIMARY KEY AUTOINCREMENT, project_name TEXT, client_name TEXT, status TEXT, budget REAL)")
+    cursor.execute("CREATE TABLE IF NOT EXISTS product_scripts (id INTEGER PRIMARY KEY AUTOINCREMENT, product_id INTEGER, script_text TEXT, audio_path TEXT)")
 
-    cursor.execute("PRAGMA table_info(employees)")
-    e_columns = [col[1] for col in cursor.fetchall()]
-    if "name" not in e_columns: cursor.execute("ALTER TABLE employees ADD COLUMN name TEXT")
-    if "role" not in e_columns: cursor.execute("ALTER TABLE employees ADD COLUMN role TEXT")
-    if "salary" not in e_columns: cursor.execute("ALTER TABLE employees ADD COLUMN salary REAL")
-    if "phone" not in e_columns: cursor.execute("ALTER TABLE employees ADD COLUMN phone TEXT")
-        
+    # فحص وتحديث أعمدة جدول clients لضمان عدم وجود أي نقص
+    cursor.execute("PRAGMA table_info(clients)")
+    c_cols = [col[1] for col in cursor.fetchall()]
+    if "name" not in c_cols: cursor.execute("ALTER TABLE clients ADD COLUMN name TEXT")
+    if "phone" not in c_cols: cursor.execute("ALTER TABLE clients ADD COLUMN phone TEXT")
+    if "address" not in c_cols: cursor.execute("ALTER TABLE clients ADD COLUMN address TEXT")
+    if "interest" not in c_cols: cursor.execute("ALTER TABLE clients ADD COLUMN interest TEXT")
+
     conn.commit()
     conn.close()
 
@@ -72,7 +62,6 @@ def normalize_text(text):
 
 st.title("🛒 سوق المروة للأثاث والديكور - (النظام المتكامل للمنتجات الناطقة)")
 
-# --- جميع الأقسام الـ 10 كامداً بدون أي نقصان ---
 tabs = st.tabs([
     "📊 المؤشرات", "📦 المخزون والمنتجات الناطقة", "🖨️ QR Code", "👥 العملاء", 
     "📈 الصفقات", "📊 التقارير", "💰 الديون", 
