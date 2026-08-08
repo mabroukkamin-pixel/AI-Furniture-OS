@@ -267,18 +267,67 @@ with tabs[8]:
     st.dataframe(df_pr, use_container_width=True)
     conn.close()
 
-# 10. الموظفين
+# 10. الموظفين (المتكامل والشامل)
 with tabs[9]:
-    st.subheader("🏅 الموظفون وفريق العمل")
+    st.subheader("🏅 شؤون الموظفين وفريق العمل")
     conn = sqlite3.connect(DB_PATH)
-    with st.form("add_emp_orig", clear_on_submit=True):
-        em_name = st.text_input("اسم الموظف:")
-        em_role = st.text_input("التخصص / الوظيفة:")
-        em_sal = st.number_input("الراتب:", min_value=0.0)
-        em_phone = st.text_input("رقم الهاتف:")
-        if st.form_submit_button("حفظ الموظف"):
-            conn.execute("INSERT INTO employees (name, role, salary, phone) VALUES (?,?,?,?)", (em_name, em_role, em_sal, em_phone))
-            conn.commit(); st.rerun()
-    df_em = pd.read_sql("SELECT * FROM employees", conn)
+    
+    # عرض الجدول والبيانات
+    df_em = pd.read_sql("SELECT * FROM employees ORDER BY id ASC", conn)
+    
+    # إجماليات سريعة للموظفين
+    if not df_em.empty:
+        tot_salaries = df_em['salary'].sum()
+        c1, c2 = st.columns(2)
+        c1.metric("👥 إجمالي عدد الموظفين", len(df_em))
+        c2.metric("💸 إجمالي الرواتب الشهرية", f"{tot_salaries:,.1f}")
+        st.markdown("---")
+    
     st.dataframe(df_em, use_container_width=True)
+    
+    # إضافة موظف جديد
+    with st.expander("➕ إضافة موظف أو فني جديد"):
+        with st.form("add_emp_full", clear_on_submit=True):
+            em_name = st.text_input("اسم الموظف أو الصنايعي:")
+            em_role = st.text_input("التخصص (فني دهان، نقاش، مشرف، إلخ):")
+            em_sal = st.number_input("الراتب المتفق عليه:", min_value=0.0)
+            em_phone = st.text_input("رقم الهاتف / التواصل:")
+            
+            if st.form_submit_button("حفظ بيانات الموظف"):
+                conn.execute("INSERT INTO employees (name, role, salary, phone) VALUES (?,?,?,?)", 
+                             (em_name, em_role, em_sal, em_phone))
+                conn.commit()
+                st.success("تم إضافة الموظف بنجاح!")
+                st.rerun()
+
+    # تعديل أو حذف موظف
+    if not df_em.empty:
+        with st.expander("✏️ تعديل بيانات موظف"):
+            edit_emp_id = st.selectbox("اختر رقم معرف الموظف (ID) للتعديل:", df_em['id'].tolist(), key="edit_emp_sel")
+            emp_row = df_em[df_em['id'] == edit_emp_id].iloc[0]
+            
+            with st.form("edit_emp_form"):
+                e_name = st.text_input("اسم الموظف:", value=str(emp_row.get('name', '')))
+                e_role = st.text_input("التخصص / الوظيفة:", value=str(emp_row.get('role', '')))
+                e_sal = st.number_input("الراتب:", min_value=0.0, value=float(emp_row.get('salary', 0.0)))
+                e_phone = st.text_input("رقم الهاتف:", value=str(emp_row.get('phone', '')))
+                
+                if st.form_submit_button("تحديث بيانات الموظف"):
+                    conn.execute("""
+                        UPDATE employees 
+                        SET name=?, role=?, salary=?, phone=? 
+                        WHERE id=?
+                    """, (e_name, e_role, e_sal, e_phone, edit_emp_id))
+                    conn.commit()
+                    st.success("تم تحديث بيانات الموظف بنجاح!")
+                    st.rerun()
+
+        with st.expander("🗑️ حذف موظف من القائمة"):
+            del_emp_id = st.selectbox("اختر رقم معرف الموظف (ID) للحذف:", df_em['id'].tolist(), key="del_emp_sel")
+            if st.button("تأكيد حذف الموظف"):
+                conn.execute("DELETE FROM employees WHERE id = ?", (del_emp_id,))
+                conn.commit()
+                st.success("تم حذف الموظف بنجاح!")
+                st.rerun()
+                
     conn.close()
