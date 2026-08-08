@@ -56,7 +56,7 @@ def init_db():
     for table, schema in tables.items():
         c.execute(f"CREATE TABLE IF NOT EXISTS {table} ({schema})")
     
-    # التأكد من وجود كافة الأعمدة المطلوبة في جدول المبيعات تفادياً لأي خطأ
+    # التأكد من الأعمدة
     c.execute("PRAGMA table_info(sales)")
     columns = [col[1] for col in c.fetchall()]
     if 'status' not in columns:
@@ -137,35 +137,55 @@ with tabs[0]:
 # ----------------- 2. المخزون -----------------
 with tabs[1]:
     st.subheader("📦 إدارة المخزون والفئات المنظمة للمنتجات")
+    
+    # جلب المنتجات المتاحة من قاعدة البيانات
     conn = sqlite3.connect(DB_PATH)
     try:
-        df_all_prod = pd.read_sql("SELECT id AS 'رقم ID', category AS 'الفئة', name AS 'المنتج', color AS 'اللون', dims AS 'المقاسات', price AS 'السعر', quantity AS 'الكمية', location AS 'الفرع', barcode AS 'الباركود' FROM products_catalog", conn)
+        df_all_prod = pd.read_sql("SELECT * FROM products_catalog", conn)
     except:
         df_all_prod = pd.DataFrame()
     conn.close()
 
     if not df_all_prod.empty:
+        # إعادة تسمية الأعمدة لعرضها بشكل احترافي وجميل
+        display_df = df_all_prod.rename(columns={
+            'id': 'رقم ID',
+            'category': 'الفئة',
+            'name': 'المنتج',
+            'color': 'اللون',
+            'dims': 'المقاسات',
+            'price': 'السعر',
+            'quantity': 'الكمية',
+            'location': 'الفرع',
+            'barcode': 'الباركود'
+        })
+        
         selected_filter_cat = st.selectbox("🔍 تصفية الجدول حسب الفئة:", ["الكل (عرض كل الفئات)"] + main_categories)
         if selected_filter_cat != "الكل (عرض كل الفئات)":
-            filtered_df = df_all_prod[df_all_prod['الفئة'] == selected_filter_cat]
+            filtered_df = display_df[display_df['الفئة'] == selected_filter_cat]
         else:
-            filtered_df = df_all_prod
+            filtered_df = display_df
+            
         st.dataframe(filtered_df, use_container_width=True)
     else:
-        st.info("لا توجد منتجات مسجلة بعد.")
+        st.info("⚠️ لا توجد منتجات مسجلة في المخزون حتى الآن. يمكنك إضافة منتج جديد باستخدام النمط أدناه.")
 
-    with st.expander("➕ إضافة منتج جديد بالمخزون"):
-        with st.form("add_prod", clear_on_submit=True):
-            category = st.selectbox("الفئة الرئيسية:", main_categories)
-            name = st.text_input("اسم المنتج التفصيلي:")
-            color = st.text_input("اللون:")
-            dims = st.text_input("المقاسات:")
-            price = st.number_input("السعر:", value=0.0, min_value=0.0)
-            quantity = st.number_input("العدد المتوفر:", value=0, step=1, min_value=0)
-            location = st.selectbox("الفرع:", ["سوق المروة", "السوق الصيني"])
-            barcode = st.text_input("كود الباركود:")
-            
-            if st.form_submit_button("حفظ المنتج بالكامل"):
+    st.markdown("---")
+    st.subheader("➕ إضافة منتج جديد بالمخزون")
+    with st.form("add_prod", clear_on_submit=True):
+        category = st.selectbox("الفئة الرئيسية:", main_categories)
+        name = st.text_input("اسم المنتج التفصيلي:")
+        color = st.text_input("اللون:")
+        dims = st.text_input("المقاسات:")
+        price = st.number_input("السعر (د.ك):", value=0.0, min_value=0.0)
+        quantity = st.number_input("العدد المتوفر:", value=1, step=1, min_value=0)
+        location = st.selectbox("الفرع:", ["سوق المروة", "السوق الصيني"])
+        barcode = st.text_input("كود الباركود (اختياري):")
+        
+        if st.form_submit_button("حفظ المنتج بالكامل"):
+            if name.strip() == "":
+                st.error("⚠️ يرجى كتابة اسم المنتج على الأقل.")
+            else:
                 conn = sqlite3.connect(DB_PATH)
                 conn.execute("INSERT INTO products_catalog (category, name, color, dims, price, quantity, location, barcode) VALUES (?,?,?,?,?,?,?,?)", 
                            (category, name, color, dims, price, quantity, location, barcode))
@@ -245,7 +265,7 @@ with tabs[3]:
                     st.error("⚠️ الكمية المطلوبة غير متوفرة.")
                     conn.close()
     else:
-        st.warning("⚠️ يرجى إضافة موظفين ومنتجات متوفرة بالمخزون أولاً.")
+        st.warning("⚠️ لتمكين الصفقات، يرجى إضافة موظفين في قسم 'الموظفين' ومنتجات متوفرة بالمخزون أولاً.")
 
     st.markdown("---")
     st.subheader("📋 سجل الصفقات وإلغائها عند الضرورة")
@@ -327,7 +347,6 @@ with tabs[7]:
         sel_inv_id = st.selectbox("اختر رقم الفاتورة للطباعة:", sales_invoices['id'].tolist())
         inv_data = sales_invoices[sales_invoices['id'] == sel_inv_id].iloc[0]
         
-        # التأكد من جلب البيانات بأمان تام بدون أخطاء مفقودة
         c_name = inv_data.get('client_name', 'عميل')
         p_name = inv_data.get('product_name', 'منتج')
         qty = inv_data.get('quantity_sold', 1)
