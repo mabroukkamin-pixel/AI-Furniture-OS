@@ -31,22 +31,25 @@ def init_db():
     for table, schema in tables.items():
         conn.execute(f"CREATE TABLE IF NOT EXISTS {table} ({schema})")
     
-    # التأكد من وجود الأعمدة الحديثة لو الجدول القديم موجود
     cursor = conn.cursor()
+    
+    # فحص أعمدة المنتجات
     cursor.execute("PRAGMA table_info(products_catalog)")
-    columns = [col[1] for col in cursor.fetchall()]
-    if "barcode" not in columns:
-        cursor.execute("ALTER TABLE products_catalog ADD COLUMN barcode TEXT")
-    if "image_path" not in columns:
-        cursor.execute("ALTER TABLE products_catalog ADD COLUMN image_path TEXT")
-    if "category" not in columns:
-        cursor.execute("ALTER TABLE products_catalog ADD COLUMN category TEXT")
-    if "color" not in columns:
-        cursor.execute("ALTER TABLE products_catalog ADD COLUMN color TEXT")
-    if "dims" not in columns:
-        cursor.execute("ALTER TABLE products_catalog ADD COLUMN dims TEXT")
-    if "location" not in columns:
-        cursor.execute("ALTER TABLE products_catalog ADD COLUMN location TEXT")
+    p_columns = [col[1] for col in cursor.fetchall()]
+    if "barcode" not in p_columns: cursor.execute("ALTER TABLE products_catalog ADD COLUMN barcode TEXT")
+    if "image_path" not in p_columns: cursor.execute("ALTER TABLE products_catalog ADD COLUMN image_path TEXT")
+    if "category" not in p_columns: cursor.execute("ALTER TABLE products_catalog ADD COLUMN category TEXT")
+    if "color" not in p_columns: cursor.execute("ALTER TABLE products_catalog ADD COLUMN color TEXT")
+    if "dims" not in p_columns: cursor.execute("ALTER TABLE products_catalog ADD COLUMN dims TEXT")
+    if "location" not in p_columns: cursor.execute("ALTER TABLE products_catalog ADD COLUMN location TEXT")
+
+    # فحص أعمدة الموظفين
+    cursor.execute("PRAGMA table_info(employees)")
+    e_columns = [col[1] for col in cursor.fetchall()]
+    if "name" not in e_columns: cursor.execute("ALTER TABLE employees ADD COLUMN name TEXT")
+    if "role" not in e_columns: cursor.execute("ALTER TABLE employees ADD COLUMN role TEXT")
+    if "salary" not in e_columns: cursor.execute("ALTER TABLE employees ADD COLUMN salary REAL")
+    if "phone" not in e_columns: cursor.execute("ALTER TABLE employees ADD COLUMN phone TEXT")
         
     conn.commit()
     conn.close()
@@ -69,9 +72,9 @@ with tabs[0]:
     df_d = pd.read_sql("SELECT * FROM debts", conn)
     conn.close()
     
-    tot_sales = df_s['price'].sum() if not df_s.empty else 0
-    tot_exp = df_e['amount'].sum() if not df_e.empty else 0
-    tot_debts = df_d['remaining'].sum() if not df_d.empty else 0
+    tot_sales = df_s['price'].sum() if not df_s.empty and 'price' in df_s.columns else 0
+    tot_exp = df_e['amount'].sum() if not df_e.empty and 'amount' in df_e.columns else 0
+    tot_debts = df_d['remaining'].sum() if not df_d.empty and 'remaining' in df_d.columns else 0
     
     c1, c2, c3, c4 = st.columns(4)
     c1.metric("💰 المبيعات", f"{tot_sales:,.1f}")
@@ -84,10 +87,13 @@ with tabs[1]:
     st.subheader("📦 إدارة المخزون والمنتجات")
     conn = sqlite3.connect(DB_PATH)
     
-    low_stock = pd.read_sql("SELECT name, quantity FROM products_catalog WHERE quantity <= 3", conn)
-    if not low_stock.empty:
-        st.error("⚠️ تنبيه: المنتجات التالية قاربت على النفاد!")
-        st.table(low_stock)
+    try:
+        low_stock = pd.read_sql("SELECT name, quantity FROM products_catalog WHERE quantity <= 3", conn)
+        if not low_stock.empty:
+            st.error("⚠️ تنبيه: المنتجات التالية قاربت على النفاد!")
+            st.table(low_stock)
+    except:
+        pass
     
     search_q = st.text_input("🔍 بحث سريع في المخزون (بالاسم أو الباركود):")
     if search_q:
@@ -211,7 +217,7 @@ with tabs[5]:
     st.subheader("📊 التقارير التفصيلية")
     conn = sqlite3.connect(DB_PATH)
     df_sales = pd.read_sql("SELECT * FROM sales", conn)
-    if not df_sales.empty:
+    if not df_sales.empty and 'product_name' in df_sales.columns and 'quantity_sold' in df_sales.columns:
         st.write("🏆 أكثر المنتجات مبيعاً:")
         st.bar_chart(df_sales.groupby('product_name')['quantity_sold'].sum())
         st.dataframe(df_sales, use_container_width=True)
@@ -267,16 +273,14 @@ with tabs[8]:
     st.dataframe(df_pr, use_container_width=True)
     conn.close()
 
-# 10. الموظفين (المتكامل والشامل)
+# 10. الموظفين
 with tabs[9]:
     st.subheader("🏅 شؤون الموظفين وفريق العمل")
     conn = sqlite3.connect(DB_PATH)
     
-    # عرض الجدول والبيانات
     df_em = pd.read_sql("SELECT * FROM employees ORDER BY id ASC", conn)
     
-    # إجماليات سريعة للموظفين
-    if not df_em.empty:
+    if not df_em.empty and 'salary' in df_em.columns:
         tot_salaries = df_em['salary'].sum()
         c1, c2 = st.columns(2)
         c1.metric("👥 إجمالي عدد الموظفين", len(df_em))
@@ -285,7 +289,6 @@ with tabs[9]:
     
     st.dataframe(df_em, use_container_width=True)
     
-    # إضافة موظف جديد
     with st.expander("➕ إضافة موظف أو فني جديد"):
         with st.form("add_emp_full", clear_on_submit=True):
             em_name = st.text_input("اسم الموظف أو الصنايعي:")
@@ -300,7 +303,6 @@ with tabs[9]:
                 st.success("تم إضافة الموظف بنجاح!")
                 st.rerun()
 
-    # تعديل أو حذف موظف
     if not df_em.empty:
         with st.expander("✏️ تعديل بيانات موظف"):
             edit_emp_id = st.selectbox("اختر رقم معرف الموظف (ID) للتعديل:", df_em['id'].tolist(), key="edit_emp_sel")
