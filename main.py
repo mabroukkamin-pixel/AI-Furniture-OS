@@ -23,7 +23,6 @@ def init_db():
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     
-    # إنشاء الجداول الأساسية إذا لم تكن موجودة
     cursor.execute("CREATE TABLE IF NOT EXISTS products_catalog (id INTEGER PRIMARY KEY AUTOINCREMENT, category TEXT, name TEXT, color TEXT, dims TEXT, price REAL, quantity INTEGER, location TEXT, barcode TEXT, image_path TEXT)")
     cursor.execute("CREATE TABLE IF NOT EXISTS clients (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, phone TEXT, address TEXT, interest TEXT)")
     cursor.execute("CREATE TABLE IF NOT EXISTS sales (id INTEGER PRIMARY KEY AUTOINCREMENT, client_name TEXT, product_name TEXT, price REAL, quantity_sold INTEGER, date TEXT, employee_name TEXT)")
@@ -33,7 +32,6 @@ def init_db():
     cursor.execute("CREATE TABLE IF NOT EXISTS projects (id INTEGER PRIMARY KEY AUTOINCREMENT, project_name TEXT, client_name TEXT, status TEXT, budget REAL)")
     cursor.execute("CREATE TABLE IF NOT EXISTS product_scripts (id INTEGER PRIMARY KEY AUTOINCREMENT, product_id INTEGER, script_text TEXT, audio_path TEXT)")
 
-    # فحص وتحديث أعمدة جدول clients لضمان عدم وجود أي نقص
     cursor.execute("PRAGMA table_info(clients)")
     c_cols = [col[1] for col in cursor.fetchall()]
     if "name" not in c_cols: cursor.execute("ALTER TABLE clients ADD COLUMN name TEXT")
@@ -87,7 +85,7 @@ with tabs[0]:
     c3.metric("📈 صافي الربح", f"{tot_sales - tot_exp:,.1f}")
     c4.metric("⚠️ الديون الآجلة", f"{tot_debts:,.1f}")
 
-# 2. المخزون والمنتجات الناطقة
+# 2. المخزون والمنتجات الناطقة والتعديل
 with tabs[1]:
     st.subheader("📦 إدارة المخزون وتفعيل خاصية 'المنتج الناطق' بدقة فائقة")
     conn = sqlite3.connect(DB_PATH)
@@ -158,6 +156,40 @@ with tabs[1]:
                 """, (cat, name, color, dims, price, quantity, location, barcode, img_path))
                 conn.commit()
                 st.success("تم إضافة المنتج بنجاح!")
+                st.rerun()
+
+    # قسم تعديل وحذف المنتجات
+    if not df_p.empty:
+        with st.expander("✏️ تعديل بيانات منتج موجود"):
+            edit_p_id = st.selectbox("اختر رقم معرف المنتج (ID) للتعديل:", df_p['id'].tolist(), key="edit_prod_sel")
+            p_row = df_p[df_p['id'] == edit_p_id].iloc[0]
+            
+            with st.form("edit_prod_form"):
+                e_cat = st.text_input("التصنيف:", value=str(p_row.get('category', '')))
+                e_name = st.text_input("اسم المنتج:", value=str(p_row.get('name', '')))
+                e_color = st.text_input("اللون:", value=str(p_row.get('color', '')))
+                e_dims = st.text_input("المقاسات:", value=str(p_row.get('dims', '')))
+                e_price = st.number_input("السعر:", min_value=0.0, value=float(p_row.get('price', 0.0)))
+                e_qty = st.number_input("الكمية:", min_value=0, step=1, value=int(p_row.get('quantity', 0)))
+                e_loc = st.text_input("الموقع:", value=str(p_row.get('location', '')))
+                e_bar = st.text_input("الباركود:", value=str(p_row.get('barcode', '')))
+                
+                if st.form_submit_button("تحديث المنتج"):
+                    conn.execute("""
+                        UPDATE products_catalog 
+                        SET category=?, name=?, color=?, dims=?, price=?, quantity=?, location=?, barcode=? 
+                        WHERE id=?
+                    """, (e_cat, e_name, e_color, e_dims, e_price, e_qty, e_loc, e_bar, edit_p_id))
+                    conn.commit()
+                    st.success("تم تحديث المنتج بنجاح!")
+                    st.rerun()
+
+        with st.expander("🗑️ حذف منتج من المخزون"):
+            del_p_id = st.selectbox("اختر رقم معرف المنتج (ID) للحذف:", df_p['id'].tolist(), key="del_prod_sel")
+            if st.button("تأكيد حذف المنتج"):
+                conn.execute("DELETE FROM products_catalog WHERE id = ?", (del_p_id,))
+                conn.commit()
+                st.success("تم حذف المنتج بنجاح!")
                 st.rerun()
                 
     conn.close()
