@@ -56,12 +56,19 @@ def init_db():
     for table, schema in tables.items():
         c.execute(f"CREATE TABLE IF NOT EXISTS {table} ({schema})")
     
+    # التأكد من وجود كافة الأعمدة المطلوبة في جدول المبيعات تفادياً لأي خطأ
     c.execute("PRAGMA table_info(sales)")
     columns = [col[1] for col in c.fetchall()]
     if 'status' not in columns:
         c.execute("ALTER TABLE sales ADD COLUMN status TEXT DEFAULT 'مكتملة'")
     if 'cancel_reason' not in columns:
         c.execute("ALTER TABLE sales ADD COLUMN cancel_reason TEXT DEFAULT ''")
+    if 'payment_method' not in columns:
+        c.execute("ALTER TABLE sales ADD COLUMN payment_method TEXT DEFAULT 'كاش'")
+    if 'employee_name' not in columns:
+        c.execute("ALTER TABLE sales ADD COLUMN employee_name TEXT DEFAULT ''")
+    if 'branch' not in columns:
+        c.execute("ALTER TABLE sales ADD COLUMN branch TEXT DEFAULT 'سوق المروة'")
 
     conn.commit()
     conn.close()
@@ -320,18 +327,26 @@ with tabs[7]:
         sel_inv_id = st.selectbox("اختر رقم الفاتورة للطباعة:", sales_invoices['id'].tolist())
         inv_data = sales_invoices[sales_invoices['id'] == sel_inv_id].iloc[0]
         
+        # التأكد من جلب البيانات بأمان تام بدون أخطاء مفقودة
+        c_name = inv_data.get('client_name', 'عميل')
+        p_name = inv_data.get('product_name', 'منتج')
+        qty = inv_data.get('quantity_sold', 1)
+        pay_m = inv_data.get('payment_method', 'كاش')
+        price_val = inv_data.get('price', 0.0)
+        inv_date = inv_data.get('date', '')
+
         st.markdown(f"""
         <div style="border: 2px dashed #333; padding: 20px; border-radius: 10px; background-color: #fafafa; color: #000;">
             <h2 style="text-align: center;">سوق المروة للأثاث والديكور</h2>
             <p style="text-align: center;">فرع الكويت - الفاتورة الرسمية</p>
             <hr>
-            <p><b>رقم الفاتورة:</b> #{inv_data['id']}</p>
-            <p><b>التاريخ:</b> {inv_data['date']}</p>
-            <p><b>اسم العميل:</b> {inv_data['client_name']}</p>
-            <p><b>المنتج:</b> {inv_data['product_name']}</p>
-            <p><b>الكمية:</b> {inv_data['quantity_sold']}</p>
-            <p><b>طريقة الدفع:</b> {inv_data['payment_method']}</p>
-            <h3 style="text-align: left;">الإجمالي: {inv_data['price']} د.ك</h3>
+            <p><b>رقم الفاتورة:</b> #{sel_inv_id}</p>
+            <p><b>التاريخ:</b> {inv_date}</p>
+            <p><b>اسم العميل:</b> {c_name}</p>
+            <p><b>المنتج:</b> {p_name}</p>
+            <p><b>الكمية:</b> {qty}</p>
+            <p><b>طريقة الدفع:</b> {pay_m}</p>
+            <h3 style="text-align: left;">الإجمالي: {price_val} د.ك</h3>
         </div>
         """, unsafe_allow_html=True)
     else:
