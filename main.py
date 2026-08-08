@@ -20,8 +20,9 @@ DB_PATH = "sovereign_100_matrix.db"
 
 def init_db():
     conn = sqlite3.connect(DB_PATH)
+    # الجداول شاملة عمود الباركود
     tables = {
-        "products_catalog": "id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, price REAL, quantity INTEGER",
+        "products_catalog": "id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, price REAL, quantity INTEGER, barcode TEXT",
         "clients": "id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, phone TEXT",
         "sales": "id INTEGER PRIMARY KEY AUTOINCREMENT, product_name TEXT, quantity_sold INTEGER, price REAL, date TEXT",
         "expenses": "id INTEGER PRIMARY KEY AUTOINCREMENT, reason TEXT, amount REAL, date TEXT",
@@ -55,22 +56,33 @@ with tabs[0]:
     c2.metric("💸 المصروفات", f"{tot_exp:,.1f}")
     c3.metric("📈 صافي الربح", f"{tot_sales - tot_exp:,.1f}")
 
-# 2. المخزون (بالتنبيهات)
+# 2. المخزون (بالتنبيهات + الباركود)
 with tabs[1]:
     st.subheader("📦 إدارة المخزون")
     conn = sqlite3.connect(DB_PATH)
+    
+    # تنبيه المخزون المنخفض
     low_stock = pd.read_sql("SELECT name, quantity FROM products_catalog WHERE quantity <= 3", conn)
     if not low_stock.empty:
         st.error("⚠️ تنبيه: المنتجات التالية قاربت على النفاد!")
         st.table(low_stock)
     
+    # البحث بالباركود
+    st.subheader("🔍 البحث السريع بالباركود")
+    barcode_search = st.text_input("امسح الباركود هنا:")
+    if barcode_search:
+        prod_found = pd.read_sql(f"SELECT * FROM products_catalog WHERE barcode = '{barcode_search}'", conn)
+        if not prod_found.empty: st.success("✅ تم العثور على المنتج!"); st.dataframe(prod_found)
+        else: st.warning("⚠️ المنتج غير موجود.")
+
     with st.expander("➕ إضافة منتج جديد"):
         with st.form("add_prod"):
             n = st.text_input("اسم المنتج")
             p = st.number_input("السعر", min_value=0.0)
             q = st.number_input("الكمية", min_value=0)
+            b = st.text_input("رقم الباركود")
             if st.form_submit_button("حفظ"):
-                conn.execute("INSERT INTO products_catalog (name, price, quantity) VALUES (?,?,?)", (n, p, q))
+                conn.execute("INSERT INTO products_catalog (name, price, quantity, barcode) VALUES (?,?,?,?)", (n, p, q, b))
                 conn.commit()
                 st.rerun()
     
@@ -78,12 +90,7 @@ with tabs[1]:
     st.dataframe(df_p, use_container_width=True)
     conn.close()
 
-# 3. العملاء
-with tabs[2]:
-    st.subheader("👥 العملاء")
-    # ... (يمكنك إضافة كود إضافة العملاء هنا)
-
-# 4. الصفقات
+# 3. الصفقات
 with tabs[3]:
     st.subheader("📈 تسجيل الصفقات")
     with st.form("add_sale"):
@@ -97,7 +104,7 @@ with tabs[3]:
             conn.close()
             st.success("تم تسجيل البيع!")
 
-# 5. التقارير التفصيلية
+# 4. التقارير
 with tabs[4]:
     st.subheader("📊 تقارير الأداء")
     conn = sqlite3.connect(DB_PATH)
@@ -108,7 +115,8 @@ with tabs[4]:
         st.dataframe(df_sales)
     conn.close()
 
-# أقسام أخرى (فارغة حالياً يمكنك تعبئتها لاحقاً)
+# أقسام فارغة (يمكنك تعبئتها لاحقاً بنفس الطريقة)
+with tabs[2]: st.subheader("👥 العملاء")
 with tabs[5]: st.subheader("💰 الديون")
 with tabs[6]: st.subheader("💸 المصروفات")
 with tabs[7]: st.subheader("🏗️ المشاريع")
