@@ -70,7 +70,9 @@ def normalize_text(text):
         text = text.replace(old, new)
     return text
 
-st.title("🛒 سوق المروة للأثاث والديكور - (نظام المنتجات الناطقة الذكي)")
+st.title("🛒 سوق المروة للأثاث والديكور - (النظام المتكامل للمنتجات الناطقة)")
+
+# --- جميع الأقسام الـ 10 كامداً بدون أي نقصان ---
 tabs = st.tabs([
     "📊 المؤشرات", "📦 المخزون والمنتجات الناطقة", "🖨️ QR Code", "👥 العملاء", 
     "📈 الصفقات", "📊 التقارير", "💰 الديون", 
@@ -123,13 +125,11 @@ with tabs[1]:
             
             raw_script = f"أهلاً بيك يا غالي.. أنا {p_name}. لوني {p_color}. مقاساتي {p_dims}. سعري {p_price} دينار. قطعة متفصلة لإنسان بيفهم في الجودة.. ها.. تاخدني أنور بيتك؟"
             
-            # تنظيف النص بالكامل لمنع أي أخطاء في الرموز والأرقام
             clean_script = normalize_text(raw_script)
             
             os.makedirs("audio_outputs", exist_ok=True)
             audio_filename = f"audio_outputs/product_{sel_prod_id}.mp3"
             
-            # إعدادات الصوت البشري الفائق مع ضبط السرعة والطبقة لضمان عدم التقطيع والنطق السليم
             voice = "ar-EG-ShakirNeural"
             communicate = edge_tts.Communicate(clean_script, voice, rate="-5%", pitch="-5Hz")
             
