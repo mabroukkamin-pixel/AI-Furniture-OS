@@ -150,9 +150,43 @@ with tabs[0]:
 with tabs[1]:
     st.subheader("📦 إدارة المخزون والفئات المنظمة للمنتجات")
     
+    # 1. قسم إضافة منتج جديد في الأعلى أولاً
+    with st.expander("➕ إضافة منتج جديد بالمخزون", expanded=False):
+        with st.form("add_prod", clear_on_submit=True):
+            category = st.selectbox("الفئة الرئيسية:", main_categories)
+            name = st.text_input("اسم المنتج التفصيلي:")
+            color = st.text_input("اللون:")
+            dims = st.text_input("المقاسات:")
+            price = st.number_input("السعر (د.ك):", value=0.0, min_value=0.0)
+            quantity = st.number_input("العدد المتوفر:", value=1, step=1, min_value=0)
+            location = st.selectbox("الفرع:", ["سوق المروة", "السوق الصيني"])
+            barcode = st.text_input("كود الباركود (اختياري):")
+            uploaded_image = st.file_uploader("🖼️ تحميل صورة المنتج:", type=["jpg", "png", "jpeg"])
+            
+            if st.form_submit_button("حفظ المنتج بالكامل"):
+                if name.strip() == "":
+                    st.error("⚠️ يرجى كتابة اسم المنتج على الأقل.")
+                else:
+                    img_path = ""
+                    if uploaded_image is not None:
+                        img_path = os.path.join(UPLOAD_FOLDER, f"{datetime.now().strftime('%Y%m%d%H%M%S')}_{uploaded_image.name}")
+                        with open(img_path, "wb") as f:
+                            f.write(uploaded_image.getbuffer())
+
+                    conn = sqlite3.connect(DB_PATH)
+                    conn.execute("INSERT INTO products_catalog (category, name, color, dims, price, quantity, location, barcode, image_path) VALUES (?,?,?,?,?,?,?,?,?)", 
+                               (category, name, color, dims, price, quantity, location, barcode, img_path))
+                    conn.commit()
+                    conn.close()
+                    st.success("✅ تم حفظ المنتج مع صورته بنجاح!")
+                    st.rerun()
+
+    st.markdown("---")
+
+    # 2. عرض المنتجات الموجودة وترتيب الأحدث بالأسفل (أو حسب الإضافة)
     conn = sqlite3.connect(DB_PATH)
     try:
-        df_all_prod = pd.read_sql("SELECT * FROM products_catalog", conn)
+        df_all_prod = pd.read_sql("SELECT * FROM products_catalog ORDER BY id ASC", conn)
     except:
         df_all_prod = pd.DataFrame()
     conn.close()
@@ -164,6 +198,7 @@ with tabs[1]:
         else:
             filtered_df = df_all_prod
             
+        st.markdown("### قائمة المنتجات المسجلة:")
         for index, row in filtered_df.iterrows():
             with st.container():
                 cols = st.columns([1, 4, 2])
@@ -205,36 +240,6 @@ with tabs[1]:
                 st.markdown('<hr class="product-divider">', unsafe_allow_html=True)
     else:
         st.info("⚠️ لا توجد منتجات مسجلة في المخزون حتى الآن.")
-
-    st.subheader("➕ إضافة منتج جديد بالمخزون")
-    with st.form("add_prod", clear_on_submit=True):
-        category = st.selectbox("الفئة الرئيسية:", main_categories)
-        name = st.text_input("اسم المنتج التفصيلي:")
-        color = st.text_input("اللون:")
-        dims = st.text_input("المقاسات:")
-        price = st.number_input("السعر (د.ك):", value=0.0, min_value=0.0)
-        quantity = st.number_input("العدد المتوفر:", value=1, step=1, min_value=0)
-        location = st.selectbox("الفرع:", ["سوق المروة", "السوق الصيني"])
-        barcode = st.text_input("كود الباركود (اختياري):")
-        uploaded_image = st.file_uploader("🖼️ تحميل صورة المنتج:", type=["jpg", "png", "jpeg"])
-        
-        if st.form_submit_button("حفظ المنتج بالكامل"):
-            if name.strip() == "":
-                st.error("⚠️ يرجى كتابة اسم المنتج على الأقل.")
-            else:
-                img_path = ""
-                if uploaded_image is not None:
-                    img_path = os.path.join(UPLOAD_FOLDER, f"{datetime.now().strftime('%Y%m%d%H%M%S')}_{uploaded_image.name}")
-                    with open(img_path, "wb") as f:
-                        f.write(uploaded_image.getbuffer())
-
-                conn = sqlite3.connect(DB_PATH)
-                conn.execute("INSERT INTO products_catalog (category, name, color, dims, price, quantity, location, barcode, image_path) VALUES (?,?,?,?,?,?,?,?,?)", 
-                           (category, name, color, dims, price, quantity, location, barcode, img_path))
-                conn.commit()
-                conn.close()
-                st.success("✅ تم حفظ المنتج مع صورته بنجاح!")
-                st.rerun()
 
 # ----------------- 3. العملاء -----------------
 with tabs[2]:
